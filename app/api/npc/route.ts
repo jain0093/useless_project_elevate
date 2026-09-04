@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     // Parse request body
-    let body: { observation?: unknown };
+    let body: { observation?: unknown; image?: string };
     try {
       body = await request.json();
     } catch {
@@ -39,11 +39,18 @@ export async function POST(request: Request) {
       );
     }
 
+    // Extract optional image (strip data URL prefix if present)
+    let imageBase64: string | undefined;
+    if (typeof body.image === "string" && body.image.length > 0) {
+      const dataUrlMatch = body.image.match(/^data:image\/\w+;base64,(.+)$/);
+      imageBase64 = dataUrlMatch ? dataUrlMatch[1] : body.image;
+    }
+
     // Attempt NPC generation with retry
     let lastError: Error | null = null;
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const rawResult = await generateNPC(validatedObservation);
+        const rawResult = await generateNPC(validatedObservation, imageBase64);
         const validated = validateNPCProfile(rawResult);
 
         if (validated) {

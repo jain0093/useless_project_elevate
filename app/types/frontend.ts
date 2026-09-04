@@ -6,7 +6,6 @@ import type {
   NPCProfile,
   SceneAnalysis,
   AppPhase,
-  WorldStats,
   ThreatLevel,
   SystemStatus as SystemStatusType,
   SystemComponentStatus,
@@ -17,11 +16,32 @@ export type {
   NPCProfile,
   SceneAnalysis,
   AppPhase,
-  WorldStats,
   ThreatLevel,
   SystemStatusType,
   SystemComponentStatus,
 };
+
+/** A single detected person from COCO-SSD */
+export interface PersonDetection {
+  /** Frame-local ID (index in current detection array) */
+  id: number;
+  /** Detection confidence (0-1) */
+  confidence: number;
+  /** Normalized bounding box: x position (0-1) */
+  x: number;
+  /** Normalized bounding box: y position (0-1) */
+  y: number;
+  /** Normalized bounding box: width (0-1) */
+  width: number;
+  /** Normalized bounding box: height (0-1) */
+  height: number;
+}
+
+/** Ambient noise classification from microphone */
+export type NoiseLevel = "QUIET" | "NORMAL" | "LOUD" | "CHAOS";
+
+/** Microphone status */
+export type MicStatus = "LISTENING" | "MUTED" | "DENIED" | "OFF";
 
 /** A single NPC encounter logged in history */
 export interface EncounterEntry {
@@ -31,47 +51,25 @@ export interface EncounterEntry {
   npc: NPCProfile;
   /** Timestamp of the encounter */
   timestamp: number;
+  /** Cropped image of the detected person (base64 data URL) */
+  croppedImage?: string;
 }
 
-/** Top-level frontend application state */
-export interface FrontendState {
-  /** Current phase of the experience */
-  phase: AppPhase;
-  /** Whether the camera is active */
-  cameraActive: boolean;
-  /** Whether audio is muted */
-  audioMuted: boolean;
-  /** Current countdown value (20 → 0) */
-  countdown: number;
-  /** The currently revealed NPC (if any) */
-  currentNPC: NPCProfile | null;
-  /** Latest scene analysis data */
-  latestScene: SceneAnalysis | null;
-  /** All encountered NPCs in reverse chronological order */
-  encounters: EncounterEntry[];
-  /** Running encounter counter */
-  encounterCount: number;
-  /** Fictional world statistics */
-  worldStats: WorldStats;
-  /** System component statuses */
-  systemStatus: SystemStatusType;
+/** Extended system status for frontend display */
+export interface FrontendSystemStatus {
+  camera: SystemComponentStatus | "ONLINE" | "OFFLINE" | "ERROR";
+  microphone: MicStatus;
+  personDetector: "LOADING" | "READY" | "ERROR" | "OFFLINE";
+  ai: "ONLINE" | "CALLING" | "OFFLINE" | "ERROR";
+  judgement: "ACTIVE" | "SUSPENDED";
+  purpose: "NONE";
 }
-
-/** Default world stats */
-export const DEFAULT_WORLD_STATS: WorldStats = {
-  humansDetected: 0,
-  npcsEncountered: 0,
-  confusionPercent: 0,
-  productivityPercent: 0,
-  chummaStanding: 0,
-  activeQuests: 0,
-  currentVibe: "CALIBRATING",
-};
 
 /** Default system status */
-export const DEFAULT_SYSTEM_STATUS: SystemStatusType = {
+export const DEFAULT_SYSTEM_STATUS: FrontendSystemStatus = {
   camera: "OFFLINE",
-  microphone: "OFFLINE",
+  microphone: "OFF",
+  personDetector: "OFFLINE",
   ai: "OFFLINE",
   judgement: "ACTIVE",
   purpose: "NONE",

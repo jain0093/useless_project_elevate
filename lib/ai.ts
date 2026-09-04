@@ -212,7 +212,7 @@ RULES:
 
 OBSERVABLE BEHAVIOUR TO FICTIONALIZE:`;
 
-export async function generateNPC(observation: Observation): Promise<NPCProfile> {
+export async function generateNPC(observation: Observation, imageBase64?: string): Promise<NPCProfile> {
   const client = getClient();
 
   const observationText = `
@@ -221,12 +221,26 @@ Device: ${observation.device || "none visible"}
 Group size: ${observation.groupSize}
 Movement level: ${observation.movement}`;
 
+  // Build parts: always include text prompt, optionally include person crop image
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: NPC_GENERATION_PROMPT + observationText },
+  ];
+
+  if (imageBase64) {
+    parts.push({
+      inlineData: {
+        mimeType: "image/jpeg",
+        data: imageBase64,
+      },
+    });
+  }
+
   const response = await client.models.generateContent({
     model: MODEL,
     contents: [
       {
         role: "user",
-        parts: [{ text: NPC_GENERATION_PROMPT + observationText }],
+        parts,
       },
     ],
     config: {

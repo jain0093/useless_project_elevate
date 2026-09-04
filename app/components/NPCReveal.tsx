@@ -6,6 +6,8 @@ import NPCCard from "./NPCCard";
 
 interface NPCRevealProps {
   npc: NPCProfile | null;
+  /** Base64 data URL of the cropped person image */
+  croppedImage: string | null;
   /** Whether the reveal sequence is active */
   active: boolean;
   /** Called when the reveal sequence finishes */
@@ -16,6 +18,7 @@ type RevealPhase = "FLASH" | "DETECTED" | "CARD" | "IDLE";
 
 export default function NPCReveal({
   npc,
+  croppedImage,
   active,
   onDismiss,
 }: NPCRevealProps) {
@@ -34,10 +37,10 @@ export default function NPCReveal({
     // Phase 2: "NPC DETECTED" text (1.2s)
     const t2 = setTimeout(() => setPhase("CARD"), 1700);
 
-    // Phase 3: Show card, auto-dismiss after 8s total
+    // Phase 3: Show card, auto-dismiss after 10s total
     const t3 = setTimeout(() => {
       onDismiss();
-    }, 9000);
+    }, 12000);
 
     return () => {
       clearTimeout(t1);
@@ -49,7 +52,7 @@ export default function NPCReveal({
   if (!active || !npc || phase === "IDLE") return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto py-8">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/90 animate-fade-in" />
 
@@ -76,18 +79,43 @@ export default function NPCReveal({
         </div>
       )}
 
-      {/* NPC Card */}
+      {/* NPC Card with cropped image */}
       {phase === "CARD" && (
-        <div className="relative z-10 flex flex-col items-center gap-4 px-4 animate-reveal-slide">
-          <div className="text-[10px] tracking-[0.3em] text-npc-amber mb-2">
+        <div className="relative z-10 flex flex-col items-center gap-4 px-4 animate-reveal-slide max-w-lg w-full">
+          <div className="text-[10px] tracking-[0.3em] text-npc-amber mb-1">
             ▼ NPC CLASSIFIED ▼
           </div>
+
+          {/* Cropped person image */}
+          {croppedImage ? (
+            <div className="relative npc-crop-frame">
+              <div className="text-[9px] tracking-[0.2em] text-npc-amber text-center mb-1">
+                NPC TARGET
+              </div>
+              <div className="border-2 border-npc-amber overflow-hidden max-h-[200px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={croppedImage}
+                  alt="Detected NPC target"
+                  className="w-full h-full object-contain max-h-[196px]"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="border border-npc-border p-4 text-center">
+              <span className="text-[10px] text-npc-text-dim tracking-wider">
+                NO VISUAL DATA
+              </span>
+            </div>
+          )}
+
           <NPCCard npc={npc} />
+
           <button
             onClick={onDismiss}
             className="mt-2 px-4 py-2 text-[10px] tracking-[0.2em] uppercase border border-npc-border text-npc-text-dim hover:border-npc-cyan-dim hover:text-npc-text-mid transition-colors"
           >
-            Dismiss
+            Continue Scanning
           </button>
         </div>
       )}

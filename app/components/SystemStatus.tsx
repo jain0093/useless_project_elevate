@@ -1,9 +1,9 @@
 "use client";
 
-import type { SystemStatus as SystemStatusType } from "@/lib/types";
+import type { FrontendSystemStatus } from "@/app/types/frontend";
 
 interface SystemStatusProps {
-  status: SystemStatusType;
+  status: FrontendSystemStatus;
 }
 
 interface StatusRowProps {
@@ -29,10 +29,14 @@ function StatusRow({ label, value, dotClass }: StatusRowProps) {
 function getStatusDotClass(status: string): string {
   switch (status) {
     case "ONLINE":
+    case "READY":
+    case "LISTENING":
       return "status-online";
     case "OFFLINE":
+    case "OFF":
       return "status-offline";
     case "ERROR":
+    case "DENIED":
       return "status-error";
     case "COOKED":
       return "status-cooked";
@@ -41,6 +45,8 @@ function getStatusDotClass(status: string): string {
     case "SUSPENDED":
       return "status-standby";
     case "CONNECTING":
+    case "LOADING":
+    case "CALLING":
       return "status-connecting";
     case "STANDBY":
       return "status-standby";
@@ -67,6 +73,11 @@ export default function SystemStatus({ status }: SystemStatusProps) {
         dotClass={getStatusDotClass(status.microphone)}
       />
       <StatusRow
+        label="Person Detector"
+        value={status.personDetector}
+        dotClass={getStatusDotClass(status.personDetector)}
+      />
+      <StatusRow
         label="Vision AI"
         value={status.ai}
         dotClass={getStatusDotClass(status.ai)}
@@ -75,11 +86,6 @@ export default function SystemStatus({ status }: SystemStatusProps) {
         label="Judgement"
         value={status.judgement}
         dotClass={getStatusDotClass(status.judgement)}
-      />
-      <StatusRow
-        label="Purpose"
-        value={status.purpose}
-        dotClass="status-offline"
       />
     </div>
   );
