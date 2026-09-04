@@ -39,11 +39,8 @@ export interface PersonDetection {
   nearbyObjects?: string[];
 }
 
-/** Ambient noise classification from microphone */
-export type NoiseLevel = "QUIET" | "NORMAL" | "LOUD" | "CHAOS";
-
-/** Microphone status */
-export type MicStatus = "LISTENING" | "MUTED" | "DENIED" | "OFF";
+/** Scanning state machine */
+export type ScanState = "IDLE" | "COUNTDOWN" | "ANALYZING" | "NPC_REVEAL" | "NO_VICTIM";
 
 /** A single NPC encounter logged in history */
 export interface EncounterEntry {
@@ -60,7 +57,6 @@ export interface EncounterEntry {
 /** Extended system status for frontend display */
 export interface FrontendSystemStatus {
   camera: SystemComponentStatus | "ONLINE" | "OFFLINE" | "ERROR";
-  microphone: MicStatus;
   personDetector: "LOADING" | "READY" | "ERROR" | "OFFLINE";
   ai: "ONLINE" | "CALLING" | "OFFLINE" | "ERROR";
   judgement: "ACTIVE" | "SUSPENDED";
@@ -70,7 +66,6 @@ export interface FrontendSystemStatus {
 /** Default system status */
 export const DEFAULT_SYSTEM_STATUS: FrontendSystemStatus = {
   camera: "OFFLINE",
-  microphone: "OFF",
   personDetector: "OFFLINE",
   ai: "OFFLINE",
   judgement: "ACTIVE",

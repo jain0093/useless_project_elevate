@@ -19,6 +19,7 @@ interface CameraFeedProps {
 
 export interface CameraFeedHandle {
   getVideo: () => HTMLVideoElement | null;
+  stopCamera: () => void;
 }
 
 const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
@@ -28,10 +29,28 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
     const streamRef = useRef<MediaStream | null>(null);
     const [status, setStatus] = useState<"ONLINE" | "OFFLINE" | "ERROR">("OFFLINE");
 
-    // Expose video element
+    const stopCamera = useCallback(() => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((t) => t.stop());
+        streamRef.current = null;
+      }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      setStatus("OFFLINE");
+      onStatusChange?.("OFFLINE");
+    }, [onStatusChange]);
+
+    // Expose video element and explicit stop
     useImperativeHandle(ref, () => ({
       getVideo: () => videoRef.current,
-    }));
+      stopCamera,
+    }), [stopCamera]);
 
     const updateStatus = useCallback(
       (newStatus: "ONLINE" | "OFFLINE" | "ERROR") => {
@@ -44,11 +63,7 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
     // Camera stream management
     useEffect(() => {
       if (!active) {
-        if (streamRef.current) {
-          streamRef.current.getTracks().forEach((t) => t.stop());
-          streamRef.current = null;
-        }
-        updateStatus("OFFLINE");
+        stopCamera();
         return;
       }
 

@@ -1,10 +1,10 @@
 "use client";
 
 interface WorldStatusProps {
-  stats: {
-    humansDetected: number;
-    npcsEncountered: number;
-  };
+  humansDetected: number;
+  npcsEncountered: number;
+  currentActivity: string;
+  scanningActive: boolean;
 }
 
 interface StatCellProps {
@@ -20,16 +20,16 @@ function StatCell({ label, value, subtext, highlight }: StatCellProps) {
       <span className="text-[9px] font-tech tracking-[0.18em] text-npc-text-dim uppercase">
         {label}
       </span>
-      <div className="flex items-baseline gap-1.5">
+      <div className="flex items-baseline gap-1.5 overflow-hidden">
         <span
-          className={`text-lg sm:text-xl font-orbitron font-extrabold ${
+          className={`text-base sm:text-lg font-orbitron font-extrabold truncate ${
             highlight ? "text-npc-cyan drop-shadow-[0_0_10px_rgba(0,240,255,0.4)]" : "text-foreground"
           }`}
         >
           {value}
         </span>
         {subtext && (
-          <span className="text-[9px] font-tech text-npc-text-dim uppercase">
+          <span className="text-[8px] sm:text-[9px] font-tech text-npc-text-dim uppercase shrink-0">
             {subtext}
           </span>
         )}
@@ -38,41 +38,47 @@ function StatCell({ label, value, subtext, highlight }: StatCellProps) {
   );
 }
 
-export default function WorldStatus({ stats }: WorldStatusProps) {
+export default function WorldStatus({
+  humansDetected,
+  npcsEncountered,
+  currentActivity,
+  scanningActive,
+}: WorldStatusProps) {
   return (
     <div className="hud-panel p-4 flex flex-col gap-3 rounded-xs border border-npc-border bg-npc-surface/90">
       <div className="flex items-center justify-between">
         <span className="text-[10px] font-tech tracking-[0.2em] uppercase text-npc-cyan flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
-          ENVIRONMENTAL MATRIX // STATUS
+          <span className="w-2 h-2 rounded-full bg-npc-cyan animate-pulse-glow" />
+          REAL TELEMETRY // WORLD STATUS
         </span>
-        <span className="text-[9px] font-tech tracking-widest text-npc-cyan/70">
-          NODE: UNHINGED
+        <span className="text-[9px] font-tech tracking-widest text-npc-text-dim uppercase">
+          CAMERA SENSOR DATA
         </span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <StatCell
-          label="Humans Detected"
-          value={stats.humansDetected}
+          label="HUMANS"
+          value={humansDetected}
           subtext="IN FRAME"
           highlight
         />
         <StatCell
-          label="NPCs Encountered"
-          value={stats.npcsEncountered}
-          subtext="TOTAL LOGGED"
+          label="NPCS ENCOUNTERED"
+          value={npcsEncountered}
+          subtext="LOGGED"
           highlight
         />
         <StatCell
-          label="Brainrot Mode"
-          value="MAXIMUM"
-          subtext="CURSED"
+          label="CURRENT ACTIVITY"
+          value={currentActivity || "SCANNING..."}
+          subtext="OBSERVED"
         />
         <StatCell
-          label="AI Disposition"
-          value="YELLING"
-          subtext="ACTIVE"
+          label="SCANNING"
+          value={scanningActive ? "ACTIVE" : "STANDBY"}
+          subtext={scanningActive ? "LIVE" : "OFF"}
+          highlight={scanningActive}
         />
       </div>
     </div>
