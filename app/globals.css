@@ -1,26 +1,276 @@
 @import "tailwindcss";
 
+/* ============================================
+   NPC WATCH — THE CAMERA SEES. THE AI JUDGES.
+   Dark Surveillance Theme
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050a0e;
+  --foreground: #c8d6e5;
+  --npc-cyan: #00e5ff;
+  --npc-cyan-dim: #006b7a;
+  --npc-amber: #ffab00;
+  --npc-amber-dim: #7a5200;
+  --npc-red: #ff1744;
+  --npc-green: #00e676;
+  --npc-green-dim: #00692f;
+  --npc-surface: #0a1118;
+  --npc-surface-light: #111c26;
+  --npc-border: #1a2a3a;
+  --npc-border-bright: #2a4a6a;
+  --npc-text-dim: #4a6a8a;
+  --npc-text-mid: #7a9ab8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-npc-cyan: var(--npc-cyan);
+  --color-npc-cyan-dim: var(--npc-cyan-dim);
+  --color-npc-amber: var(--npc-amber);
+  --color-npc-amber-dim: var(--npc-amber-dim);
+  --color-npc-red: var(--npc-red);
+  --color-npc-green: var(--npc-green);
+  --color-npc-green-dim: var(--npc-green-dim);
+  --color-npc-surface: var(--npc-surface);
+  --color-npc-surface-light: var(--npc-surface-light);
+  --color-npc-border: var(--npc-border);
+  --color-npc-border-bright: var(--npc-border-bright);
+  --color-npc-text-dim: var(--npc-text-dim);
+  --color-npc-text-mid: var(--npc-text-mid);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ---- Base ---- */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-mono), ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+}
+
+/* ---- CRT Scanline Overlay ---- */
+.scanline-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  opacity: 0.6;
+}
+
+/* ---- HUD Panel ---- */
+.hud-panel {
+  background: var(--npc-surface);
+  border: 1px solid var(--npc-border);
+  position: relative;
+}
+
+.hud-panel::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 8px;
+  right: 8px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--npc-cyan-dim), transparent);
+}
+
+/* ---- HUD Corner Brackets ---- */
+.hud-corners {
+  position: relative;
+}
+
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--npc-cyan);
+  pointer-events: none;
+}
+
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.hud-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+/* ---- Stat Bar ---- */
+.stat-bar {
+  height: 6px;
+  background: var(--npc-border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Threat Level Colors ---- */
+.threat-none { color: var(--npc-text-dim); }
+.threat-low { color: var(--npc-green); }
+.threat-medium { color: var(--npc-amber); }
+.threat-high { color: #ff6d00; }
+.threat-critical { color: var(--npc-red); }
+
+.threat-bg-none { background-color: var(--npc-text-dim); }
+.threat-bg-low { background-color: var(--npc-green); }
+.threat-bg-medium { background-color: var(--npc-amber); }
+.threat-bg-high { background-color: #ff6d00; }
+.threat-bg-critical { background-color: var(--npc-red); }
+
+/* ---- Status Dot ---- */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-online { background-color: var(--npc-green); box-shadow: 0 0 6px var(--npc-green); }
+.status-offline { background-color: var(--npc-red); box-shadow: 0 0 6px var(--npc-red); }
+.status-standby { background-color: var(--npc-amber); box-shadow: 0 0 6px var(--npc-amber); }
+.status-connecting { background-color: var(--npc-cyan); box-shadow: 0 0 6px var(--npc-cyan); }
+.status-error { background-color: var(--npc-red); box-shadow: 0 0 6px var(--npc-red); }
+.status-cooked { background-color: #ff6d00; box-shadow: 0 0 6px #ff6d00; }
+
+/* ---- Camera Grid Overlay ---- */
+.camera-grid {
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ---- Keyframe Animations ---- */
+
+@keyframes scanline-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.8; }
+  20% { opacity: 1; }
+  30% { opacity: 0.6; }
+  40% { opacity: 1; }
+  50% { opacity: 0.9; }
+  60% { opacity: 1; }
+}
+
+@keyframes reveal-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes typing-cursor {
+  0%, 100% { border-right-color: var(--npc-cyan); }
+  50% { border-right-color: transparent; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes screen-flash {
+  0% { opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+/* ---- Animation Utilities ---- */
+.animate-scanline { animation: scanline-sweep 3s linear infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-flicker { animation: flicker 0.3s ease-in-out; }
+.animate-reveal-slide { animation: reveal-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-reveal-scale { animation: reveal-scale 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-glitch { animation: glitch 0.3s ease-in-out; }
+.animate-countdown-pulse { animation: countdown-pulse 1s ease-in-out; }
+.animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--npc-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--npc-border-bright);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--npc-cyan-dim);
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: rgba(0, 229, 255, 0.2);
+  color: var(--npc-cyan);
 }
