@@ -50,9 +50,11 @@ export interface NPCProfile {
   threatLevel: ThreatLevel;
   /** Absurd quest assignment */
   quest: string;
-  /** Unsolicited AI opinion about this NPC */
-  opinion: string;
-  /** Malayalam status punchline */
+  /** ONE meme-like roast sentence about the observed activity */
+  roast: string;
+  /** What the AI actually detected them doing (e.g. "sitting while using phone") */
+  detectedActivity: string;
+  /** Short Malayalam reaction punchline (1-6 words) */
   malayalamStatus: string;
   /** Observed evidence breakdown string, e.g. "PHONE DETECTED • SEATED • ALONE" */
   observedDetails?: string;

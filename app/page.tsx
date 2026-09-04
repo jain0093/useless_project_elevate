@@ -16,33 +16,123 @@ import NPCReveal from "@/app/components/NPCReveal";
 import NPCHistory from "@/app/components/NPCHistory";
 
 // ============================================
-// MALAYALAM MEME CROWD COMMENTARY BANKS
-// Real viral Kerala meme energy
+// ACTIVITY BUILDER — from COCO-SSD evidence
 // ============================================
 
-const SOLO_COMMENTARIES = [
-  "POV: You're waiting for the main character to arrive. 💀",
-  "Bro is buffering in real life. 😭",
-  "Aura level: Unemployed. 🔥",
-  "Standing there like a GTA NPC waiting to be robbed. 😂",
-  "Bro's ping is definitely 999ms right now. 💀",
-  "Bro thinks he's the thinker. 😭"
-];
+function buildActivityDescription(
+  nearbyObjects: string[],
+  groupSize: number,
+  bboxAspectRatio: number
+): string {
+  // Infer posture from bounding box aspect ratio
+  // Tall/narrow bbox → standing, wide/short → sitting
+  const posture = bboxAspectRatio > 1.3 ? "standing" : bboxAspectRatio < 0.9 ? "sitting" : "unclear posture";
 
-const GROUP_COMMENTARIES = [
-  "The council of unemployeds has assembled. 💀",
-  "Me and the boys discussing how to fail together. 😭",
-  "Wifi router has more direction than this entire group. 🔥",
-  "Aura debt is increasing in this area. 😂",
-  "POV: Group project where nobody knows what to do. 💀"
-];
+  // Determine visible objects
+  const hasPhone = nearbyObjects.includes("cell phone");
+  const hasLaptop = nearbyObjects.includes("laptop");
+  const hasCup = nearbyObjects.includes("cup") || nearbyObjects.includes("bottle");
+  const hasBook = nearbyObjects.includes("book");
+  const hasBackpack = nearbyObjects.includes("backpack");
 
-const MEME_SOUNDS = [
-  "/audio/meme1.mp3",
-  "/audio/meme2.mp3",
-  "/audio/meme3.mp3",
-  "/audio/meme4.mp3"
-];
+  // Build activity string from evidence
+  const parts: string[] = [];
+
+  if (posture !== "unclear posture") {
+    parts.push(posture);
+  }
+
+  if (hasPhone && hasLaptop) {
+    parts.push("with phone and laptop");
+  } else if (hasPhone) {
+    parts.push("while using phone");
+  } else if (hasLaptop) {
+    parts.push("with laptop");
+  }
+
+  if (hasCup) parts.push("holding a drink");
+  if (hasBook) parts.push("with a book");
+  if (hasBackpack) parts.push("with backpack");
+
+  if (groupSize > 1) {
+    parts.push(`in group of ${groupSize}`);
+  } else if (parts.length > 0) {
+    parts.push("alone");
+  }
+
+  if (parts.length === 0) {
+    return groupSize > 1 ? `${groupSize} people standing together` : "standing with no visible activity";
+  }
+
+  return parts.join(" ");
+}
+
+// ============================================
+// CROWD COMMENTARY — scene-based one-liners
+// ============================================
+
+function generateCrowdOneLiner(count: number, objects: string[]): string {
+  const hasLaptops = objects.includes("laptop");
+  const hasPhones = objects.includes("cell phone");
+
+  if (count === 0) {
+    const lines = [
+      "Nobody here. The room has achieved enlightenment.",
+      "Zero humans detected. Even the WiFi is lonely.",
+      "The room is empty. Peace has been restored.",
+    ];
+    return lines[Math.floor(Math.random() * lines.length)];
+  }
+
+  if (count === 1) {
+    if (hasPhones) {
+      const lines = [
+        "One human detected. One phone detected. One soul missing.",
+        "Solo human with phone. The rectangle has won.",
+        "One person and their phone. A love story.",
+      ];
+      return lines[Math.floor(Math.random() * lines.length)];
+    }
+    if (hasLaptops) {
+      const lines = [
+        "One human with a laptop. Productivity status: unknown.",
+        "Solo human, laptop open. Could be working. Probably not.",
+      ];
+      return lines[Math.floor(Math.random() * lines.length)];
+    }
+    const lines = [
+      "One human detected. Standing there like the plot forgot about them.",
+      "Solo NPC spotted. No visible quest. No visible purpose.",
+      "One person detected. Just vibing with existence.",
+    ];
+    return lines[Math.floor(Math.random() * lines.length)];
+  }
+
+  // Multiple people
+  if (hasLaptops) {
+    const lines = [
+      `${count} people have gathered around a laptop. Nobody is typing.`,
+      `Someone brought a laptop and accidentally summoned ${count} people.`,
+      `${count} humans detected. One laptop. This can only end badly.`,
+    ];
+    return lines[Math.floor(Math.random() * lines.length)];
+  }
+  if (hasPhones) {
+    const lines = [
+      `${count} people detected. Everyone has a phone. Nobody has a plan.`,
+      `${count} humans and ${count} phones. Zero conversations happening.`,
+    ];
+    return lines[Math.floor(Math.random() * lines.length)];
+  }
+  const lines = [
+    `${count} people detected and somehow nobody looks like they know why they're here.`,
+    `${count} humans have assembled. Productivity has not.`,
+    `${count} people are standing here like the WiFi personally called a meeting.`,
+    `Six people detected. The group project has begun. Condolences.`,
+    `Another NPC has entered the server.`,
+  ];
+  return lines[Math.floor(Math.random() * lines.length)].replace("Six", String(count));
+}
 
 export default function Home() {
   // Core state
@@ -50,7 +140,7 @@ export default function Home() {
   const [audioMuted, setAudioMuted] = useState(true);
   
   // Hooks
-  const { loadModel, detect, modelReady, modelError } = usePersonDetector();
+  const { loadModel, detect, modelReady } = usePersonDetector();
   const { speak, cancelSpeech } = useSpeech();
 
   const cameraRef = useRef<CameraFeedHandle>(null);
@@ -94,57 +184,55 @@ export default function Home() {
     };
   }, [scanning, revealActive, modelReady, detect]);
 
-  // Start scanning sequence
+  // Start scanning
   const handleStartScan = useCallback(() => {
     setScanning(true);
     loadModel();
   }, [loadModel]);
 
-  // Stop scanning cleanup
+  // Cleanup
   useEffect(() => {
-    return () => {
-      cancelSpeech();
-    };
+    return () => { cancelSpeech(); };
   }, [cancelSpeech]);
 
-  // Countdown complete -> triggers capture and NPC generation
+  // Countdown complete → capture, detect activity, generate NPC, speak ONE sentence
   const handleCountdownComplete = useCallback(async () => {
     const video = cameraRef.current?.getVideo();
     if (!video || !modelReady) return;
 
-    // Get exact frame detections
     const detections = await detect(video);
     setLiveDetections(detections);
     
     if (detections.length === 0) {
-      setLatestCommentary(null);
+      setLatestCommentary("Nobody here. The room has achieved enlightenment.");
       return;
     }
 
-    // People detected - pick one
+    // Pick one person
     const targetIndex = Math.floor(Math.random() * detections.length);
     setSelectedDetectionIndex(targetIndex);
-    const targetPerson = detections[targetIndex];
+    const target = detections[targetIndex];
 
     try {
-      // Capture the crop
-      const cropDataUrl = cropPerson(video, targetPerson);
+      const cropDataUrl = cropPerson(video, target);
       setCroppedImage(cropDataUrl);
-      
-      // Show reveal UI in "loading/classifying" state
       setRevealActive(true);
       setCurrentNPC(null);
 
-      // Determine primary device and activity from COCO-SSD object evidence
-      const nearbyObjs = targetPerson.nearbyObjects || [];
-      const primaryDevice = nearbyObjs.length > 0 ? nearbyObjs[0] : null;
-      const activityLabel = primaryDevice
-        ? `using ${primaryDevice}`
-        : detections.length > 1
-        ? `standing in group of ${detections.length}`
-        : "standing motionless";
+      // Build grounded activity description from COCO-SSD evidence
+      const nearbyObjs: string[] = target.nearbyObjects || [];
+      const bboxAspect = target.height / (target.width || 0.01);
+      const activityLabel = buildActivityDescription(nearbyObjs, detections.length, bboxAspect);
+      const primaryDevice = nearbyObjs.find((o: string) => o === "cell phone" || o === "laptop") || null;
 
-      // Call API with grounded evidence
+      // Collect all objects across all detections for crowd commentary
+      const allObjects = detections.flatMap((d: any) => d.nearbyObjects || []);
+
+      // Generate crowd one-liner
+      const crowdLine = generateCrowdOneLiner(detections.length, allObjects);
+      setLatestCommentary(crowdLine);
+
+      // Call API
       const res = await fetch("/api/npc", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -154,47 +242,28 @@ export default function Home() {
             device: primaryDevice,
             groupSize: detections.length,
             movement: "low",
-            nearbyObjects: nearbyObjs
+            nearbyObjects: nearbyObjs,
           },
-          image: cropDataUrl
-        })
+          image: cropDataUrl,
+        }),
       });
 
       if (!res.ok) throw new Error("API response error");
-      const npcData = await res.json();
-      
+      const npcData: NPCProfile = await res.json();
       setCurrentNPC(npcData);
-      
-      // Generate crowd commentary
-      const commentaryBank = detections.length === 1 ? SOLO_COMMENTARIES : GROUP_COMMENTARIES;
-      const humanCommentary = commentaryBank[
-        Math.floor(Math.random() * commentaryBank.length)
-      ].replace("{n}", String(detections.length));
 
-      setLatestCommentary(humanCommentary);
-      
       const newEncounterId = encounters.length + 1;
-      
       setEncounters(prev => [
-        {
-          id: newEncounterId,
-          npc: npcData,
-          timestamp: Date.now(),
-          croppedImage: cropDataUrl
-        },
-        ...prev
+        { id: newEncounterId, npc: npcData, timestamp: Date.now(), croppedImage: cropDataUrl },
+        ...prev,
       ]);
 
-      // Play a trending meme sound instead of TTS
+      // TTS: speak EXACTLY ONE SENTENCE — the roast + short Malayalam
+      const spokenText = `${npcData.roast} ${npcData.malayalamStatus}`;
       setTimeout(() => {
-        if (!audioMuted) {
-          const randomSound = MEME_SOUNDS[Math.floor(Math.random() * MEME_SOUNDS.length)];
-          const audio = new Audio(randomSound);
-          audio.volume = 0.8;
-          audio.play().catch(e => console.warn("Audio play blocked by browser:", e));
-        }
-      }, 1600);
-      
+        speak(newEncounterId, spokenText, audioMuted);
+      }, 1800);
+
     } catch (err) {
       console.error("[NPC WATCH] Error generating NPC:", err);
       setRevealActive(false);
@@ -216,7 +285,7 @@ export default function Home() {
       <Header
         audioMuted={audioMuted}
         onToggleMute={() => {
-          setAudioMuted((prev) => {
+          setAudioMuted(prev => {
             const next = !prev;
             if (next) cancelSpeech();
             return next;
@@ -228,45 +297,41 @@ export default function Home() {
         {!scanning && (
           <div className="flex flex-col items-center justify-center min-h-[68vh] gap-8 animate-fade-in px-4">
             <div className="relative flex flex-col items-center justify-center p-8 sm:p-12 hud-panel hud-corners max-w-xl w-full text-center border-npc-cyan/30 bg-black/60 backdrop-blur-xl shadow-[0_0_50px_rgba(0,240,255,0.1)]">
-              {/* Status indicator */}
               <div className="flex items-center gap-2 mb-4 px-3 py-1 border border-npc-red/30 bg-npc-red/10">
                 <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
                 <span className="text-[11px] font-tech tracking-[0.2em] text-npc-red uppercase font-bold">
-                  BRAINROT ENGINE READY
+                  MEME ROAST ENGINE READY
                 </span>
               </div>
 
-              {/* Title */}
               <h2 className="text-4xl sm:text-6xl font-orbitron font-black tracking-[0.18em] text-npc-cyan drop-shadow-[0_0_35px_rgba(0,240,255,0.5)] mb-2">
                 NPC WATCH
               </h2>
               <p className="text-sm sm:text-base font-tech tracking-[0.15em] text-npc-text-mid uppercase max-w-md mb-8">
-                AI sees you. AI roasts you. In Malayalam. 🔥
+                The camera sees what you're doing. Then snitches. 🔥
               </p>
 
-              {/* Initialize Button */}
               <button
                 onClick={handleStartScan}
                 className="group relative px-10 py-5 border-2 border-npc-cyan text-npc-cyan font-orbitron font-bold tracking-[0.25em] uppercase text-sm sm:text-base hover:bg-npc-cyan hover:text-black transition-all duration-300 shadow-[0_0_30px_rgba(0,240,255,0.3)] hover:shadow-[0_0_50px_rgba(0,240,255,0.8)]"
               >
                 <span className="relative z-10 flex items-center gap-3">
-                  <span>START ROASTING</span>
+                  <span>START WATCHING</span>
                   <span className="text-lg group-hover:translate-x-1 transition-transform">➔</span>
                 </span>
                 <div className="absolute inset-0 bg-npc-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
 
-              {/* Bottom info */}
               <div className="mt-8 pt-4 border-t border-npc-border/60 flex flex-col gap-2">
                 <div className="flex items-center justify-center gap-4 text-[10px] font-tech text-npc-text-dim tracking-wider">
                   <span>COCO-SSD</span>
                   <span>•</span>
                   <span>GEMINI AI</span>
                   <span>•</span>
-                  <span>MALAYALAM BRAINROT 💀</span>
+                  <span>ONE SENTENCE. ONE ROAST. 💀</span>
                 </div>
                 <p className="text-[9px] font-mono tracking-wider text-npc-text-dim/70 max-w-sm mx-auto">
-                  CAMERA ACCESS REQUIRED. ALL ROASTS ARE FICTIONAL. NO MEDIA STORED. ❤️
+                  CAMERA ACCESS REQUIRED. ALL ROASTS ARE FICTIONAL. NO MEDIA STORED.
                 </p>
               </div>
             </div>
@@ -275,18 +340,17 @@ export default function Home() {
 
         {scanning && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 animate-fade-in">
-            {/* Left column: Camera + History */}
             <div className="lg:col-span-5 flex flex-col gap-3 sm:gap-4">
               <CameraFeed
                 ref={cameraRef}
                 active={scanning}
                 detections={liveDetections}
                 selectedIndex={selectedDetectionIndex}
+                onStatusChange={() => {}}
               />
               <NPCHistory encounters={encounters} />
             </div>
 
-            {/* Right column: Countdown + Commentary (HUGE) */}
             <div className="lg:col-span-7 flex flex-col gap-3 sm:gap-4">
               <Countdown
                 active={scanning && !revealActive && modelReady}
@@ -294,7 +358,8 @@ export default function Home() {
               />
               <Commentary 
                 peopleCount={liveDetections.length} 
-                commentary={latestCommentary} 
+                commentary={latestCommentary}
+                detectedObjects={liveDetections.flatMap((d: any) => d.nearbyObjects || [])}
               />
             </div>
           </div>
@@ -310,7 +375,7 @@ export default function Home() {
 
       <footer className="px-4 py-2 border-t border-npc-border/50 text-center">
         <span className="text-[10px] tracking-[0.15em] text-npc-text-dim">
-          NPC WATCH — TINKERHUB USELESS PROJECTS — BRAINROT EDITION 💀
+          NPC WATCH — TINKERHUB USELESS PROJECTS 💀
         </span>
       </footer>
     </div>

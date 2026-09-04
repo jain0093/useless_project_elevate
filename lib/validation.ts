@@ -133,16 +133,24 @@ export function validateNPCProfile(data: unknown): NPCProfile | null {
       ? raw.quest.trim().slice(0, 300)
       : "Continue existing.";
 
-  // Opinion with fallback
-  const opinion =
-    typeof raw.opinion === "string" && raw.opinion.trim().length > 0
-      ? raw.opinion.trim().slice(0, 500)
-      : "The system has no opinion at this time.";
+  // Roast: one meme sentence (replaces old opinion)
+  const roast =
+    typeof raw.roast === "string" && raw.roast.trim().length > 0
+      ? raw.roast.trim().slice(0, 300)
+      : typeof raw.opinion === "string" && raw.opinion.trim().length > 0
+      ? raw.opinion.trim().slice(0, 300)
+      : "Bro is just existing. Respectfully.";
+
+  // Detected activity from AI vision
+  const detectedActivity =
+    typeof raw.detectedActivity === "string" && raw.detectedActivity.trim().length > 0
+      ? raw.detectedActivity.trim().slice(0, 200)
+      : "activity unclear";
 
   // Malayalam status with fallback
   const malayalamStatus =
     typeof raw.malayalamStatus === "string" && raw.malayalamStatus.trim().length > 0
-      ? raw.malayalamStatus.trim().slice(0, 200)
+      ? raw.malayalamStatus.trim().slice(0, 100)
       : "ചുമ്മാ.";
 
   return {
@@ -152,7 +160,8 @@ export function validateNPCProfile(data: unknown): NPCProfile | null {
     braincells,
     threatLevel,
     quest,
-    opinion,
+    roast,
+    detectedActivity,
     malayalamStatus,
   };
 }

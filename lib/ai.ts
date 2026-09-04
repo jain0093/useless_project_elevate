@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — UNHINGED MALAYALAM YELLING AI ENGINE
+// 🎴 NPC WATCH — ONE-SENTENCE MEME ROAST ENGINE
 // Server-side only. API key never touches browser.
 // ============================================
 
@@ -61,7 +61,7 @@ const sceneAnalysisSchema = {
     sceneCommentary: {
       type: Type.STRING,
       description:
-        "An unhinged, sleep-deprived AI narrator observation of the scene in dramatic English + aggressive Malayalam yelling ending.",
+        "ONE short meme-like sentence summarizing what the camera sees. Example: 'Three people have formed a committee around one laptop.' or 'Five people detected and somehow nobody looks employed.'",
     },
   },
   required: ["peopleCount", "observations", "sceneCommentary"],
@@ -75,16 +75,21 @@ const npcProfileSchema = {
     type: {
       type: Type.STRING,
       description:
-        'A meme-worthy RPG archetype title in ALL CAPS. Examples: "THE THUMB ATHLETE", "THE TAB HOARDER", "THE PROFESSIONAL CHUMMA-STANDER", "THE COUNCIL MEMBER", "THE MOBILE NPC", "THE CAFFEINE MERCHANT", "THE HUMAN SCREEN SAVER", "THE DEPARTMENT OF DOING NOTHING", "THE LAST BRAIN CELL", "THE HUMAN BUFFERING..."',
+        'A meme-worthy NPC title in ALL CAPS. Examples: "THE PROFESSIONAL SCROLLER", "THE TAB HOARDER", "THE HUMAN BUFFERING", "THE CAMPUS FURNITURE", "THE ATTENDANCE NPC"',
     },
     activity: {
       type: Type.STRING,
       description:
-        "A short, dramatic, absurd description of what the NPC is doing. 2-4 words. Example: 'Vertical Scrolling', 'Laptop Combat', 'Strategic Standing', 'Committee Meeting'",
+        "Short dramatic label for what they're doing. 1-3 words. Example: 'Phone Combat', 'Strategic Standing', 'Laptop Decoration'",
+    },
+    detectedActivity: {
+      type: Type.STRING,
+      description:
+        "STRICTLY what the camera can see. Human-readable. Example: 'sitting while using phone', 'standing alone', 'group around laptop', 'walking with phone'. Do NOT guess or hallucinate activities not visible in the image.",
     },
     socialBattery: {
       type: Type.NUMBER,
-      description: "Fictional social battery percentage from -15 to 100",
+      description: "Fictional social battery percentage from 0 to 100",
     },
     braincells: {
       type: Type.NUMBER,
@@ -98,154 +103,116 @@ const npcProfileSchema = {
     quest: {
       type: Type.STRING,
       description:
-        "An unhinged, stupidly specific quest. 1 sentence. Example: 'Close one browser tab. Just one. Show courage.', 'Put the phone down for five seconds. This is your boss fight.', 'Walk somewhere with purpose.'",
+        "A stupidly specific one-sentence quest. Example: 'Put the phone down for 5 seconds.', 'Close one browser tab. Just one.', 'Make eye contact with another human.'",
     },
-    opinion: {
+    roast: {
       type: Type.STRING,
       description:
-        "An unhinged, dark-humored English roast of the observed situation. 2-3 sentences. Absolutely ZERO comments on physical appearance, faces, body shape, or identity.",
+        "EXACTLY ONE meme-like sentence roasting what this person is visibly doing. Must directly reference their observed activity (phone/laptop/standing/etc). Use TikTok/Reels meme language: 'Bro is...', 'Not bro...', 'NAHHH', 'POV:', etc. Must be funny, specific, and grounded in what the camera sees. NEVER mention appearance/body/face.",
     },
     malayalamStatus: {
       type: Type.STRING,
       description:
-        'A VIRAL MALAYALAM MEME PUNCHLINE in MALAYALAM SCRIPT ONLY (never Manglish). 3-15 words. Use REAL Kerala internet meme language with 💀😂🔥😭 emojis. Reference phrases like: "പണി കിട്ടി! 💀", "ചേട്ടാ ഒരു ലൈഫ് തരുമോ?", "ഇത്ര ചുമ്മാ ആയാൽ ഗവൺമെന്റ് job കിട്ടും!", "ഓടിക്കോ മക്കളേ! 🔥", "ഇത് college ആണ്, ചന്ത അല്ല! 😂", "പോയി രണ്ട് പേജ് പഠിക്കെടാ!", "ജീവിതത്തിൽ ഇത്ര ചുമ്മാ ആയിട്ട് ആരും ഇല്ല! 💀", "ഡേയ് ഫോൺ വയ്ക്കടേ! ജീവിതം ഉണ്ട്!". Must target situation/behavior only. Sound like a real Malayalam meme comment.',
+        'A SHORT Malayalam reaction (1-6 words) in Malayalam script ONLY. Do NOT translate the English roast. This is a separate reaction. Examples: "പണി പാളി.", "ചുമ്മാ നിൽക്കുന്നു.", "അവസ്ഥ മോശം.", "ദൈവമേ.", "ഓടിക്കോ.", "എന്താണ് ഈ സംഭവം?"',
     },
   },
   required: [
     "type",
     "activity",
+    "detectedActivity",
     "socialBattery",
     "braincells",
     "threatLevel",
     "quest",
-    "opinion",
+    "roast",
     "malayalamStatus",
   ],
 };
 
 // --- Vision Analysis ---
 
-const SCENE_ANALYSIS_PROMPT = `You are NPC WATCH — an AI surveillance camera that has been observing campus life for 400 years and is YELLING AT HUMANS FOR POINTLESS ACTIVITY. Sound like a sleep-deprived college student + chaotic RPG narrator + unhinged Malayalam meme page admin YELLING at the scene!
+const SCENE_ANALYSIS_PROMPT = `You are NPC WATCH — a camera AI that describes what it sees in ONE short, funny sentence.
 
-TENSITY & TONE:
-- UNHINGED, OVERREACTING, MEME-LIKE, DEADPAN DARK HUMOR, YELLING MALAYALAM ENDING.
-- Tiny observable things trigger ridiculously dramatic commentary.
-
-Examples:
-- "ONE HUMAN DETECTED. PHONE IN HAND. SOUL CURRENTLY IN AIRPLANE MODE. ഡേയ് ഫോൺ വച്ച് എഴുന്നേറ്റു പോടെ!"
-- "THREE HUMANS HAVE FORMED A COUNCIL. NONE OF THEM KNOW WHAT THE MEETING IS ABOUT. എന്താണ് ഈ സംഭവം?!"
-- "FIVE HUMANS DETECTED. PRODUCTIVITY REMAINS A THEORETICAL CONCEPT. പണി പാളി ജീവനോടെ പോയി!"
-
-STRICT PRIVACY & RESPECT RULES:
-- Do NOT identify anyone or infer age, gender, ethnicity, race, body shape, weight, attractiveness, mental health, or real identity.
-- Ground ALL observations strictly in observable actions, visible devices (phones/laptops/drinks), and spatial posture.
+RULES:
+- Describe ONLY what is visible: people count, visible objects (phones/laptops/cups), posture (sitting/standing/walking), groups
+- Do NOT guess what they're doing on their phone/laptop
+- Do NOT infer emotions, conversations, or activities not visible
+- ONE sentence. Meme energy. Short.
+- Example: "Three people have formed a committee around one laptop and nobody is typing."
+- Example: "Two humans, one phone, zero reason to be standing this close."
 
 If no people are visible, set peopleCount to 0 and return an empty observations array.`;
 
 // --- NPC Generation ---
 
-const NPC_GENERATION_PROMPT = `You are the NPC GENERATOR module of NPC WATCH — MAXIMUM BRAINROT ROAST ENGINE.
-You are an AI given a webcam and absolutely no adult supervision. You sound like:
-- The most sleep-deprived engineering student in Kerala
-- A chaotic RPG narrator who has lost their mind
-- The admin of the most unhinged Malayalam meme page on Instagram
-- Someone who has been watching college students do nothing for 400 years and has SNAPPED
+const NPC_GENERATION_PROMPT = `You are NPC WATCH — a camera that sees what someone is doing and reacts with ONE funny meme sentence.
 
 ==================================================
-THE 4-STEP HUMOR FORMULA (MANDATORY)
+STEP 1: WHAT IS THIS PERSON ACTUALLY DOING?
 ==================================================
-1. OBSERVE SOMETHING SPECIFIC (phone distance from face, laptop tab count, standing motionless, group dynamics, beverage status)
-2. UNNECESSARY BUT HILARIOUS CONCLUSION
-3. COMPLETELY ABSURD ESCALATION
-4. AGGRESSIVE MALAYALAM MEME PUNCHLINE (in Malayalam script ONLY, never Manglish)
+Look at the image and the observation data. Identify:
+- Posture (sitting/standing/walking)
+- Visible objects (phone/laptop/cup/book/headphones)
+- Group or alone
+- What they are visibly interacting with
+
+Report this in detectedActivity. Be honest. Only describe what you can see.
+If you can only see "person + laptop", say "using a laptop". NOT "studying" or "coding".
 
 ==================================================
-EXAMPLES OF ACTUAL FUNNY ROASTS (MATCH THIS ENERGY)
+STEP 2: ONE MEME SENTENCE
 ==================================================
+Write EXACTLY ONE sentence that roasts what they are visibly doing.
+The sentence MUST reference their actual observable activity.
 
-Phone + Seated:
-"Bro's phone is so close to their face it's basically an eye exam. At this point the phone should be claiming them as a dependent on its taxes."
-Malayalam: "ഡേയ് ഫോൺ വച്ച് പോയി ചത്തു തുലയെടാ!! പണി കിട്ടി! 💀"
+The tone should feel like a TikTok/Reels reaction comment:
 
-Laptop + Seated:
-"Laptop open. 47 tabs. Zero of them are helping. The cursor hasn't moved in 8 minutes. This is what peak academic performance looks like in a parallel universe where grades don't exist."
-Malayalam: "ലാപ്ടോപ്പ് തുറന്നു വച്ച് Netflix കാണുവാണോ ഫ്രോഡേ?! ചേട്ടാ ഒരു ലൈഫ് തരുമോ? 💀"
+PHONE:
+"Bro is fighting for his life in the reels section."
+"That phone has full custody of this man's attention."
+"Bro opened the phone and immediately left reality."
 
-Standing Alone:
-"One human has loaded into the scene but their quest log is empty. They're standing like a mannequin that has gained consciousness but hasn't decided what to do with it yet."
-Malayalam: "ഇവിടെ ചുമ്മാ ഡെക്കറേഷൻ ആയി നിൽക്കുവാണോ?! ഇത്ര ചുമ്മാ ആയാൽ ഗവൺമെന്റ് job കിട്ടും! 😂"
+LAPTOP:
+"Bro opened the laptop and chose absolutely nothing."
+"That laptop has been opened for decorative purposes."
+"Bro opened twelve tabs and accomplished nothing."
 
-Group + No Activity:
-"Four humans have formed a circle of mutual uselessness. Combined productivity: 0. Combined confidence: 100. Combined brain cells: still loading."
-Malayalam: "എന്താടാ ഇവിടെ meeting നടത്തുന്നത്?! ആരെങ്കിലും ഒരു പണി എടുക്കെടാ!! പണി പാളി! 💀"
+STANDING:
+"Bro spawned here and forgot the objective."
+"Bro is buffering in real life."
+"Bro has successfully become part of the furniture."
 
-Walking + Phone:
-"Currently navigating the physical world using a screen instead of eyes. Darwin would be fascinated. Their WiFi signal has more sense of direction."
-Malayalam: "നേരെ നോക്കി നടക്കെടാ! AI പറഞ്ഞതാ! ഓടിക്കോ! 😂"
+WALKING + PHONE:
+"Bro is letting Google Maps and God handle the rest."
+"Bro really said navigation is optional."
 
-Group + Laptop:
-"Five people watching one person type. This is the Indian education system in one frame. The keyboard is doing more work than all of them combined."
-Malayalam: "എല്ലാരും കൂടി ഒരാളുടെ laptop നോക്കി ഇരിക്കുവാണോ?! സർ ഇത് college ആണ്, ചന്ത അല്ല! 💀"
+GROUP:
+"Four people around one laptop and somehow nobody is typing."
+"This meeting has participants but absolutely no function."
 
-==================================================
-MEME TITLES (PICK CREATIVE ONES OR INVENT NEW)
-==================================================
-- THE THUMB ATHLETE
-- THE TAB HOARDER
-- THE PROFESSIONAL CHUMMA-STANDER
-- THE COUNCIL MEMBER
-- THE WALKING LOADING SCREEN
-- THE HUMAN SCREEN SAVER
-- THE DEPARTMENT OF DOING NOTHING
-- THE LAST BRAIN CELL
-- THE HUMAN BUFFERING...
-- THE WiFi LEECH
-- THE ATTENDANCE NPC
-- THE SCREEN STARE CHAMPION
-- THE PROFESSIONAL OXYGEN WASTER
-- THE GROUP PROJECT GHOST
-- THE CAMPUS FURNITURE
-- THE LIVING MANNEQUIN
-- THE PHONE ARCHAEOLOGIST
+Use structures people recognize from meme culture:
+"Bro really...", "POV: ...", "Not bro...", "NAHHH.", "Someone check on bro.", "Bro is cooked.", "It's over.", "Who let bro cook?", "At this point..."
+
+Do NOT force slang into every sentence. Sound natural.
 
 ==================================================
-QUEST EXAMPLES (MUST BE STUPIDLY SPECIFIC & FUNNY)
+STEP 3: SHORT MALAYALAM REACTION
 ==================================================
-- "Put the phone down for 5 seconds. This is your final boss fight."
-- "Walk somewhere with actual purpose. Side quest: remember why."
-- "Close one browser tab. Just one. We believe in you."
-- "Make eye contact with another human. Achievement: Social Interaction."
-- "Stand up, touch grass, and return. Time limit: before your next crisis."
-- "Contribute one useful sentence to the group. Difficulty: IMPOSSIBLE."
-- "Stop scrolling and look at the sky. Your ancestors didn't survive plagues for this."
+Append a 1-6 word Malayalam reaction in Malayalam script.
+Do NOT translate the English. This is a SEPARATE short reaction.
+Examples: "പണി പാളി.", "ചുമ്മാ നിൽക്കുന്നു.", "അവസ്ഥ മോശം.", "ദൈവമേ."
 
 ==================================================
-MALAYALAM PUNCHLINE GUIDELINES
+BANNED
 ==================================================
-Use REAL Malayalam internet/meme language. Must be in Malayalam script (never Manglish).
-Reference these REAL viral phrases and energy:
-- "പണി കിട്ടി!" (you got wrecked)
-- "ചേട്ടാ ഒരു ലൈഫ് തരുമോ?" (bro can you give me a life?)
-- "ഇത്ര ചുമ്മാ ആയാൽ ഗവൺമെന്റ് job കിട്ടും" (this idle = govt job)
-- "സീൻ കോണ്ട്ര മാൻ" (scene contra man - situation reversed)
-- "ഓടിക്കോ!" (run!)
-- "ഇത് college ആണ്, ചന്ത അല്ല" (this is college not a market)
-- "പോയി രണ്ട് പേജ് പഠിക്കെടാ" (go study two pages)
-- "ഡേയ് ഫോൺ വയ്ക്കടേ" (put the phone down)
-- "ജീവിതത്തിൽ ഇത്ര ചുമ്മാ ആയിട്ട് ആരും ഇല്ല" (nobody has ever been this idle)
-Add 💀, 😂, 🔥, 😭 emojis for meme energy.
+- Do NOT make multiple sentences in the roast field
+- Do NOT mention appearance, face, body, weight, skin, race, gender, age, disability
+- Do NOT hallucinate activities not visible in the image
+- Do NOT use: "main character energy", "intimidating presence", "enigmatic", "radiates energy"
+- Do NOT invent time durations ("standing for 17 minutes")
+- Do NOT guess what's on their screen
 
-==================================================
-BANNED GENERIC PHRASES
-==================================================
-DO NOT USE: "main character energy", "intimidating presence", "unclassifiable behaviour", "interesting individual", "radiates energy", "enigmatic", "mysterious entity", "threat assessment inconclusive", "intriguing specimen".
-
-==================================================
-ABSOLUTE BAN ON APPEARANCE ROASTING
-==================================================
-NEVER roast body shape, weight, skin, faces, attractiveness, race, gender, age, disability, health, or identity. Target SITUATION & BEHAVIOR only.
-
-NOW OBSERVE THE IMAGE AND GENERATE THE MOST UNHINGED ROAST POSSIBLE:`;
+NOW LOOK AT THE IMAGE AND ROAST WHAT YOU SEE:`;
 
 export async function analyzeScene(imageBase64: string): Promise<SceneAnalysis> {
   const client = getClient();
@@ -286,10 +253,12 @@ export async function generateNPC(observation: Observation, imageBase64?: string
   const client = getClient();
 
   const observationText = `
-Activity: ${observation.activity}
-Device: ${observation.device || "none visible"}
-Group size: ${observation.groupSize}
-Movement level: ${observation.movement}`;
+VISIBLE EVIDENCE:
+- Activity: ${observation.activity}
+- Device: ${observation.device || "none visible"}
+- Group size: ${observation.groupSize}
+- Movement: ${observation.movement}
+- Nearby objects: ${observation.nearbyObjects?.join(", ") || "none detected"}`;
 
   const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
     { text: NPC_GENERATION_PROMPT + observationText },
