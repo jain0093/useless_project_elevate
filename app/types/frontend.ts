@@ -35,6 +35,8 @@ export interface PersonDetection {
   width: number;
   /** Normalized bounding box: height (0-1) */
   height: number;
+  /** Nearby detected objects (e.g. ["cell phone", "laptop"]) */
+  nearbyObjects?: string[];
 }
 
 /** Ambient noise classification from microphone */

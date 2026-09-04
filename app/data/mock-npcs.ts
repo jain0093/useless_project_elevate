@@ -1,162 +1,125 @@
 // ============================================
-// NPC WATCH — Mock NPC Data for Frontend Demo
-// These mirror the backend fallback.ts shapes
+// NPC WATCH — YELLING MALAYALAM BRAINROT MOCK DATABASE
 // ============================================
 
 import type { NPCProfile, SceneAnalysis, Observation } from "@/lib/types";
 
 export const MOCK_NPCS: NPCProfile[] = [
   {
-    type: "THE DEADLINE WARRIOR",
-    activity: "Laptop combat",
-    socialBattery: 12,
-    braincells: 1.5,
-    threatLevel: "LOW",
-    quest: "Drink water. Your body is 60% deadline anxiety.",
-    opinion:
-      "This NPC has been fighting that laptop for an eternity. The laptop is winning.",
-    malayalamStatus: "പണി പാളി.",
-  },
-  {
-    type: "THE LOST FRESHIE",
-    activity: "Confused standing",
-    socialBattery: 87,
-    braincells: 4.2,
-    threatLevel: "NONE",
-    quest: "Find someone who looks equally confused. Form an alliance.",
-    opinion:
-      "This NPC has the map open but is walking in the wrong direction.",
-    malayalamStatus: "വഴി അറിയില്ല.",
-  },
-  {
-    type: "THE LOADING SCREEN",
-    activity: "Motionless staring",
-    socialBattery: 3,
+    type: "THE THUMB ATHLETE",
+    activity: "Vertical scrolling",
+    socialBattery: -5,
     braincells: 0.8,
-    threatLevel: "NONE",
-    quest: "Move approximately 4 metres. In any direction. Please.",
-    opinion:
-      "Bro is buffering. Someone check if the human has frozen.",
-    malayalamStatus: "ചുമ്മാ നിൽക്കുന്നു.",
+    threatLevel: "LOW",
+    quest: "Put the phone down for five seconds. This is your boss fight.",
+    opinion: "The phone is six inches from their face. Their thumb has been promoted to senior management. At this point the human is just the phone's carrying case.",
+    malayalamStatus: "ഡേയ് ഫോൺ വച്ച് പോയി ചത്തു തുലയെടാ!!",
   },
   {
-    type: "THE SIDE-QUEST NPC",
-    activity: "Wandering aimlessly",
-    socialBattery: 55,
-    braincells: 3.1,
-    threatLevel: "LOW",
-    quest: "Pretend you know where you are going. Walk with purpose.",
-    opinion:
-      "This NPC is clearly on a side quest. The main quest has been abandoned.",
-    malayalamStatus: "വെറുതേ നടക്കുവാ.",
+    type: "THE TAB HOARDER",
+    activity: "Laptop operations",
+    socialBattery: 12,
+    braincells: 0.4,
+    threatLevel: "MEDIUM",
+    quest: "Close one browser tab. Just one. Show courage.",
+    opinion: "Laptop open. Multiple tabs visible. Not one of them appears to be helping. This is no longer multitasking. This is digital hoarding.",
+    malayalamStatus: "ഇത് എന്തുവാടെ! ലാപ്ടോപ്പ് തുറന്നു വച്ച് സ്വപ്നം കാണുവാണോ ഫ്രോഡേ?!",
   },
   {
     type: "THE PROFESSIONAL CHUMMA-STANDER",
     activity: "Strategic standing",
-    socialBattery: 45,
-    braincells: 2.0,
+    socialBattery: 35,
+    braincells: 1.9,
     threatLevel: "NONE",
-    quest: "Stand somewhere else. For variety.",
-    opinion:
-      "This NPC has mastered the art of standing. No further skills detected.",
-    malayalamStatus: "സീൻ ഇല്ല.",
+    quest: "Move three metres and pretend it was intentional.",
+    opinion: "Standing completely still while the rest of the room continues functioning. No visible objective. No visible destination. Just raw NPC behaviour.",
+    malayalamStatus: "ഒരു പണിയും ചെയ്യാതെ ഇവിടെ വെറുതേ ഡെക്കറേഷൻ ആയി നിൽക്കുവാണോ?!",
   },
   {
-    type: "THE COUNCIL",
-    activity: "Group assembly",
-    socialBattery: 72,
-    braincells: 6.3,
+    type: "THE COUNCIL MEMBER",
+    activity: "Collective laptop inspection",
+    socialBattery: 70,
+    braincells: 2.8,
     threatLevel: "MEDIUM",
-    quest: "Determine the actual purpose of this meeting. Report findings.",
-    opinion:
-      "The council has assembled. Nobody knows why. Everyone pretends they do.",
-    malayalamStatus: "എന്താണ് ഈ സംഭവം?",
+    quest: "Convince your party that this meeting has no purpose.",
+    opinion: "Three people are staring at the same screen. Nobody appears to be touching the keyboard. This meeting has achieved the rare state of having participants but no function.",
+    malayalamStatus: "എന്താടാ അവിടെ എല്ലാവരും കൂടി തമാശ കളിക്കുന്നത്?! പണി പാളി!",
   },
   {
-    type: "THE BACKGROUND CHARACTER",
-    activity: "Existing quietly",
-    socialBattery: 30,
-    braincells: 5.0,
-    threatLevel: "NONE",
-    quest: "Continue existing. You are doing great.",
-    opinion:
-      "This NPC contributes to the atmosphere. Role unclear but vibes are stable.",
-    malayalamStatus: "ഒന്നും മനസ്സിലായില്ല.",
-  },
-  {
-    type: "UNKNOWN ENTITY",
-    activity: "Unclassifiable behaviour",
-    socialBattery: 50,
-    braincells: 9.9,
-    threatLevel: "HIGH",
-    quest: "Reveal your true quest line.",
-    opinion:
-      "The system cannot classify this entity. Threat assessment inconclusive.",
-    malayalamStatus: "ഇത് എന്താ സാധനം?",
-  },
-  {
-    type: "THE CHAI MERCHANT",
-    activity: "Beverage acquisition",
-    socialBattery: 68,
-    braincells: 7.0,
-    threatLevel: "NONE",
-    quest: "Share chai with a stranger. Gain +5 social battery.",
-    opinion:
-      "This NPC has identified the only meaningful quest in the entire venue.",
-    malayalamStatus: "പോയി ചായ കുടിക്ക്.",
-  },
-  {
-    type: "THE PHONE ARCHAEOLOGIST",
-    activity: "Intense phone scrolling",
-    socialBattery: 15,
-    braincells: 1.2,
+    type: "THE MOBILE NPC",
+    activity: "Walking + phone",
+    socialBattery: 20,
+    braincells: 1.1,
     threatLevel: "LOW",
-    quest: "Put the phone down for 30 seconds. Experience reality.",
-    opinion:
-      "This NPC has been scrolling for so long, the phone is now an extension of their hand.",
-    malayalamStatus: "ഫോണിൽ ജീവിക്കുന്നു.",
+    quest: "Reach your destination without becoming a loading screen.",
+    opinion: "Walking while looking at a rectangle. A bold collaboration between destiny and bad decision-making. The body has loaded. The brain has not.",
+    malayalamStatus: "അയ്യോ കഷ്ടം! നേരെ നോക്കി നടക്കെടാ മണ്ടച്ചാ!!",
   },
   {
-    type: "THE FINAL BOSS",
-    activity: "Intimidating presence",
-    socialBattery: 90,
-    braincells: 8.5,
-    threatLevel: "CRITICAL",
-    quest: "Maintain dominance. Do not break eye contact with the camera.",
-    opinion:
-      "This NPC radiates main character energy. All other NPCs are side characters now.",
-    malayalamStatus: "ആളൊരു ലെവലാ.",
+    type: "THE STATIONARY LEGEND",
+    activity: "Stationary observation",
+    socialBattery: -12,
+    braincells: 1.5,
+    threatLevel: "NONE",
+    quest: "Stand up. Participate in the economy.",
+    opinion: "An entire population is moving around them and this person has chosen to become furniture. Mobility has been temporarily disabled.",
+    malayalamStatus: "ഇത് എന്തുവാടെ! ജീവനോടെ ഉണ്ടോ അതോ ഡെഡ് ആയോ?!",
   },
   {
-    type: "THE SLEEP-DEPRIVED CODER",
-    activity: "Aggressive keyboard activity",
-    socialBattery: 5,
+    type: "THE CAFFEINE MERCHANT",
+    activity: "Beverage ingestion",
+    socialBattery: 50,
+    braincells: 5.2,
+    threatLevel: "NONE",
+    quest: "Locate caffeine. Replenish social battery.",
+    opinion: "Liquid acquired. The NPC has discovered the most advanced technology known to students: caffeine. Holding the cup like it contains the sum total of human wisdom.",
+    malayalamStatus: "പോയി ചായ കുടിച്ച് കിടന്നുറങ്ങടാ സാറെ!!",
+  },
+  {
+    type: "THE HUMAN SCREEN SAVER",
+    activity: "Motionless staring",
+    socialBattery: -10,
     braincells: 0.3,
-    threatLevel: "MEDIUM",
-    quest: "Close one browser tab. Just one. You can do it.",
-    opinion:
-      "This NPC's code is compiling. Their will to live is not.",
-    malayalamStatus: "ഉറങ്ങിക്കോ, നാളെ കൂടിയാം.",
+    threatLevel: "NONE",
+    quest: "Touch grass. Optional side quest.",
+    opinion: "One human detected standing in the same location like an NPC who forgot their dialogue tree. Someone check if the server crashed.",
+    malayalamStatus: "സീൻ കോണ്ട്ര മാൻ! എഴുന്നേറ്റു പോടെ മക്കളേ!!",
+  },
+  {
+    type: "THE DEPARTMENT OF DOING NOTHING",
+    activity: "Group inactivity",
+    socialBattery: 60,
+    braincells: 2.1,
+    threatLevel: "LOW",
+    quest: "Contribute one useful sentence to the committee.",
+    opinion: "Four people are standing together. One is holding a phone, three are watching them hold the phone. We have successfully created a local surveillance economy.",
+    malayalamStatus: "ശരി മക്കളേ! നാണം ഉണ്ടോടോ ഇങ്ങനെ നിൽക്കാൻ?!",
+  },
+  {
+    type: "THE HUMAN BUFFERING...",
+    activity: "Acoustic evasion",
+    socialBattery: -15,
+    braincells: 3.0,
+    threatLevel: "LOW",
+    quest: "Nod once to indicate you heard nothing that was just said.",
+    opinion: "Headphones firmly attached. A loud, non-verbal notification that society is currently muted. The individual is physically present but spiritually unreachable.",
+    malayalamStatus: "ഡേയ് ഹെഡ്ഫോൺ ഊരി വച്ച് മനുഷ്യന്മാര് പറയുന്നത് കേൾക്കെടോ!!",
   },
 ];
 
-/** Returns a random mock NPC */
 export function getRandomMockNPC(): NPCProfile {
   const index = Math.floor(Math.random() * MOCK_NPCS.length);
   return { ...MOCK_NPCS[index] };
 }
 
-/** Generates a mock scene analysis */
 export function getMockSceneAnalysis(): SceneAnalysis {
-  const count = Math.floor(Math.random() * 8) + 1;
+  const count = Math.floor(Math.random() * 6) + 1;
   const activities = [
-    "sitting",
-    "standing",
-    "walking",
-    "talking",
-    "looking around",
-    "typing furiously",
-    "staring at phone",
+    "sitting alone with phone",
+    "standing strategically",
+    "walking while reading",
+    "group laptop inspection",
+    "stationary gazing",
   ];
   const devices: (string | null)[] = [
     "laptop",
@@ -164,15 +127,16 @@ export function getMockSceneAnalysis(): SceneAnalysis {
     null,
     null,
     "tablet",
+    "beverage",
   ];
   const movements: Observation["movement"][] = ["low", "medium", "high"];
 
   const commentaries = [
-    `${count} HUMANS DETECTED. SCANNING FOR NPC BEHAVIOUR.`,
-    `${count} BIOLOGICAL ENTITIES LOCATED. ANALYSING THREAT LEVELS.`,
-    `DETECTED ${count} LIFE FORMS. MOST APPEAR HARMLESS.`,
-    `${count} SUBJECTS IN FRAME. INITIATING BEHAVIOURAL ANALYSIS.`,
-    `SCANNER REPORTS ${count} HUMANS. PURPOSE: UNCLEAR.`,
+    "ONE HUMAN DETECTED. PHONE IN HAND. ഡേയ് ഫോൺ വച്ച് പോയി ചത്തു തുലയെടാ!!",
+    "THREE HUMANS HAVE FORMED A COUNCIL. എന്താടാ അവിടെ തമാശ കളിക്കുന്നത്?!",
+    "FIVE HUMANS DETECTED. PRODUCTIVITY REMAINS A THEORETICAL CONCEPT. പണി പാളി!",
+    "ONE HUMAN HAS BEEN STANDING LIKE AN NPC. ഒരു പണിയും ചെയ്യാതെ വെറുതേ ഡെക്കറേഷൻ ആയോ?!",
+    "SEVEN HUMANS DETECTED. സീൻ കോണ്ട്ര മാൻ! എഴുന്നേറ്റു പോടെ!!",
   ];
 
   const observations: Observation[] = [];

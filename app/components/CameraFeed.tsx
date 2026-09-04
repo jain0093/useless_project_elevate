@@ -28,7 +28,7 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
     const streamRef = useRef<MediaStream | null>(null);
     const [status, setStatus] = useState<"ONLINE" | "OFFLINE" | "ERROR">("OFFLINE");
 
-    // Expose the video element to parent
+    // Expose video element
     useImperativeHandle(ref, () => ({
       getVideo: () => videoRef.current,
     }));
@@ -57,7 +57,7 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
       async function startCamera() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment", width: 640, height: 480 },
+            video: { facingMode: "environment", width: 1280, height: 720 },
             audio: false,
           });
           if (cancelled) {
@@ -115,72 +115,71 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
         const bw = det.width * w;
         const bh = det.height * h;
 
+        // Draw shadow glow for box
+        ctx.shadowColor = isSelected ? "#ffb700" : "#00f0ff";
+        ctx.shadowBlur = isSelected ? 16 : 8;
+
         // Box style
-        ctx.strokeStyle = isSelected ? "#ffab00" : "rgba(0, 229, 255, 0.6)";
+        ctx.strokeStyle = isSelected ? "#ffb700" : "rgba(0, 240, 255, 0.7)";
         ctx.lineWidth = isSelected ? 3 : 1.5;
-        ctx.setLineDash(isSelected ? [] : [6, 4]);
+        ctx.setLineDash(isSelected ? [] : [8, 4]);
         ctx.strokeRect(bx, by, bw, bh);
 
-        // Corner accents for selected
-        if (isSelected) {
-          const cornerLen = Math.min(bw, bh) * 0.15;
-          ctx.strokeStyle = "#ffab00";
-          ctx.lineWidth = 3;
-          ctx.setLineDash([]);
+        // Reset shadow
+        ctx.shadowBlur = 0;
 
-          // Top-left
-          ctx.beginPath();
-          ctx.moveTo(bx, by + cornerLen);
-          ctx.lineTo(bx, by);
-          ctx.lineTo(bx + cornerLen, by);
-          ctx.stroke();
-          // Top-right
-          ctx.beginPath();
-          ctx.moveTo(bx + bw - cornerLen, by);
-          ctx.lineTo(bx + bw, by);
-          ctx.lineTo(bx + bw, by + cornerLen);
-          ctx.stroke();
-          // Bottom-left
-          ctx.beginPath();
-          ctx.moveTo(bx, by + bh - cornerLen);
-          ctx.lineTo(bx, by + bh);
-          ctx.lineTo(bx + cornerLen, by + bh);
-          ctx.stroke();
-          // Bottom-right
-          ctx.beginPath();
-          ctx.moveTo(bx + bw - cornerLen, by + bh);
-          ctx.lineTo(bx + bw, by + bh);
-          ctx.lineTo(bx + bw, by + bh - cornerLen);
-          ctx.stroke();
-        }
+        // Corner accents for selected target
+        const cornerLen = Math.min(bw, bh) * 0.2;
+        ctx.strokeStyle = isSelected ? "#ffb700" : "#00f0ff";
+        ctx.lineWidth = isSelected ? 3 : 2;
+        ctx.setLineDash([]);
 
-        // Label
-        const label = isSelected
-          ? "NPC TARGET"
-          : `HUMAN #${i + 1}`;
-        ctx.font = `bold ${isSelected ? 11 : 9}px monospace`;
+        // Top-left
+        ctx.beginPath();
+        ctx.moveTo(bx, by + cornerLen);
+        ctx.lineTo(bx, by);
+        ctx.lineTo(bx + cornerLen, by);
+        ctx.stroke();
+        // Top-right
+        ctx.beginPath();
+        ctx.moveTo(bx + bw - cornerLen, by);
+        ctx.lineTo(bx + bw, by);
+        ctx.lineTo(bx + bw, by + cornerLen);
+        ctx.stroke();
+        // Bottom-left
+        ctx.beginPath();
+        ctx.moveTo(bx, by + bh - cornerLen);
+        ctx.lineTo(bx, by + bh);
+        ctx.lineTo(bx + cornerLen, by + bh);
+        ctx.stroke();
+        // Bottom-right
+        ctx.beginPath();
+        ctx.moveTo(bx + bw - cornerLen, by + bh);
+        ctx.lineTo(bx + bw, by + bh);
+        ctx.lineTo(bx + bw, by + bh - cornerLen);
+        ctx.stroke();
+
+        // Target label header
+        const label = isSelected ? "🎯 TARGET LOCK" : `HUMAN #${i + 1}`;
+        ctx.font = `bold ${isSelected ? 11 : 9}px "Share Tech Mono", monospace`;
         const textWidth = ctx.measureText(label).width;
-        ctx.fillStyle = isSelected
-          ? "rgba(255, 171, 0, 0.85)"
-          : "rgba(0, 229, 255, 0.7)";
-        ctx.fillRect(bx, by - (isSelected ? 18 : 14), textWidth + 8, isSelected ? 18 : 14);
+        ctx.fillStyle = isSelected ? "rgba(255, 183, 0, 0.95)" : "rgba(0, 240, 255, 0.85)";
+        ctx.fillRect(bx, by - (isSelected ? 20 : 16), textWidth + 10, isSelected ? 20 : 16);
         ctx.fillStyle = "#000";
-        ctx.fillText(label, bx + 4, by - 4);
+        ctx.fillText(label, bx + 5, by - (isSelected ? 5 : 4));
 
-        // Confidence for selected
-        if (isSelected) {
-          const confLabel = `${Math.round(det.confidence * 100)}%`;
-          ctx.font = "9px monospace";
-          ctx.fillStyle = "rgba(255, 171, 0, 0.7)";
-          ctx.fillText(confLabel, bx + 4, by + bh + 12);
-        }
+        // Confidence badge
+        const confLabel = `CONF: ${Math.round(det.confidence * 100)}%`;
+        ctx.font = '9px "Share Tech Mono", monospace';
+        ctx.fillStyle = isSelected ? "rgba(255, 183, 0, 0.85)" : "rgba(0, 240, 255, 0.7)";
+        ctx.fillText(confLabel, bx + 4, by + bh + 14);
       });
 
       ctx.setLineDash([]);
     }, [detections, selectedIndex, status]);
 
     return (
-      <div className="hud-panel hud-corners relative overflow-hidden aspect-[4/3] w-full bg-black">
+      <div className="hud-panel hud-corners relative overflow-hidden aspect-[4/3] w-full bg-black rounded-xs border border-npc-border">
         {/* Video element */}
         <video
           ref={videoRef}
@@ -195,63 +194,78 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
         {/* Detection overlay canvas */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0 w-full h-full pointer-events-none z-10"
         />
 
         {/* Grid overlay */}
-        <div className="absolute inset-0 camera-grid pointer-events-none" />
+        <div className="absolute inset-0 camera-grid pointer-events-none z-10" />
 
-        {/* Scanline sweep */}
+        {/* Center reticle */}
         {status === "ONLINE" && (
-          <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-npc-cyan/30 to-transparent animate-scanline pointer-events-none" />
+          <div className="reticle-center z-10 opacity-40 pointer-events-none" />
+        )}
+
+        {/* Laser scanline sweep */}
+        {status === "ONLINE" && (
+          <div className="absolute inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-npc-cyan to-transparent animate-scanline pointer-events-none z-20 shadow-[0_0_15px_#00f0ff]" />
         )}
 
         {/* Offline / Error state */}
         {status !== "ONLINE" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <div className="text-npc-text-dim text-xs tracking-[0.2em] uppercase">
-              {status === "ERROR" ? "CAMERA ERROR" : "NO CAMERA SIGNAL"}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+            <div className="w-12 h-12 border border-npc-cyan/30 rounded-full flex items-center justify-center animate-pulse-glow">
+              <span className="text-npc-cyan text-xl">📷</span>
+            </div>
+            <div className="text-npc-text-dim text-xs font-tech tracking-[0.2em] uppercase">
+              {status === "ERROR" ? "CAMERA FEED ERROR" : "FEED OFFLINE — STANDBY"}
             </div>
             {status === "ERROR" && (
-              <div className="text-npc-text-dim text-[10px] tracking-wider opacity-60">
-                PERMISSION DENIED OR DEVICE UNAVAILABLE
+              <div className="text-npc-red text-[10px] font-mono tracking-wider opacity-80">
+                PERMISSION DENIED OR CAMERA DISCONNECTED
               </div>
             )}
           </div>
         )}
 
-        {/* Status badge */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
-          <span
-            className={`status-dot ${
-              status === "ONLINE"
-                ? "status-online"
-                : status === "ERROR"
-                ? "status-error"
-                : "status-offline"
-            }`}
-          />
-          <span className="text-[10px] tracking-[0.15em] uppercase text-npc-text-mid">
-            {status === "ONLINE" ? "DETECTING" : `Camera ${status}`}
-          </span>
+        {/* Top left status badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-2 z-20">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-npc-border backdrop-blur-md">
+            <span
+              className={`status-dot ${
+                status === "ONLINE"
+                  ? "status-online"
+                  : status === "ERROR"
+                  ? "status-error"
+                  : "status-offline"
+              }`}
+            />
+            <span className="text-[10px] font-tech tracking-[0.15em] uppercase text-npc-text-mid">
+              {status === "ONLINE" ? "LIVE SURVEILLANCE" : `SIGNAL ${status}`}
+            </span>
+          </div>
+          {status === "ONLINE" && (
+            <div className="px-2 py-1 bg-npc-amber/10 border border-npc-amber/40 text-npc-amber text-[10px] font-tech font-bold tracking-wider">
+              {detections.length} DETECTED
+            </div>
+          )}
         </div>
 
-        {/* Live detection count */}
+        {/* Top right REC indicator */}
         {status === "ONLINE" && (
-          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/60">
-            <span className="text-[10px] tracking-[0.15em] text-npc-amber font-bold">
-              {detections.length} HUMAN{detections.length !== 1 ? "S" : ""}
+          <div className="absolute top-3 right-3 flex items-center gap-2 px-2.5 py-1 bg-black/80 border border-npc-red/40 z-20 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
+            <span className="text-[10px] font-tech tracking-[0.18em] text-npc-red font-bold uppercase">
+              REC // LIVE
             </span>
           </div>
         )}
 
-        {/* REC indicator */}
+        {/* Bottom bar tech telemetry */}
         {status === "ONLINE" && (
-          <div className="absolute top-3 right-3 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
-            <span className="text-[10px] tracking-[0.15em] text-npc-red">
-              REC
-            </span>
+          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-20 text-[9px] font-tech tracking-widest text-npc-text-dim/80 bg-black/60 px-3 py-1 border border-npc-border/40">
+            <span>RES: 1280x720</span>
+            <span>FPS: 30.0</span>
+            <span>MODE: COCO-SSD</span>
           </div>
         )}
       </div>

@@ -9,12 +9,16 @@
 export interface Observation {
   /** What the person/group is doing: sitting, standing, walking, talking, eating, etc. */
   activity: string;
-  /** Visible device if any: laptop, phone, tablet, book, or null */
+  /** Visible device if any: laptop, phone, tablet, book, beverage, or null */
   device: string | null;
   /** How many people in this observed group */
   groupSize: number;
   /** Observable movement level */
   movement: "low" | "medium" | "high";
+  /** Optional array of nearby detected objects */
+  nearbyObjects?: string[];
+  /** Optional posture tag */
+  posture?: string;
 }
 
 /** Structured response from the /api/analyze vision endpoint */
@@ -34,11 +38,11 @@ export type ThreatLevel = "NONE" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
 /** A fully generated NPC profile */
 export interface NPCProfile {
-  /** The NPC archetype name, e.g. "THE DEADLINE WARRIOR" */
+  /** The NPC archetype name, e.g. "THE THUMB ATHLETE" */
   type: string;
   /** Short description of what they're doing */
   activity: string;
-  /** Fictional social battery percentage (0-100) */
+  /** Fictional social battery percentage (-15 to 100) */
   socialBattery: number;
   /** Fictional braincell count (0-10, can be decimal) */
   braincells: number;
@@ -48,8 +52,10 @@ export interface NPCProfile {
   quest: string;
   /** Unsolicited AI opinion about this NPC */
   opinion: string;
-  /** Optional Malayalam-flavoured status line */
+  /** Malayalam status punchline */
   malayalamStatus: string;
+  /** Observed evidence breakdown string, e.g. "PHONE DETECTED • SEATED • ALONE" */
+  observedDetails?: string;
 }
 
 // --- API Request/Response Types ---
@@ -64,11 +70,12 @@ export interface AnalyzeRequest {
 export interface NPCRequest {
   /** The observation to generate an NPC from */
   observation: Observation;
+  /** Optional crop image */
+  image?: string;
 }
 
 // --- App State Types ---
 
-/** All possible phases of the NPC WATCH experience */
 export type AppPhase =
   | "INITIAL"
   | "CAMERA_PERMISSION"
@@ -83,7 +90,6 @@ export type AppPhase =
   | "NO_HUMANS"
   | "FALLBACK_MODE";
 
-/** Fictional world statistics */
 export interface WorldStats {
   humansDetected: number;
   npcsEncountered: number;
@@ -94,16 +100,13 @@ export interface WorldStats {
   currentVibe: string;
 }
 
-/** NPC history entry (grouped by type) */
 export interface NPCHistoryEntry {
   type: string;
   count: number;
 }
 
-/** System component status */
 export type SystemComponentStatus = "ONLINE" | "OFFLINE" | "ERROR" | "COOKED";
 
-/** System status indicators */
 export interface SystemStatus {
   camera: SystemComponentStatus;
   microphone: SystemComponentStatus;

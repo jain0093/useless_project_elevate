@@ -3,7 +3,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { PersonDetection } from "@/app/types/frontend";
 
-// We dynamically import COCO-SSD to avoid SSR issues
 type CocoSSDModel = {
   detect: (
     video: HTMLVideoElement
@@ -16,7 +15,17 @@ type CocoSSDModel = {
   >;
 };
 
-const CONFIDENCE_THRESHOLD = 0.50;
+const CONFIDENCE_THRESHOLD = 0.45;
+
+const TARGET_OBJECT_CLASSES = new Set([
+  "cell phone",
+  "laptop",
+  "book",
+  "backpack",
+  "bottle",
+  "cup",
+  "chair",
+]);
 
 export function usePersonDetector() {
   const [modelReady, setModelReady] = useState(false);
@@ -30,7 +39,6 @@ export function usePersonDetector() {
     loadingRef.current = true;
 
     try {
-      // Dynamic imports to avoid SSR bundling issues
       await import("@tensorflow/tfjs");
       const cocoSsd = await import("@tensorflow-models/coco-ssd");
       const model = await cocoSsd.load({ base: "lite_mobilenet_v2" });
@@ -48,7 +56,7 @@ export function usePersonDetector() {
   const detect = useCallback(
     async (video: HTMLVideoElement): Promise<PersonDetection[]> => {
       if (!modelRef.current) return [];
-      if (video.readyState < 2) return []; // Not enough data
+      if (video.readyState < 2) return [];
 
       try {
         const predictions = await modelRef.current.detect(video);
@@ -57,19 +65,40 @@ export function usePersonDetector() {
 
         if (vw === 0 || vh === 0) return [];
 
-        return predictions
-          .filter(
-            (p) => p.class === "person" && p.score >= CONFIDENCE_THRESHOLD
-          )
-          .map((p, index) => ({
+        const persons = predictions.filter(
+          (p) => p.class === "person" && p.score >= CONFIDENCE_THRESHOLD
+        );
+
+        const objects = predictions.filter(
+          (p) => TARGET_OBJECT_CLASSES.has(p.class) && p.score >= 0.35
+        );
+
+        return persons.map((p, index) => {
+          const px = p.bbox[0] / vw;
+          const py = p.bbox[1] / vh;
+          const pw = p.bbox[2] / vw;
+          const ph = p.bbox[3] / vh;
+
+          // Find objects close to this person bounding box
+          const nearby = objects
+            .filter((o) => {
+              const ox = o.bbox[0] / vw;
+              const oy = o.bbox[1] / vh;
+              // Simple box distance / overlap check
+              return Math.abs(ox - px) < pw + 0.3 && Math.abs(oy - py) < ph + 0.3;
+            })
+            .map((o) => o.class);
+
+          return {
             id: index,
             confidence: Math.round(p.score * 100) / 100,
-            // Normalize bbox to 0-1 range
-            x: p.bbox[0] / vw,
-            y: p.bbox[1] / vh,
-            width: p.bbox[2] / vw,
-            height: p.bbox[3] / vh,
-          }));
+            x: px,
+            y: py,
+            width: pw,
+            height: ph,
+            nearbyObjects: Array.from(new Set(nearby)),
+          };
+        });
       } catch (err) {
         console.error("[NPC WATCH] Detection error:", err);
         return [];

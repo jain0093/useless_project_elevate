@@ -3,9 +3,8 @@
 import { useRef, useCallback } from "react";
 
 /**
- * Controlled speech synthesis hook.
- * Ensures each encounter is spoken exactly once.
- * Respects muted state. Never triggers from re-renders.
+ * Controlled speech synthesis hook for UNHINGED YELLING & MALAYALAM BRAINROT.
+ * Ensures each encounter is spoken exactly once at maximum energy.
  */
 export function useSpeech() {
   const lastSpokenIdRef = useRef<number>(-1);
@@ -25,10 +24,29 @@ export function useSpeech() {
       window.speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
-      utterance.pitch = 0.8;
+      utterance.rate = 1.12; // Fast energetic yelling speed
+      utterance.pitch = 1.35; // High dramatic shouting pitch
+      utterance.volume = 1.0; // Maximum volume
 
-      // Mark as spoken BEFORE speaking to prevent any re-trigger
+      // Search for Malayalam voice (ml-IN) or Indian voice (hi-IN / en-IN)
+      const voices = window.speechSynthesis.getVoices();
+      const malluVoice =
+        voices.find(
+          (v) =>
+            v.lang.toLowerCase().includes("ml") ||
+            v.name.toLowerCase().includes("malayalam")
+        ) ||
+        voices.find(
+          (v) =>
+            v.lang.toLowerCase().includes("hi") ||
+            v.lang.toLowerCase().includes("en-in")
+        );
+
+      if (malluVoice) {
+        utterance.voice = malluVoice;
+      }
+
+      // Mark as spoken BEFORE speaking
       lastSpokenIdRef.current = encounterId;
 
       window.speechSynthesis.speak(utterance);

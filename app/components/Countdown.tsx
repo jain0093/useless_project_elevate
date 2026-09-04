@@ -2,6 +2,15 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 
+// Countdown warning messages that change as timer drops
+const COUNTDOWN_TAUNTS = [
+  "ഓടിക്കോ... AI വരുന്നു! 💀",
+  "NEXT ROAST LOADING...",
+  "NOBODY IS SAFE. 🔥",
+  "SCANNING FOR NPCs...",
+  "BRAINROT CHARGING... ⚡",
+];
+
 interface CountdownProps {
   /** Whether the countdown is actively running */
   active: boolean;
@@ -38,7 +47,6 @@ export default function Countdown({
     const interval = setInterval(() => {
       setCount((prev) => {
         if (prev <= 1) {
-          // Fire completion
           onCompleteRef.current();
           return duration;
         }
@@ -53,25 +61,26 @@ export default function Countdown({
 
   // Color shifts as countdown approaches zero
   const getCountColor = () => {
-    if (count <= 3) return "text-npc-red";
-    if (count <= 7) return "text-npc-amber";
-    return "text-npc-cyan";
+    if (count <= 3) return "text-npc-red drop-shadow-[0_0_30px_rgba(255,0,85,0.7)]";
+    if (count <= 7) return "text-npc-amber drop-shadow-[0_0_25px_rgba(255,183,0,0.5)]";
+    return "text-npc-cyan drop-shadow-[0_0_25px_rgba(0,240,255,0.4)]";
   };
 
-  const getGlowColor = () => {
-    if (count <= 3) return "drop-shadow-[0_0_20px_rgba(255,23,68,0.5)]";
-    if (count <= 7) return "drop-shadow-[0_0_20px_rgba(255,171,0,0.4)]";
-    return "drop-shadow-[0_0_20px_rgba(0,229,255,0.3)]";
-  };
+  // Pick a taunt based on count
+  const taunt = count <= 3
+    ? "🚨 ROAST IMMINENT 🚨"
+    : count <= 7
+    ? COUNTDOWN_TAUNTS[Math.floor(count / 2) % COUNTDOWN_TAUNTS.length]
+    : "NEXT SCAN IN";
 
   return (
-    <div className="hud-panel p-4 flex flex-col items-center gap-2">
-      <span className="text-[10px] tracking-[0.2em] uppercase text-npc-text-dim">
-        Next NPC Scan In
+    <div className="hud-panel p-4 sm:p-5 flex flex-col items-center justify-center gap-2 rounded-xs border border-npc-border bg-npc-surface/90">
+      <span className="text-xs font-tech tracking-[0.2em] uppercase text-npc-text-dim font-bold">
+        {taunt}
       </span>
 
       <div
-        className={`text-5xl sm:text-6xl font-bold tabular-nums ${getCountColor()} ${getGlowColor()} transition-colors duration-300 ${
+        className={`text-6xl sm:text-7xl font-orbitron font-black tabular-nums ${getCountColor()} transition-all duration-300 ${
           animating ? "animate-countdown-pulse" : ""
         }`}
       >
@@ -79,7 +88,7 @@ export default function Countdown({
       </div>
 
       {/* Progress bar */}
-      <div className="w-full max-w-[200px] stat-bar mt-1">
+      <div className="w-full max-w-[240px] stat-bar mt-1">
         <div
           className={`stat-bar-fill ${
             count <= 3
@@ -91,12 +100,6 @@ export default function Countdown({
           style={{ width: active ? `${(count / duration) * 100}%` : "0%" }}
         />
       </div>
-
-      {!active && (
-        <span className="text-[10px] tracking-[0.15em] text-npc-text-dim mt-1">
-          SCANNER STANDBY
-        </span>
-      )}
     </div>
   );
 }

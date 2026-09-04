@@ -54,7 +54,19 @@ export async function POST(request: Request) {
         const validated = validateNPCProfile(rawResult);
 
         if (validated) {
-          return Response.json(validated);
+          const deviceTag = validatedObservation.device
+            ? `${validatedObservation.device.toUpperCase()} DETECTED`
+            : "NO DEVICE VISIBLE";
+          const groupTag = validatedObservation.groupSize > 1
+            ? `GROUP OF ${validatedObservation.groupSize}`
+            : "SOLO TARGET";
+          
+          const observedSummary = validated.observedDetails || `${deviceTag} • ${groupTag}`;
+
+          return Response.json({
+            ...validated,
+            observedDetails: observedSummary,
+          });
         }
 
         lastError = new Error("AI returned invalid NPC profile structure");
@@ -69,8 +81,10 @@ export async function POST(request: Request) {
     // All retries failed — use fallback
     console.error("[NPC WATCH] NPC generation failed after retries:", lastError?.message);
     const fallback = getRandomFallbackNPC();
+    const fallbackDevice = validatedObservation.device ? `${validatedObservation.device.toUpperCase()} DETECTED` : "TARGET OBSERVED";
     return Response.json({
       ...fallback,
+      observedDetails: fallback.observedDetails || `${fallbackDevice} • GROUP OF ${validatedObservation.groupSize}`,
       _fallback: true,
       _error: "AI brain temporarily cooked. Deploying emergency NPC.",
     });
@@ -80,6 +94,7 @@ export async function POST(request: Request) {
     const fallback = getRandomFallbackNPC();
     return Response.json({
       ...fallback,
+      observedDetails: fallback.observedDetails || "TARGET OBSERVED • LIVE FEED",
       _fallback: true,
       _error: "NPC generator malfunction. Emergency NPC deployed.",
     });

@@ -1,131 +1,111 @@
 // ============================================
-// 🎴 NPC WATCH — Emergency NPC Database
-// WHEN THE AI BRAIN IS COOKED, THESE SAVE US.
+// 🎴 NPC WATCH — MAXIMUM BRAINROT FALLBACKS
+// Real Malayalam meme energy
 // ============================================
 
 import type { NPCProfile, SceneAnalysis } from "./types";
 
-/** Pre-written fallback NPCs for when AI is unavailable */
+/** Pre-written unhinged fallback NPCs with real Malayalam meme punchlines */
 const FALLBACK_NPCS: NPCProfile[] = [
   {
-    type: "THE DEADLINE WARRIOR",
-    activity: "Laptop combat",
-    socialBattery: 12,
-    braincells: 1.5,
-    threatLevel: "LOW",
-    quest: "Drink water. Your body is 60% deadline anxiety.",
-    opinion: "This NPC has been fighting that laptop for an eternity. The laptop is winning.",
-    malayalamStatus: "പണി പാളി.",
-  },
-  {
-    type: "THE LOST FRESHIE",
-    activity: "Confused standing",
-    socialBattery: 87,
-    braincells: 4.2,
-    threatLevel: "NONE",
-    quest: "Find someone who looks equally confused. Form an alliance.",
-    opinion: "This NPC has the map open but is walking in the wrong direction.",
-    malayalamStatus: "വഴി അറിയില്ല.",
-  },
-  {
-    type: "THE LOADING SCREEN",
-    activity: "Motionless staring",
-    socialBattery: 3,
+    type: "THE THUMB ATHLETE",
+    activity: "Vertical scrolling",
+    socialBattery: -5,
     braincells: 0.8,
-    threatLevel: "NONE",
-    quest: "Move approximately 4 metres. In any direction. Please.",
-    opinion: "Bro is buffering. Someone check if the human has frozen.",
-    malayalamStatus: "ചുമ്മാ നിൽക്കുന്നു.",
+    threatLevel: "LOW",
+    quest: "Put the phone down for 5 seconds. This is your final boss fight.",
+    opinion: "Bro's phone is so close to their face it's basically an eye exam. The thumb has been promoted to CEO. At this point the human is just the phone's carrying case.",
+    malayalamStatus: "ഡേയ് ഫോൺ വയ്ക്കടേ! ജീവിതം ഉണ്ട്! 💀",
   },
   {
-    type: "THE SIDE-QUEST NPC",
-    activity: "Wandering aimlessly",
-    socialBattery: 55,
-    braincells: 3.1,
-    threatLevel: "LOW",
-    quest: "Pretend you know where you are going. Walk with purpose.",
-    opinion: "This NPC is clearly on a side quest. The main quest has been abandoned.",
-    malayalamStatus: "വെറുതേ നടക്കുവാ.",
+    type: "THE TAB HOARDER",
+    activity: "Laptop operations",
+    socialBattery: 12,
+    braincells: 0.4,
+    threatLevel: "MEDIUM",
+    quest: "Close one browser tab. Just one. We believe in you.",
+    opinion: "Laptop open. 47 tabs. Zero of them are helping. The cursor hasn't moved in 8 minutes. Academic comeback: missing, presumed dead, family notified.",
+    malayalamStatus: "ലാപ്ടോപ്പ് തുറന്നു വച്ച് Netflix കാണുവാണോ?! ചേട്ടാ ഒരു ലൈഫ് തരുമോ? 💀",
   },
   {
     type: "THE PROFESSIONAL CHUMMA-STANDER",
     activity: "Strategic standing",
-    socialBattery: 45,
-    braincells: 2.0,
+    socialBattery: 35,
+    braincells: 1.9,
     threatLevel: "NONE",
-    quest: "Stand somewhere else. For variety.",
-    opinion: "This NPC has mastered the art of standing. No further skills detected.",
-    malayalamStatus: "സീൻ ഇല്ല.",
+    quest: "Walk somewhere with actual purpose. Side quest: remember why.",
+    opinion: "One human has loaded into the scene but their quest log is empty. They're standing like a mannequin that gained consciousness but hasn't decided what to do with it yet.",
+    malayalamStatus: "ഇത്ര ചുമ്മാ ആയാൽ ഗവൺമെന്റ് job കിട്ടും! 😂",
   },
   {
-    type: "THE COUNCIL",
-    activity: "Group assembly",
-    socialBattery: 72,
-    braincells: 6.3,
+    type: "THE COUNCIL MEMBER",
+    activity: "Collective laptop inspection",
+    socialBattery: 70,
+    braincells: 2.8,
     threatLevel: "MEDIUM",
-    quest: "Determine the actual purpose of this meeting. Report findings.",
-    opinion: "The council has assembled. Nobody knows why. Everyone pretends they do.",
-    malayalamStatus: "എന്താണ് ഈ സംഭവം?",
+    quest: "Contribute one useful sentence to the group. Difficulty: IMPOSSIBLE.",
+    opinion: "Four humans have formed a circle of mutual uselessness. Combined productivity: 0. Combined confidence: 100. The keyboard is doing more work than all of them combined.",
+    malayalamStatus: "സർ ഇത് college ആണ്, ചന്ത അല്ല! 😂 പണി പാളി!",
   },
   {
-    type: "THE BACKGROUND CHARACTER",
-    activity: "Existing quietly",
-    socialBattery: 30,
-    braincells: 5.0,
-    threatLevel: "NONE",
-    quest: "Continue existing. You are doing great.",
-    opinion: "This NPC contributes to the atmosphere. Role unclear but vibes are stable.",
-    malayalamStatus: "ഒന്നും മനസ്സിലായില്ല.",
-  },
-  {
-    type: "UNKNOWN ENTITY",
-    activity: "Unclassifiable behaviour",
-    socialBattery: 50,
-    braincells: 9.9,
-    threatLevel: "HIGH",
-    quest: "Reveal your true quest line.",
-    opinion: "The system cannot classify this entity. Threat assessment inconclusive.",
-    malayalamStatus: "ഇത് എന്താ സാധനം?",
-  },
-  {
-    type: "THE CHAI MERCHANT",
-    activity: "Beverage acquisition",
-    socialBattery: 68,
-    braincells: 7.0,
-    threatLevel: "NONE",
-    quest: "Share chai with a stranger. Gain +5 social battery.",
-    opinion: "This NPC has identified the only meaningful quest in the entire venue.",
-    malayalamStatus: "പോയി ചായ കുടിക്ക്.",
-  },
-  {
-    type: "THE PHONE ARCHAEOLOGIST",
-    activity: "Intense phone scrolling",
-    socialBattery: 15,
-    braincells: 1.2,
+    type: "THE WALKING LOADING SCREEN",
+    activity: "Walking + phone",
+    socialBattery: 20,
+    braincells: 1.1,
     threatLevel: "LOW",
-    quest: "Put the phone down for 30 seconds. Experience reality.",
-    opinion: "This NPC has been scrolling for so long, the phone is now an extension of their hand.",
-    malayalamStatus: "ഫോണിൽ ജീവിക്കുന്നു.",
+    quest: "Look up from the phone. Achievement: Peripheral Vision Unlocked.",
+    opinion: "Currently navigating the physical world using a screen instead of eyes. Darwin would be fascinated. Their WiFi signal has more sense of direction than them.",
+    malayalamStatus: "നേരെ നോക്കി നടക്കെടാ! AI പറഞ്ഞതാ! ഓടിക്കോ! 🔥",
   },
   {
-    type: "THE FINAL BOSS",
-    activity: "Intimidating presence",
-    socialBattery: 90,
-    braincells: 8.5,
-    threatLevel: "CRITICAL",
-    quest: "Maintain dominance. Do not break eye contact with the camera.",
-    opinion: "This NPC radiates main character energy. All other NPCs are side characters now.",
-    malayalamStatus: "ആളൊരു ലെവലാ.",
+    type: "THE CAMPUS FURNITURE",
+    activity: "Stationary existence",
+    socialBattery: -12,
+    braincells: 1.5,
+    threatLevel: "NONE",
+    quest: "Stand up. Participate in the economy. Touch grass optional.",
+    opinion: "An entire population is moving around them and this person has chosen to become furniture. They have been in this exact position so long they should start charging rent.",
+    malayalamStatus: "ജീവിതത്തിൽ ഇത്ര ചുമ്മാ ആയിട്ട് ആരും ഇല്ല! 💀",
   },
   {
-    type: "THE SLEEP-DEPRIVED CODER",
-    activity: "Aggressive keyboard activity",
-    socialBattery: 5,
+    type: "THE SCREEN STARE CHAMPION",
+    activity: "Motionless staring",
+    socialBattery: -10,
     braincells: 0.3,
-    threatLevel: "MEDIUM",
-    quest: "Close one browser tab. Just one. You can do it.",
-    opinion: "This NPC's code is compiling. Their will to live is not.",
-    malayalamStatus: "ഉറങ്ങിക്കോ, നാളെ കൂടിയാം.",
+    threatLevel: "NONE",
+    quest: "Blink. Please. The AI is concerned.",
+    opinion: "One human detected staring at a screen with the intensity of someone defusing a bomb. Spoiler: they're reading a WhatsApp forward from their family group.",
+    malayalamStatus: "എന്താ ആ screen-ൽ? ജീവിതത്തിന്റെ meaning കണ്ടോ?! 😭💀",
+  },
+  {
+    type: "THE DEPARTMENT OF DOING NOTHING",
+    activity: "Group inactivity",
+    socialBattery: 60,
+    braincells: 2.1,
+    threatLevel: "LOW",
+    quest: "Assign one person in this group an actual task. Any task.",
+    opinion: "Five people are standing together. One is holding a phone, four are watching them hold the phone. This is the Indian education system in one frame.",
+    malayalamStatus: "എല്ലാരും കൂടി ഒരാളുടെ phone നോക്കി ഇരിക്കുവാണോ?! പണി കിട്ടി! 💀",
+  },
+  {
+    type: "THE ATTENDANCE NPC",
+    activity: "Existing for attendance",
+    socialBattery: 5,
+    braincells: 0.5,
+    threatLevel: "LOW",
+    quest: "Stay awake for 10 more minutes. This is your side quest.",
+    opinion: "This human showed up purely for attendance and their soul left approximately 4 minutes after arrival. The body remains. The spirit does not.",
+    malayalamStatus: "ക്ലാസ്സ് കട്ട് ചെയ്ത് ഇവിടെ ഇരിക്കുവാണോ?! പോയി പഠിക്കെടാ! 💀",
+  },
+  {
+    type: "THE PROFESSIONAL OXYGEN WASTER",
+    activity: "Advanced breathing",
+    socialBattery: -15,
+    braincells: 0.2,
+    threatLevel: "NONE",
+    quest: "Do literally anything. The bar is underground and you're still limbo dancing under it.",
+    opinion: "Headphones firmly attached. Society is currently muted. The individual is physically present but spiritually unreachable. Their ancestors survived famines for this moment.",
+    malayalamStatus: "ഡേയ് ഹെഡ്ഫോൺ ഊരി വച്ച് real world-ലേക്ക് വാ! 😂 ജീവിതം ഉണ്ട്!",
   },
 ];
 
@@ -137,18 +117,23 @@ export function getRandomFallbackNPC(): NPCProfile {
 
 /** Returns a fallback scene analysis */
 export function getFallbackSceneAnalysis(): SceneAnalysis {
-  const count = Math.floor(Math.random() * 8) + 1;
-  const activities = ["sitting", "standing", "walking", "talking", "looking around"];
-  const devices = ["laptop", "phone", null, null, "tablet"];
+  const count = Math.floor(Math.random() * 6) + 1;
+  const activities = [
+    "sitting alone with phone",
+    "standing strategically",
+    "walking while reading",
+    "group laptop inspection",
+    "stationary gazing",
+  ];
+  const devices = ["laptop", "phone", null, null, "tablet", "beverage"];
   const movements: Array<"low" | "medium" | "high"> = ["low", "medium", "high"];
 
   const commentaries = [
-    "AI brain temporarily cooked. Estimating scene from emergency protocols.",
-    "Vision system is napping. Deploying backup observations.",
-    "The AI blinked. Generating approximate scene data.",
-    "Neural pathways are buffering. Here is what the backup sensors think.",
-    "Primary AI is having an existential crisis. Backup engaged.",
-    "AI decided to take a chai break. Emergency mode activated.",
+    "ONE HUMAN DETECTED. PHONE IN HAND. SOUL IN AIRPLANE MODE. ഡേയ് ഫോൺ വയ്ക്കടേ! 💀",
+    "THREE HUMANS FORMED A COUNCIL OF DOING NOTHING. പണി പാളി! 😂",
+    "FIVE HUMANS DETECTED. COMBINED PRODUCTIVITY: NEGATIVE. ഓടിക്കോ മക്കളേ! 🔥",
+    "ONE HUMAN STANDING LIKE A MANNEQUIN WITH DREAMS. ചുമ്മാ ഡെക്കറേഷൻ! 💀",
+    "SEVEN HUMANS DETECTED. THE AI IS LOSING HOPE IN HUMANITY. ദൈവമേ... 😭",
   ];
 
   const observations = [];
@@ -169,5 +154,4 @@ export function getFallbackSceneAnalysis(): SceneAnalysis {
   };
 }
 
-/** All fallback NPCs for reference */
 export const ALL_FALLBACK_NPCS = FALLBACK_NPCS;
