@@ -21,25 +21,27 @@ import NPCHistory from "@/app/components/NPCHistory";
 // ============================================
 
 const SOLO_COMMENTARIES = [
-  "ONE HUMAN DETECTED. PHONE IN HAND. SOUL CURRENTLY IN AIRPLANE MODE. ഡേയ് ഫോൺ വച്ച് പോയി ചത്തു തുലയെടാ!! 💀",
-  "ONE HUMAN DETECTED. PARKED IN PLACE LIKE AN NPC WHO FORGOT THEIR DIALOGUE TREE. ഒരു പണിയും ചെയ്യാതെ ഇവിടെ നിൽക്കുവാണോ?! 😭",
-  "ONE HUMAN DETECTED. THE RECTANGLE HAS WON CUSTODY OF THEIR ATTENTION. പണി പാളി ജീവനോടെ പോയി!! 💀",
-  "ONE HUMAN DETECTED. STANDING MOTIONLESS IN THE RENDER DISTANCE. സീൻ കോണ്ട്ര മാൻ!! ഓടിക്കോ! 🔥",
-  "RARE SPECIES SPOTTED: A HUMAN DOING ABSOLUTELY NOTHING WITH MAXIMUM CONFIDENCE. ഇത് talent ആണ് ഭായ്! 😂",
-  "ONE NPC LOCATED. THE SERVER TRIED TO GIVE THEM A PURPOSE. REQUEST TIMED OUT. ലൈഫ് buffering... 💀",
-  "SOLO HUMAN. SCROLLING. THE THUMB HAS DEVELOPED FEELINGS. THE BRAIN HAS NOT. ഫോൺ ഇറക്കി വയ്ക്കടേ! 😭",
-  "ONE PERSON DETECTED. CONTRIBUTING TO CAMPUS BY... OCCUPYING SPACE. RENT FREE. ചുമ്മാ ഡെക്കറേഷൻ! 💀",
+  "POV: You're waiting for the main character to arrive. 💀",
+  "Bro is buffering in real life. 😭",
+  "Aura level: Unemployed. 🔥",
+  "Standing there like a GTA NPC waiting to be robbed. 😂",
+  "Bro's ping is definitely 999ms right now. 💀",
+  "Bro thinks he's the thinker. 😭"
 ];
 
 const GROUP_COMMENTARIES = [
-  "{n} HUMANS HAVE ASSEMBLED. PRODUCTIVITY HAS NOT. എന്താടാ അവിടെ തമാശ കളിക്കുന്നത്?! 💀",
-  "{n} HUMANS DETECTED. ONE LAPTOP IS CURRENTLY CARRYING ENTIRE CIVILIZATION. പണി പാളി!! 😭",
-  "{n} HUMANS SURROUNDED ONE SCREEN. NOBODY IS TYPING. DEMOCRACY AT WORK. എന്തുവാടെ ഇത്?! 🔥",
-  "{n} NPCS IN A CLUSTER. COLLECTIVE BRAIN POWER: ONE CALCULATOR BATTERY. ആരെങ്കിലും ഒരു പണി എടുക്കെടാ! 💀",
-  "{n} HUMANS FORMED A COMMITTEE. AGENDA: NONE. OUTCOME: ALSO NONE. MINUTES: WHY BOTHER. സർ ഇത് college ആണ്, parliament അല്ല! 😂",
-  "{n} PEOPLE STANDING TOGETHER. WIFI HAS MORE DIRECTION THAN ALL OF THEM COMBINED. ഓടിക്കോ മക്കളേ!! 💀",
-  "{n} HUMANS DETECTED. THE AI IS LOSING HOPE IN HUMANITY ONE PIXEL AT A TIME. ദൈവമേ... 😭",
-  "{n} NPCS IN FORMATION. ENERGY LEVEL: SWITCHED OFF UPS. MOTIVATION: 404 NOT FOUND. പോയി രണ്ട് പേജ് പഠിക്കടേ! 💀",
+  "The council of unemployeds has assembled. 💀",
+  "Me and the boys discussing how to fail together. 😭",
+  "Wifi router has more direction than this entire group. 🔥",
+  "Aura debt is increasing in this area. 😂",
+  "POV: Group project where nobody knows what to do. 💀"
+];
+
+const MEME_SOUNDS = [
+  "/audio/meme1.mp3",
+  "/audio/meme2.mp3",
+  "/audio/meme3.mp3",
+  "/audio/meme4.mp3"
 ];
 
 export default function Home() {
@@ -183,11 +185,14 @@ export default function Home() {
         ...prev
       ]);
 
-      // Speak the roast
-      const spokenText = `${humanCommentary} NPC DETECTED. ${npcData.type}. ${npcData.opinion} Quest: ${npcData.quest}. ${npcData.malayalamStatus}`;
-
+      // Play a trending meme sound instead of TTS
       setTimeout(() => {
-        speak(newEncounterId, spokenText, audioMuted);
+        if (!audioMuted) {
+          const randomSound = MEME_SOUNDS[Math.floor(Math.random() * MEME_SOUNDS.length)];
+          const audio = new Audio(randomSound);
+          audio.volume = 0.8;
+          audio.play().catch(e => console.warn("Audio play blocked by browser:", e));
+        }
       }, 1600);
       
     } catch (err) {
@@ -277,7 +282,6 @@ export default function Home() {
                 active={scanning}
                 detections={liveDetections}
                 selectedIndex={selectedDetectionIndex}
-                onStatusChange={() => {}}
               />
               <NPCHistory encounters={encounters} />
             </div>
