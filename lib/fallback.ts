@@ -15,7 +15,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "LOW",
     quest: "Drink water. Your body is 60% deadline anxiety.",
     opinion: "This NPC has been fighting that laptop for an eternity. The laptop is winning.",
-    malayalamStatus: "Pani paali bro.",
+    malayalamStatus: "പണി പാളി.",
   },
   {
     type: "THE LOST FRESHIE",
@@ -25,7 +25,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Find someone who looks equally confused. Form an alliance.",
     opinion: "This NPC has the map open but is walking in the wrong direction.",
-    malayalamStatus: "Entha mone, vazi ariyunnundo?",
+    malayalamStatus: "വഴി അറിയില്ല.",
   },
   {
     type: "THE LOADING SCREEN",
@@ -35,7 +35,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Move approximately 4 metres. In any direction. Please.",
     opinion: "Bro is buffering. Someone check if the human has frozen.",
-    malayalamStatus: "Chumma nilkkunnu, oru karyavum illa.",
+    malayalamStatus: "ചുമ്മാ നിൽക്കുന്നു.",
   },
   {
     type: "THE SIDE-QUEST NPC",
@@ -45,7 +45,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "LOW",
     quest: "Pretend you know where you are going. Walk with purpose.",
     opinion: "This NPC is clearly on a side quest. The main quest has been abandoned.",
-    malayalamStatus: "Veruthe nadakkuva.",
+    malayalamStatus: "വെറുതേ നടക്കുവാ.",
   },
   {
     type: "THE PROFESSIONAL CHUMMA-STANDER",
@@ -55,7 +55,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Stand somewhere else. For variety.",
     opinion: "This NPC has mastered the art of standing. No further skills detected.",
-    malayalamStatus: "Scene illa, chumma nilkkuva.",
+    malayalamStatus: "സീൻ ഇല്ല.",
   },
   {
     type: "THE COUNCIL",
@@ -65,7 +65,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "MEDIUM",
     quest: "Determine the actual purpose of this meeting. Report findings.",
     opinion: "The council has assembled. Nobody knows why. Everyone pretends they do.",
-    malayalamStatus: "Ithentha sambhavam? Aarum ariyilla.",
+    malayalamStatus: "എന്താണ് ഈ സംഭവം?",
   },
   {
     type: "THE BACKGROUND CHARACTER",
@@ -75,7 +75,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Continue existing. You are doing great.",
     opinion: "This NPC contributes to the atmosphere. Role unclear but vibes are stable.",
-    malayalamStatus: "Onnum manasilayilla.",
+    malayalamStatus: "ഒന്നും മനസ്സിലായില്ല.",
   },
   {
     type: "UNKNOWN ENTITY",
@@ -85,7 +85,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "HIGH",
     quest: "Reveal your true quest line.",
     opinion: "The system cannot classify this entity. Threat assessment inconclusive.",
-    malayalamStatus: "Eda ithu entha?",
+    malayalamStatus: "ഇത് എന്താ സാധനം?",
   },
   {
     type: "THE CHAI MERCHANT",
@@ -95,7 +95,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Share chai with a stranger. Gain +5 social battery.",
     opinion: "This NPC has identified the only meaningful quest in the entire venue.",
-    malayalamStatus: "Poi chaaya kudikk.",
+    malayalamStatus: "പോയി ചായ കുടിക്ക്.",
   },
   {
     type: "THE PHONE ARCHAEOLOGIST",
@@ -105,7 +105,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "LOW",
     quest: "Put the phone down for 30 seconds. Experience reality.",
     opinion: "This NPC has been scrolling for so long, the phone is now an extension of their hand.",
-    malayalamStatus: "Phone-il entha kanduvo, aarum ariyilla.",
+    malayalamStatus: "ഫോണിൽ ജീവിക്കുന്നു.",
   },
   {
     type: "THE FINAL BOSS",
@@ -115,7 +115,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "CRITICAL",
     quest: "Maintain dominance. Do not break eye contact with the camera.",
     opinion: "This NPC radiates main character energy. All other NPCs are side characters now.",
-    malayalamStatus: "Adi poli, boss vannu!",
+    malayalamStatus: "ആളൊരു ലെവലാ.",
   },
   {
     type: "THE SLEEP-DEPRIVED CODER",
@@ -125,7 +125,7 @@ const FALLBACK_NPCS: NPCProfile[] = [
     threatLevel: "MEDIUM",
     quest: "Close one browser tab. Just one. You can do it.",
     opinion: "This NPC's code is compiling. Their will to live is not.",
-    malayalamStatus: "Urangikko mone, nale koodiyaam.",
+    malayalamStatus: "ഉറങ്ങിക്കോ, നാളെ കൂടിയാം.",
   },
 ];
 

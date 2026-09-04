@@ -251,6 +251,45 @@ body {
 .animate-countdown-pulse { animation: countdown-pulse 1s ease-in-out; }
 .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
 
+/* ---- Malayalam Punchline Delayed Reveal ---- */
+@keyframes punchline-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+    filter: blur(0);
+  }
+  80% {
+    transform: translateY(1px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes punchline-glow {
+  0% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 20px rgba(0, 229, 255, 0.6), 0 0 40px rgba(0, 229, 255, 0.2); }
+  100% { text-shadow: 0 0 12px rgba(0, 229, 255, 0.3); }
+}
+
+.malayalam-punchline-container {
+  min-height: 2em;
+}
+
+.malayalam-punchline {
+  opacity: 0;
+  animation:
+    punchline-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards,
+    punchline-glow 0.8s ease-out 1.5s forwards;
+}
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
   width: 4px;

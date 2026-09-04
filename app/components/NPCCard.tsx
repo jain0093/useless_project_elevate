@@ -130,25 +130,20 @@ export default function NPCCard({ npc }: NPCCardProps) {
         </p>
       </div>
 
-      {/* AI Opinion */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[10px] tracking-[0.15em] text-npc-text-dim">
-          AI OPINION
-        </span>
-        <p className="text-xs text-npc-text-mid leading-relaxed">
-          &ldquo;{npc.opinion}&rdquo;
-        </p>
-      </div>
-
-      {/* Malayalam Status */}
+      {/* AI VERDICT — The Punchline */}
       {npc.malayalamStatus && (
-        <div className="pt-2 border-t border-npc-border">
-          <span className="text-[10px] tracking-[0.15em] text-npc-text-dim block mb-1">
-            MALAYALAM STATUS
+        <div className="pt-3 border-t border-npc-cyan/20 flex flex-col gap-2">
+          <span className="text-[10px] tracking-[0.3em] text-npc-cyan/60 uppercase text-center">
+            AI Verdict
           </span>
-          <p className="text-xs text-npc-cyan-dim italic">
-            &ldquo;{npc.malayalamStatus}&rdquo;
+          <p className="text-xs text-npc-text-mid leading-relaxed text-center italic">
+            &ldquo;{npc.opinion}&rdquo;
           </p>
+          <div className="malayalam-punchline-container">
+            <p className="malayalam-punchline text-base sm:text-lg text-npc-cyan font-bold text-center tracking-wide drop-shadow-[0_0_12px_rgba(0,229,255,0.4)]">
+              {npc.malayalamStatus}
+            </p>
+          </div>
         </div>
       )}
     </div>

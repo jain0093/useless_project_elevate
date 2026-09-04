@@ -143,7 +143,7 @@ export function validateNPCProfile(data: unknown): NPCProfile | null {
   const malayalamStatus =
     typeof raw.malayalamStatus === "string" && raw.malayalamStatus.trim().length > 0
       ? raw.malayalamStatus.trim().slice(0, 200)
-      : "Chumma.";
+      : "ചുമ്മാ.";
 
   return {
     type,
