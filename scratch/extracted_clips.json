@@ -1,0 +1,322 @@
+[
+  {
+    "id": "meme-001",
+    "file": "/audio/memes/meme-001.mp3",
+    "originalIndex": 1,
+    "start": 0,
+    "end": 1.0529929999999998,
+    "duration": 1.05
+  },
+  {
+    "id": "meme-002",
+    "file": "/audio/memes/meme-002.mp3",
+    "originalIndex": 2,
+    "start": 2.021247,
+    "end": 3.410907,
+    "duration": 1.39
+  },
+  {
+    "id": "meme-003",
+    "file": "/audio/memes/meme-003.mp3",
+    "originalIndex": 3,
+    "start": 5.313878,
+    "end": 8.093831999999999,
+    "duration": 2.78
+  },
+  {
+    "id": "meme-004",
+    "file": "/audio/memes/meme-004.mp3",
+    "originalIndex": 4,
+    "start": 8.744558,
+    "end": 11.963673,
+    "duration": 3.22
+  },
+  {
+    "id": "meme-005",
+    "file": "/audio/memes/meme-005.mp3",
+    "originalIndex": 5,
+    "start": 13.151814,
+    "end": 16.405125,
+    "duration": 3.25
+  },
+  {
+    "id": "meme-006",
+    "file": "/audio/memes/meme-006.mp3",
+    "originalIndex": 6,
+    "start": 16.999501000000002,
+    "end": 17.821837000000002,
+    "duration": 0.82
+  },
+  {
+    "id": "meme-007",
+    "file": "/audio/memes/meme-007.mp3",
+    "originalIndex": 7,
+    "start": 18.658435,
+    "end": 25.063016,
+    "duration": 6.4
+  },
+  {
+    "id": "meme-008",
+    "file": "/audio/memes/meme-008.mp3",
+    "originalIndex": 8,
+    "start": 26.19966,
+    "end": 29.762857,
+    "duration": 3.56
+  },
+  {
+    "id": "meme-009",
+    "file": "/audio/memes/meme-009.mp3",
+    "originalIndex": 9,
+    "start": 30.517868,
+    "end": 34.334897999999995,
+    "duration": 3.82
+  },
+  {
+    "id": "meme-010",
+    "file": "/audio/memes/meme-010.mp3",
+    "originalIndex": 10,
+    "start": 35.177551,
+    "end": 40.845487999999996,
+    "duration": 5.67
+  },
+  {
+    "id": "meme-011",
+    "file": "/audio/memes/meme-011.mp3",
+    "originalIndex": 11,
+    "start": 41.777279,
+    "end": 45.246213,
+    "duration": 3.47
+  },
+  {
+    "id": "meme-012",
+    "file": "/audio/memes/meme-012.mp3",
+    "originalIndex": 12,
+    "start": 46.037075,
+    "end": 48.2939,
+    "duration": 2.26
+  },
+  {
+    "id": "meme-013",
+    "file": "/audio/memes/meme-013.mp3",
+    "originalIndex": 13,
+    "start": 49.265351,
+    "end": 55.32966,
+    "duration": 6.06
+  },
+  {
+    "id": "meme-014",
+    "file": "/audio/memes/meme-014.mp3",
+    "originalIndex": 14,
+    "start": 55.929864,
+    "end": 56.844353999999996,
+    "duration": 0.91
+  },
+  {
+    "id": "meme-015",
+    "file": "/audio/memes/meme-015.mp3",
+    "originalIndex": 15,
+    "start": 57.918912,
+    "end": 59.085691999999995,
+    "duration": 1.17
+  },
+  {
+    "id": "meme-016",
+    "file": "/audio/memes/meme-016.mp3",
+    "originalIndex": 16,
+    "start": 60.489705,
+    "end": 62.341995,
+    "duration": 1.85
+  },
+  {
+    "id": "meme-017",
+    "file": "/audio/memes/meme-017.mp3",
+    "originalIndex": 17,
+    "start": 62.495011000000005,
+    "end": 64.333447,
+    "duration": 1.84
+  },
+  {
+    "id": "meme-018",
+    "file": "/audio/memes/meme-018.mp3",
+    "originalIndex": 18,
+    "start": 65.472268,
+    "end": 70.160635,
+    "duration": 4.69
+  },
+  {
+    "id": "meme-019",
+    "file": "/audio/memes/meme-019.mp3",
+    "originalIndex": 19,
+    "start": 70.994535,
+    "end": 76.476803,
+    "duration": 5.48
+  },
+  {
+    "id": "meme-020",
+    "file": "/audio/memes/meme-020.mp3",
+    "originalIndex": 20,
+    "start": 77.26,
+    "end": 80.50664400000001,
+    "duration": 3.25
+  },
+  {
+    "id": "meme-021",
+    "file": "/audio/memes/meme-021.mp3",
+    "originalIndex": 21,
+    "start": 81.540249,
+    "end": 86.023447,
+    "duration": 4.48
+  },
+  {
+    "id": "meme-022",
+    "file": "/audio/memes/meme-022.mp3",
+    "originalIndex": 22,
+    "start": 86.724036,
+    "end": 87.869184,
+    "duration": 1.15
+  },
+  {
+    "id": "meme-023",
+    "file": "/audio/memes/meme-023.mp3",
+    "originalIndex": 23,
+    "start": 88.840295,
+    "end": 89.773719,
+    "duration": 0.93
+  },
+  {
+    "id": "meme-024",
+    "file": "/audio/memes/meme-024.mp3",
+    "originalIndex": 24,
+    "start": 91.197166,
+    "end": 93.88009100000001,
+    "duration": 2.68
+  },
+  {
+    "id": "meme-025",
+    "file": "/audio/memes/meme-025.mp3",
+    "originalIndex": 25,
+    "start": 95.405351,
+    "end": 99.968889,
+    "duration": 4.56
+  },
+  {
+    "id": "meme-026",
+    "file": "/audio/memes/meme-026.mp3",
+    "originalIndex": 26,
+    "start": 100.595102,
+    "end": 101.78836700000001,
+    "duration": 1.19
+  },
+  {
+    "id": "meme-027",
+    "file": "/audio/memes/meme-027.mp3",
+    "originalIndex": 27,
+    "start": 103.300181,
+    "end": 108.82712000000001,
+    "duration": 5.53
+  },
+  {
+    "id": "meme-028",
+    "file": "/audio/memes/meme-028.mp3",
+    "originalIndex": 28,
+    "start": 113.85956900000001,
+    "end": 119.409433,
+    "duration": 5.55
+  },
+  {
+    "id": "meme-029",
+    "file": "/audio/memes/meme-029.mp3",
+    "originalIndex": 29,
+    "start": 120.09517,
+    "end": 124.723515,
+    "duration": 4.63
+  },
+  {
+    "id": "meme-030",
+    "file": "/audio/memes/meme-030.mp3",
+    "originalIndex": 30,
+    "start": 125.418503,
+    "end": 130.858912,
+    "duration": 5.44
+  },
+  {
+    "id": "meme-031",
+    "file": "/audio/memes/meme-031.mp3",
+    "originalIndex": 31,
+    "start": 131.719025,
+    "end": 138.122971,
+    "duration": 6.4
+  },
+  {
+    "id": "meme-032",
+    "file": "/audio/memes/meme-032.mp3",
+    "originalIndex": 32,
+    "start": 139.552177,
+    "end": 145.619615,
+    "duration": 6.07
+  },
+  {
+    "id": "meme-033",
+    "file": "/audio/memes/meme-033.mp3",
+    "originalIndex": 33,
+    "start": 146.52358299999997,
+    "end": 151.397574,
+    "duration": 4.87
+  },
+  {
+    "id": "meme-034",
+    "file": "/audio/memes/meme-034.mp3",
+    "originalIndex": 34,
+    "start": 152.239524,
+    "end": 159.530045,
+    "duration": 7.29
+  },
+  {
+    "id": "meme-035",
+    "file": "/audio/memes/meme-035.mp3",
+    "originalIndex": 35,
+    "start": 160.421179,
+    "end": 162.841723,
+    "duration": 2.42
+  },
+  {
+    "id": "meme-036",
+    "file": "/audio/memes/meme-036.mp3",
+    "originalIndex": 36,
+    "start": 166.47414999999998,
+    "end": 167.62560100000002,
+    "duration": 1.15
+  },
+  {
+    "id": "meme-037",
+    "file": "/audio/memes/meme-037.mp3",
+    "originalIndex": 37,
+    "start": 169.21746,
+    "end": 170.00551000000002,
+    "duration": 0.79
+  },
+  {
+    "id": "meme-038",
+    "file": "/audio/memes/meme-038.mp3",
+    "originalIndex": 38,
+    "start": 171.40172299999998,
+    "end": 172.849955,
+    "duration": 1.45
+  },
+  {
+    "id": "meme-039",
+    "file": "/audio/memes/meme-039.mp3",
+    "originalIndex": 39,
+    "start": 180.354694,
+    "end": 181.799116,
+    "duration": 1.44
+  },
+  {
+    "id": "meme-040",
+    "file": "/audio/memes/meme-040.mp3",
+    "originalIndex": 40,
+    "start": 182.72927399999998,
+    "end": 184.694376,
+    "duration": 1.97
+  }
+]

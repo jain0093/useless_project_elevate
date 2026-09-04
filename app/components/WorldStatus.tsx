@@ -10,27 +10,23 @@ interface WorldStatusProps {
 interface StatCellProps {
   label: string;
   value: string | number;
-  subtext?: string;
-  highlight?: boolean;
+  badge?: string;
+  bgColor?: string;
 }
 
-function StatCell({ label, value, subtext, highlight }: StatCellProps) {
+function StatCell({ label, value, badge, bgColor = "bg-white" }: StatCellProps) {
   return (
-    <div className="flex flex-col gap-1 p-3 bg-black/40 border border-npc-border/60 hover:border-npc-cyan/40 transition-colors">
-      <span className="text-[9px] font-tech tracking-[0.18em] text-npc-text-dim uppercase">
+    <div className={`flex flex-col gap-1 p-3 rounded-[14px] border border-[#E6DFE5] ${bgColor} shadow-2xs`}>
+      <span className="text-[10px] font-mono font-bold tracking-wider text-[#6F6A76] uppercase">
         {label}
       </span>
-      <div className="flex items-baseline gap-1.5 overflow-hidden">
-        <span
-          className={`text-base sm:text-lg font-orbitron font-extrabold truncate ${
-            highlight ? "text-npc-cyan drop-shadow-[0_0_10px_rgba(0,240,255,0.4)]" : "text-foreground"
-          }`}
-        >
+      <div className="flex items-baseline justify-between gap-1 overflow-hidden">
+        <span className="font-display font-black text-base sm:text-lg text-[#17151C] truncate">
           {value}
         </span>
-        {subtext && (
-          <span className="text-[8px] sm:text-[9px] font-tech text-npc-text-dim uppercase shrink-0">
-            {subtext}
+        {badge && (
+          <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-white/70 border border-black/5 text-[#6F6A76]">
+            {badge}
           </span>
         )}
       </div>
@@ -45,40 +41,47 @@ export default function WorldStatus({
   scanningActive,
 }: WorldStatusProps) {
   return (
-    <div className="hud-panel p-4 flex flex-col gap-3 rounded-xs border border-npc-border bg-npc-surface/90">
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] font-tech tracking-[0.2em] uppercase text-npc-cyan flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-npc-cyan animate-pulse-glow" />
-          REAL TELEMETRY // WORLD STATUS
-        </span>
-        <span className="text-[9px] font-tech tracking-widest text-npc-text-dim uppercase">
-          CAMERA SENSOR DATA
+    <div className="card-pastel p-5 flex flex-col gap-3.5 bg-white border border-[#E6DFE5] shadow-[0_4px_20px_rgba(23,21,28,0.06)]">
+      <div className="flex items-center justify-between border-b border-[#E6DFE5] pb-2">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs">📊</span>
+          <span className="font-display font-bold text-xs uppercase tracking-wider text-[#17151C]">
+            WORLD STATUS
+          </span>
+        </div>
+        <span className="text-[10px] font-mono font-bold text-[#6F6A76]">
+          REAL SENSOR TELEMETRY
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
         <StatCell
           label="HUMANS"
           value={humansDetected}
-          subtext="IN FRAME"
-          highlight
+          badge="LOCAL CV"
+          bgColor="bg-[#DDF5FF]/40"
         />
         <StatCell
           label="NPCS ENCOUNTERED"
           value={npcsEncountered}
-          subtext="LOGGED"
-          highlight
+          badge="SESSION"
+          bgColor="bg-[#E9E4FF]/40"
         />
         <StatCell
           label="CURRENT ACTIVITY"
-          value={currentActivity || "SCANNING..."}
-          subtext="OBSERVED"
+          value={currentActivity.toUpperCase()}
+          bgColor="bg-[#FFF5C7]/40"
         />
         <StatCell
           label="SCANNING"
           value={scanningActive ? "ACTIVE" : "STANDBY"}
-          subtext={scanningActive ? "LIVE" : "OFF"}
-          highlight={scanningActive}
+          bgColor={scanningActive ? "bg-[#DDF8EA]/60" : "bg-gray-100"}
+        />
+        <StatCell
+          label="PURPOSE"
+          value="NONE"
+          badge="CANONICAL"
+          bgColor="bg-[#FFF3F8]/50"
         />
       </div>
     </div>

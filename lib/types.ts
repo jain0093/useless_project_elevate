@@ -5,6 +5,28 @@
 
 // --- Vision Analysis Types ---
 
+/** An object detected in spatial proximity to a person */
+export interface AssociatedObject {
+  label: string;
+  confidence: number;
+  associated: boolean;
+  relationship?: string;
+}
+
+/** Authoritative structured evidence from local computer vision */
+export interface DetectionEvidence {
+  personConfidence: number;
+  posture: "sitting" | "standing" | "stationary" | "unknown";
+  postureConfidence: number;
+  movement: "stationary" | "moving" | "walking";
+  movementConfidence: number;
+  associatedObjects: AssociatedObject[];
+  groupSize: number;
+  activityCandidates: string[];
+  groundedActivity: string;
+  confidenceGate: "HIGH" | "MEDIUM" | "LOW";
+}
+
 /** A single observable person/group behaviour from the scene */
 export interface Observation {
   /** What the person/group is doing: sitting, standing, walking, talking, eating, etc. */
@@ -14,11 +36,17 @@ export interface Observation {
   /** How many people in this observed group */
   groupSize: number;
   /** Observable movement level */
-  movement: "low" | "medium" | "high";
+  movement: "low" | "medium" | "high" | "stationary" | "moving" | "walking";
   /** Optional array of nearby detected objects */
   nearbyObjects?: string[];
-  /** Optional posture tag */
+  /** Optional visible objects array */
+  visibleObjects?: string[];
+  /** Optional posture tag (standing, sitting, etc.) */
   posture?: string;
+  /** Confidence of detection */
+  confidence?: number;
+  /** Structured local computer vision evidence */
+  evidence?: DetectionEvidence;
 }
 
 /** Structured response from the /api/analyze vision endpoint */
@@ -54,10 +82,10 @@ export interface NPCProfile {
   roast: string;
   /** What the AI actually detected them doing (e.g. "sitting while using phone") */
   detectedActivity: string;
-  /** Short Malayalam reaction punchline (1-6 words) */
-  malayalamStatus: string;
   /** Observed evidence breakdown string, e.g. "PHONE DETECTED • SEATED • ALONE" */
   observedDetails?: string;
+  /** Explicit evidence tokens utilized */
+  evidenceUsed?: string[];
 }
 
 // --- API Request/Response Types ---
@@ -74,6 +102,8 @@ export interface NPCRequest {
   observation: Observation;
   /** Optional crop image */
   image?: string;
+  /** Previously used NPC types to prevent duplicates */
+  usedNpcTypes?: string[];
 }
 
 // --- App State Types ---

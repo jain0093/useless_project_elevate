@@ -69,13 +69,15 @@ const sceneAnalysisSchema = {
 
 // --- NPC Profile Schema ---
 
+// --- NPC Profile Schema ---
+
 const npcProfileSchema = {
   type: Type.OBJECT,
   properties: {
     type: {
       type: Type.STRING,
       description:
-        'A meme-worthy NPC title in ALL CAPS. Examples: "THE PROFESSIONAL SCROLLER", "THE TAB HOARDER", "THE HUMAN BUFFERING", "THE CAMPUS FURNITURE", "THE ATTENDANCE NPC"',
+        'A stupidly funny, specific NPC class title in ALL CAPS based strictly on visible activity. Examples: "THE PHONE HAS FULL CUSTODY", "THE WALKING SIDE QUEST", "THE ONE-TAB SCHOLAR", "THE HUMAN LOADING SCREEN", "THE SILENT COMMITTEE", "THE NOTIFICATION SLAVE".',
     },
     activity: {
       type: Type.STRING,
@@ -85,7 +87,7 @@ const npcProfileSchema = {
     detectedActivity: {
       type: Type.STRING,
       description:
-        "STRICTLY what the camera can see. Human-readable. Example: 'sitting while using phone', 'standing alone', 'group around laptop', 'walking with phone'. Do NOT guess or hallucinate activities not visible in the image.",
+        "STRICTLY what local computer vision detected and what is visually verified in the crop. Examples: 'sitting while using a phone', 'walking while using a phone', 'sitting while using a laptop', 'standing', 'walking', 'sitting', 'activity unclear'. Never invent invisible stories.",
     },
     socialBattery: {
       type: Type.NUMBER,
@@ -103,17 +105,18 @@ const npcProfileSchema = {
     quest: {
       type: Type.STRING,
       description:
-        "A stupidly specific one-sentence quest. Example: 'Put the phone down for 5 seconds.', 'Close one browser tab. Just one.', 'Make eye contact with another human.'",
+        "A stupidly specific, one-sentence RPG quest grounded in what they are visibly doing. Example: 'Put the phone down for five seconds to see what happens.', 'Close one browser tab. Just one.', 'Reach your destination before the plot changes.'",
     },
     roast: {
       type: Type.STRING,
       description:
-        "EXACTLY ONE meme-like sentence roasting what this person is visibly doing. Must directly reference their observed activity (phone/laptop/standing/etc). Use TikTok/Reels meme language: 'Bro is...', 'Not bro...', 'NAHHH', 'POV:', etc. Must be funny, specific, and grounded in what the camera sees. NEVER mention appearance/body/face.",
+        "EXACTLY ONE short sentence (8-20 words) roasting what this person is visibly doing. Sounds like a brutally observant friend from 2026, NOT an AI. Must directly reference their visible activity. NEVER mention appearance/body/face/race/gender/identity.",
     },
-    malayalamStatus: {
-      type: Type.STRING,
+    evidenceUsed: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
       description:
-        'A SHORT (1-6 word) Malayalam meme reaction in Malayalam script ONLY. Do NOT translate the English roast. This is a separate absurd reaction like an Instagram Reel comment. Current Malayalam internet humor. Examples: "പണി പാളി.", "ആരെ കെട്ടിക്കാനാ.", "അവസ്ഥ മോശം.", "ദൈവമേ.", "എന്നാ ജീവിതം.", "ഇത് എന്താ.", "ചുമ്മാ.", "ഫോൺ ഇറക്കി വയ്ക്ക്.", "എല്ലാം പോയി.". Generate ORIGINAL lines inspired by this style.',
+        "List of observable facts from computer vision used to generate this profile (e.g., ['person sitting', 'cell phone held in hands', 'stationary for 10s']).",
     },
   },
   required: [
@@ -125,146 +128,84 @@ const npcProfileSchema = {
     "threatLevel",
     "quest",
     "roast",
-    "malayalamStatus",
   ],
 };
 
 // --- Vision Analysis ---
 
-const SCENE_ANALYSIS_PROMPT = `You are NPC WATCH — a camera AI that describes what it sees in ONE short, funny sentence.
+const SCENE_ANALYSIS_PROMPT = `You are NPC WATCH — a brutally observant friend watching the camera feed.
 
 RULES:
 - Describe ONLY what is visible: people count, visible objects (phones/laptops/cups), posture (sitting/standing/walking), groups
 - Do NOT guess what they're doing on their phone/laptop
 - Do NOT infer emotions, conversations, or activities not visible
-- ONE sentence. Meme energy. Short.
-- Example: "Three people have formed a committee around one laptop and nobody is typing."
-- Example: "Two humans, one phone, zero reason to be standing this close."
+- ONE short sentence that sounds like a real person reacting to the room.
+- Example: "Three people around one laptop. Good luck."
+- Example: "Someone is speed-walking with their phone. Brave."
+- Example: "That laptop has been open for a while. Interesting."
 
 If no people are visible, set peopleCount to 0 and return an empty observations array.`;
 
 // --- NPC Generation ---
 
-const NPC_GENERATION_PROMPT = `You are NPC WATCH — a camera AI that observes what someone is ACTUALLY doing and delivers ONE devastating meme sentence about it.
-
-Your personality: Indian college surveillance meme bot. Think Instagram Reels comment section. Malayalam brainrot energy.
+const NPC_GENERATION_PROMPT = `You are NPC WATCH.
 
 ==================================================
-STEP 1: WHAT IS THIS PERSON ACTUALLY DOING?
+CORE ARCHITECTURE: LOCAL CV IS AUTHORITATIVE SENSOR
 ==================================================
-Look at the image AND the observation data together. Identify:
-- Posture (sitting/standing/walking)
-- Visible objects (phone/laptop/cup/book/headphones/backpack)
-- Group or alone
-- What they are visibly interacting with
+You are observing ONE selected person. The cropped image shows this person and their immediate context.
+Local computer vision has already run person detection, spatial object association, and multi-frame movement analysis.
+TREAT THE LOCAL COMPUTER VISION EVIDENCE AS HARD CONSTRAINTS.
 
-Report this in detectedActivity. Be honest. Only describe what you can see.
-If you see "person + laptop", say "using a laptop". NOT "studying" or "coding".
-If you see "person + phone", say "using phone". NOT "texting" or "scrolling reels".
-If unclear, say "activity unclear".
+Your job is NOT to invent a story about them.
+Your job is to describe ONLY what can be visually supported by the evidence.
+- If evidence says sitting + associated phone: detectedActivity must be "sitting while using a phone" (or "using a phone").
+- If evidence says sitting + associated laptop: detectedActivity must be "sitting while using a laptop".
+- If evidence says walking + associated phone: detectedActivity must be "walking while using a phone".
+- If evidence says walking without objects: detectedActivity must be "walking".
+- If evidence says standing: detectedActivity must be "standing".
+- If evidence says sitting: detectedActivity must be "sitting".
+- If evidence is low confidence or unclear: detectedActivity must be "activity unclear".
 
-==================================================
-STEP 2: NPC TYPE (CHARACTER CLASS)
-==================================================
-Generate a ridiculous fictional RPG-style NPC class title based on the OBSERVED activity.
-The class MUST make sense based on what was detected.
-
-Activity → Class examples:
-phone → THE PROFESSIONAL SCROLLER, THE THUMB ATHLETE, THE NOTIFICATION SLAVE
-laptop → THE TAB HOARDER, THE LAPTOP DECORATION SPECIALIST, THE SCREEN STARE CHAMPION
-standing alone → THE CAMPUS FURNITURE, THE BACKGROUND NPC, THE HUMAN LOADING SCREEN
-walking → THE CORRIDOR WANDERER, THE SIDE QUEST RUNNER, THE AUTOPILOT NPC
-group → THE COMMITTEE MEMBER, THE GROUP PROJECT GHOST, THE ACCIDENTAL AUDIENCE
-group + laptop → THE GROUP PROJECT VICTIM, THE SPECTATOR SPORT NPC
-no activity → THE PROFESSIONAL OXYGEN WASTER, THE RENDER DISTANCE FILLER
-
-Do NOT assign a phone-related class if no phone is detected.
+DO NOT GUESS. Accuracy is more important than being interesting.
 
 ==================================================
-STEP 3: QUEST
+STRICT PROHIBITIONS: NEVER INVENT INVISIBLE STORIES
 ==================================================
-Generate a stupidly specific one-sentence quest based on the actual activity.
-
-Examples:
-phone → "Put the rectangle down before it becomes your legal guardian."
-laptop → "Open the assignment before the deadline opens you."
-standing → "Discover why you spawned here."
-group + laptop → "Elect a leader before everyone starts saying 'you do it.'"
-walking → "Reach your destination before the plot changes."
+❌ "He's texting his girlfriend." (say: "sitting while using a phone")
+❌ "She's waiting for her professor." (say: "standing")
+❌ "He's doing his assignment." (say: "sitting while using a laptop")
+❌ "They're discussing their project." (say: "standing with a group")
+❌ "He's late for class." (say: "walking")
 
 ==================================================
-STEP 4: ONE MEME ROAST SENTENCE
+HUMAN 2026 ROAST (ONE SENTENCE, 8-20 WORDS)
 ==================================================
-Write EXACTLY ONE sentence that roasts what they are visibly doing.
-The sentence MUST directly reference their observed activity (phone/laptop/standing/group/etc).
+You are NOT an AI assistant. You are the brutally observant friend standing next to the camera.
+Say what an actual person in 2026 would say about this observable situation.
 
-QUALITY CHECK — ask yourself:
-> Could this joke have been written WITHOUT seeing the camera?
-If yes → REJECT IT and write a better one.
+OBSERVATION-FIRST PROCESS:
+1. WHAT DID WE SEE? (e.g., Person sitting with phone, completely stationary)
+2. WHAT'S WEIRD/FUNNY ABOUT IT? (They are completely absorbed in the screen)
+3. HOW WOULD A FRIEND SAY IT? ("Nah, the phone has full custody.")
 
-BAD (generic, could apply to anyone):
-- "Bro is having a rough day."
-- "Someone is busy."
-- "This person looks funny."
+HUMAN STYLES:
+- Deadpan: "Yeah, that assignment isn't getting done."
+- Immediate reaction: "Nah bro, the phone has full custody."
+- Fake concern: "Someone should probably tell him the screen is off."
+- Absurd: "The phone has clearly been promoted to manager."
+- Dark / College chaos: "The deadline is approaching. Bro is not."
+- Internet comment: "Bro spawned here and immediately forgot the main quest."
+- Friend-style: "Bro, be so serious right now."
 
-GOOD (specific, references observable evidence):
-- "Bro opened the laptop and immediately entered decorative mode."
-- "That phone has full custody of this human's attention."
-- "Four people have gathered around one laptop and nobody has been elected chairman."
-- "Bro has been sitting with that phone like the rent is due."
+BANNED FROM ROAST:
+- NO Malayalam text or punchlines (100% English only)
+- NO paragraphs (EXACTLY ONE sentence, 8-20 words)
+- NEVER mention body, weight, face, appearance, race, gender, sexuality, religion, disability, clothes
+- NO robotic AI filler ("The subject appears to be...", "NPC mode activated", "Productivity levels")
+- NO forced Gen-Z slang spam ("aura farming sigma rizz gyatt") — sound like a real person online!
 
-Tone = TikTok/Reels meme reaction. Use structures like:
-"Bro really...", "POV: ...", "Not bro...", "NAHHH.", "Someone check on bro.", "Bro is cooked."
-But do NOT force slang into every sentence. Sound natural and punchy.
-
-==================================================
-STEP 5: MALAYALAM REACTION PUNCHLINE
-==================================================
-MALAYALAM_MEME_STYLE:
-Generate a SHORT (1-6 word) Malayalam reaction in Malayalam script.
-This is NOT a translation of the English roast.
-This is a SEPARATE absurd reaction — like a comment under an Instagram Reel.
-
-Style guide:
-- Current Malayalam Instagram/Reels meme language
-- Comment-section humor
-- Short viral-style reactions
-- Absurd Malayalam punchlines
-- Youth internet slang (Malayalam)
-- Unexpected context switches
-
-Examples of the ENERGY (not the only options):
-"പണി പാളി."
-"ദൈവമേ."
-"അവസ്ഥ മോശം."
-"ഇത് എന്താ."
-"കഷ്ടം തന്നെ."
-"വിട്ടുകള."
-"എല്ലാം പോയി."
-"ആരെ കെട്ടിക്കാനാ."
-"ഓടിക്കോ."
-"എന്നാ ജീവിതം."
-"സമ്മതിച്ചു."
-"മിണ്ടാതിരി."
-"ചുമ്മാ."
-"ഫോൺ ഇറക്കി വയ്ക്ക്."
-"ലൈഫ് ഇല്ല."
-
-Generate ORIGINAL lines in this style — do NOT just pick from this list.
-Do NOT reproduce copyrighted reel dialogues or song lyrics.
-
-==================================================
-BANNED
-==================================================
-- Do NOT make multiple sentences in the roast field
-- Do NOT mention appearance, face, body, weight, skin, race, gender, age, disability
-- Do NOT hallucinate activities not visible in the image
-- Do NOT use: "main character energy", "intimidating presence", "enigmatic", "radiates energy"
-- Do NOT invent time durations ("standing for 17 minutes")
-- Do NOT guess what's on their phone/laptop screen
-- Do NOT be polite or generic — be SPECIFIC and SAVAGE
-
-NOW LOOK AT THE IMAGE AND ROAST WHAT YOU SEE:`;
+NOW REVIEW THE COMPUTER VISION EVIDENCE AND GENERATE THE NPC:`;
 
 export async function analyzeScene(imageBase64: string): Promise<SceneAnalysis> {
   const client = getClient();
@@ -301,19 +242,74 @@ export async function analyzeScene(imageBase64: string): Promise<SceneAnalysis> 
   return parsed as SceneAnalysis;
 }
 
-export async function generateNPC(observation: Observation, imageBase64?: string): Promise<NPCProfile> {
+export async function generateNPC(
+  observation: Observation,
+  imageBase64?: string,
+  usedNpcTypes: string[] = [],
+  usedQuests: string[] = [],
+  usedOpinions: string[] = []
+): Promise<NPCProfile> {
   const client = getClient();
 
-  const observationText = `
-VISIBLE EVIDENCE:
-- Activity: ${observation.activity}
-- Device: ${observation.device || "none visible"}
-- Group size: ${observation.groupSize}
-- Movement: ${observation.movement}
-- Nearby objects: ${observation.nearbyObjects?.join(", ") || "none detected"}`;
+  const historySections: string[] = [];
+  if (usedNpcTypes && usedNpcTypes.length > 0) {
+    historySections.push(`PREVIOUSLY USED NPC TYPES IN THIS SESSION:\n${usedNpcTypes.map((t) => `- ${t}`).join("\n")}`);
+  }
+  if (usedQuests && usedQuests.length > 0) {
+    historySections.push(`PREVIOUSLY USED QUESTS IN THIS SESSION:\n${usedQuests.slice(-5).map((q) => `- ${q}`).join("\n")}`);
+  }
+  if (usedOpinions && usedOpinions.length > 0) {
+    historySections.push(`PREVIOUSLY USED OPINIONS / JOKES IN THIS SESSION:\n${usedOpinions.slice(-6).map((o) => `- ${o}`).join("\n")}`);
+  }
+
+  const usedHistoryNotice =
+    historySections.length > 0
+      ? `\n\n==================================================
+PREVIOUS SESSION ENCOUNTER HISTORY (REPETITION PREVENTION):
+${historySections.join("\n\n")}
+CRITICAL RULE: DO NOT reuse or closely paraphrase any of the above jokes, punchlines, metaphors, or NPC types.
+Create a genuinely different joke, metaphor, punchline, and sentence structure!
+==================================================`
+      : "";
+
+  const evidence = observation.evidence;
+  const phoneAssociated =
+    evidence?.associatedObjects?.some((o) => o.associated && o.label === "cell phone") ??
+    (observation.device === "cell phone");
+  const laptopAssociated =
+    evidence?.associatedObjects?.some((o) => o.associated && o.label === "laptop") ??
+    (observation.device === "laptop");
+
+  const visibleObjects =
+    evidence?.associatedObjects?.map((o) => o.label) ||
+    observation.nearbyObjects ||
+    (observation.device ? [observation.device] : []);
+
+  const factualObservation = {
+    activity: observation.activity,
+    movement: evidence?.movement || observation.movement,
+    posture: evidence?.posture || observation.posture || "unknown",
+    visibleObjects,
+    phoneAssociated,
+    laptopAssociated,
+    groupSize: evidence?.groupSize ?? observation.groupSize,
+  };
+
+  const evidenceBlock = `
+==================================================
+AUTHORITATIVE FACTUAL OBSERVATION (RULE 8):
+${JSON.stringify(factualObservation, null, 2)}
+==================================================
+RULE: The observation above is authoritative and final.
+Do not modify, reinterpret, or add factual activities or objects.
+Generate only the fictional NPC archetype type, quest, and roast based on this observation.
+If phoneAssociated is false, DO NOT mention a phone.
+If movement is stationary, DO NOT mention walking or moving.
+If laptopAssociated is false, DO NOT mention a laptop.
+${usedHistoryNotice}`;
 
   const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
-    { text: NPC_GENERATION_PROMPT + observationText },
+    { text: NPC_GENERATION_PROMPT + "\n" + evidenceBlock },
   ];
 
   if (imageBase64) {
@@ -336,7 +332,7 @@ VISIBLE EVIDENCE:
     config: {
       responseMimeType: "application/json",
       responseSchema: npcProfileSchema,
-      temperature: 1.0,
+      temperature: 0.95,
     },
   });
 
@@ -345,6 +341,10 @@ VISIBLE EVIDENCE:
     throw new Error("Empty response from NPC generator");
   }
 
-  const parsed = JSON.parse(text);
-  return parsed as NPCProfile;
+  const parsed = JSON.parse(text) as NPCProfile;
+  // RULE 1: Never let Gemini override factual activity
+  parsed.detectedActivity = observation.activity;
+  parsed.activity = observation.activity;
+
+  return parsed;
 }

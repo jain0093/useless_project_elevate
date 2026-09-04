@@ -73,8 +73,8 @@ export default function SystemStatus({ status }: SystemStatusProps) {
           dotClass={getStatusDotClass(status.ai)}
         />
         <StatusRow
-          label="Malayalam Yelling Engine"
-          value="UNHINGED"
+          label="Human Roast Engine"
+          value="BRUTAL"
           dotClass="status-cooked"
         />
       </div>

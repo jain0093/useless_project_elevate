@@ -5,16 +5,23 @@ import { useEffect, useState } from "react";
 interface CommentaryProps {
   peopleCount: number;
   commentary: string | null;
+  observationLines?: string[];
   detectedObjects?: string[];
 }
 
-export default function Commentary({ peopleCount, commentary, detectedObjects = [] }: CommentaryProps) {
+export default function Commentary({
+  peopleCount,
+  commentary,
+  observationLines = [],
+  detectedObjects = [],
+}: CommentaryProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
 
-  const fullText = commentary || (peopleCount === 0 ? "Scanning..." : "Watching...");
+  const fullText =
+    commentary || (peopleCount === 0 ? "Scanning room..." : "Monitoring targets...");
 
-  // Typewriter effect
+  // Typewriter effect for headline commentary
   useEffect(() => {
     setDisplayedText("");
     setTextIndex(0);
@@ -30,45 +37,61 @@ export default function Commentary({ peopleCount, commentary, detectedObjects = 
     }
   }, [textIndex, fullText]);
 
-  // Unique detected objects for display
   const uniqueObjects = Array.from(new Set(detectedObjects));
 
   return (
-    <div className="hud-panel p-4 sm:p-5 flex flex-col gap-3 rounded-xs border border-npc-border bg-npc-surface/90">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-tech tracking-[0.2em] uppercase text-npc-cyan flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-npc-cyan animate-pulse-glow" />
-          SCENE
+    <div className="card-pastel p-5 flex flex-col gap-3 bg-white border border-[#E6DFE5] shadow-[0_4px_20px_rgba(23,21,28,0.06)]">
+      {/* Header with pastel badge */}
+      <div className="flex items-center justify-between border-b border-[#E6DFE5] pb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="text-sm">💬</span>
+          <span className="font-display font-bold text-xs uppercase tracking-wider text-[#17151C]">
+            ROOM COMMENTARY
+          </span>
+        </div>
+        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold font-mono bg-[#DDF5FF] text-sky-900 border border-[#8ED8FF]">
+          👥 {peopleCount} {peopleCount === 1 ? "HUMAN" : "HUMANS"} VISIBLE
         </span>
-        <span className="text-sm font-orbitron font-black text-npc-amber">
-          {peopleCount} HUMAN{peopleCount !== 1 ? "S" : ""}
-        </span>
+      </div>
+
+      {/* Main typewriter commentary */}
+      <div className="p-3.5 rounded-[14px] bg-[#FFF3F8] border border-[#FFD1E3]">
+        <p className="font-body text-sm sm:text-base font-bold text-[#17151C] leading-snug">
+          &ldquo;{displayedText}&rdquo;
+          {textIndex < fullText.length && (
+            <span className="inline-block w-1.5 h-4 ml-1 bg-pink-500 rounded-xs animate-pulse align-middle" />
+          )}
+        </p>
       </div>
 
       {/* Detected objects badges */}
       {uniqueObjects.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+          <span className="text-[10px] font-mono text-[#6F6A76] font-semibold mr-1">
+            OBJECTS:
+          </span>
           {uniqueObjects.map((obj, i) => (
             <span
               key={i}
-              className="px-2 py-0.5 text-[10px] font-tech tracking-wider uppercase border border-npc-cyan/30 text-npc-cyan bg-npc-cyan/5"
+              className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#E9E4FF] text-purple-900 border border-[#B9A7FF]"
             >
-              {obj.replace("cell phone", "📱 PHONE").replace("laptop", "💻 LAPTOP").replace("cup", "☕ CUP").replace("bottle", "🍶 BOTTLE").replace("book", "📖 BOOK").replace("backpack", "🎒 BAG")}
+              ✦ {obj}
             </span>
           ))}
         </div>
       )}
 
-      {/* Main scene commentary — BIG */}
-      <div className="pt-2 border-t border-npc-border/60">
-        <p className="text-base sm:text-lg md:text-xl font-mono font-bold text-foreground leading-snug tracking-wide">
-          {displayedText}
-          {textIndex < fullText.length && (
-            <span className="inline-block w-[10px] h-[20px] bg-npc-cyan ml-1 animate-pulse-glow" />
-          )}
-        </p>
-      </div>
+      {/* Observable detail lines */}
+      {observationLines.length > 1 && (
+        <div className="flex flex-col gap-1 border-t border-[#E6DFE5] pt-2">
+          {observationLines.slice(1, 3).map((line, idx) => (
+            <div key={idx} className="flex items-start gap-1.5 text-xs text-[#6F6A76] font-body">
+              <span className="text-pink-400 font-bold select-none">•</span>
+              <span>{line}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { playTickSound } from "@/app/utils/sound";
 
 interface CountdownProps {
   /** Whether the countdown is actively running */
@@ -45,6 +46,7 @@ export default function Countdown({
           onCompleteRef.current();
           return 0;
         }
+        playTickSound();
         return prev - 1;
       });
       setAnimating(true);
@@ -54,39 +56,36 @@ export default function Countdown({
     return () => clearInterval(interval);
   }, [active, duration, resetCountdown]);
 
-  // Color shifts as countdown approaches zero
-  const getCountColor = () => {
-    if (count <= 3) return "text-npc-red drop-shadow-[0_0_30px_rgba(255,0,85,0.8)]";
-    if (count <= 5) return "text-npc-amber drop-shadow-[0_0_25px_rgba(255,183,0,0.6)]";
-    return "text-npc-cyan drop-shadow-[0_0_25px_rgba(0,240,255,0.5)]";
-  };
-
   return (
-    <div className="hud-panel p-4 sm:p-5 flex flex-col items-center justify-center gap-2 rounded-xs border border-npc-border bg-npc-surface/90">
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
-        <span className="text-xs sm:text-sm font-tech tracking-[0.25em] uppercase text-npc-cyan font-bold">
-          NEXT VICTIM IN
+    <div className="card-pastel p-5 flex flex-col items-center justify-center gap-2.5 bg-white border border-[#E6DFE5] shadow-[0_4px_20px_rgba(23,21,28,0.06)]">
+      {/* Pill header */}
+      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF5C7] border border-[#FFE68A] text-amber-900 text-xs font-bold font-body">
+        <span>⏱️</span>
+        <span className="tracking-wide uppercase">
+          {count === 1 ? "TARGET LOCKED" : "TARGET ACQUISITION"}
         </span>
       </div>
 
+      {/* Large Chunky Countdown Display */}
       <div
-        className={`text-6xl sm:text-7xl font-orbitron font-black tabular-nums ${getCountColor()} transition-all duration-200 ${
-          animating ? "scale-105" : "scale-100"
+        className={`font-display font-black text-6xl sm:text-7xl text-[#17151C] tabular-nums transition-all duration-200 ${
+          animating ? "scale-110 text-pink-600" : "scale-100"
         }`}
       >
-        {active ? count : "--"}
+        {active ? (count === 1 ? "🎯" : count < 10 ? `0${count}` : count) : "--"}
       </div>
 
-      {/* Progress bar */}
-      <div className="w-full max-w-[240px] stat-bar mt-1">
+      <p className="text-[11px] font-body text-[#6F6A76] font-medium">
+        {count <= 2
+          ? "Locking onto nearest innocent human..."
+          : "Scanning crowd for optimal victim..."}
+      </p>
+
+      {/* Progress Bar in soft butter yellow / pink */}
+      <div className="w-full max-w-[220px] h-2.5 rounded-full bg-[#FFF9F2] border border-[#E6DFE5] overflow-hidden p-0.5">
         <div
-          className={`stat-bar-fill ${
-            count <= 3
-              ? "bg-npc-red"
-              : count <= 5
-              ? "bg-npc-amber"
-              : "bg-npc-cyan"
+          className={`h-full rounded-full transition-all duration-300 ${
+            count <= 3 ? "bg-[#FF7EB6]" : count <= 6 ? "bg-[#FFE68A]" : "bg-[#8ED8FF]"
           }`}
           style={{ width: active ? `${(count / duration) * 100}%` : "0%" }}
         />

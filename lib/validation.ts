@@ -5,7 +5,7 @@
 
 import type { SceneAnalysis, NPCProfile, Observation, ThreatLevel } from "./types";
 
-const VALID_MOVEMENTS = ["low", "medium", "high"];
+const VALID_MOVEMENTS = ["low", "medium", "high", "stationary", "moving", "walking"];
 const VALID_THREAT_LEVELS: ThreatLevel[] = ["NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"];
 
 /**
@@ -76,12 +76,32 @@ export function validateObservation(data: unknown): Observation | null {
   }
 
   // Movement must be valid
-  let movement: "low" | "medium" | "high" = "low";
+  let movement: Observation["movement"] = "stationary";
   if (typeof raw.movement === "string" && VALID_MOVEMENTS.includes(raw.movement.toLowerCase())) {
-    movement = raw.movement.toLowerCase() as "low" | "medium" | "high";
+    movement = raw.movement.toLowerCase() as Observation["movement"];
   }
 
-  return { activity, device, groupSize, movement };
+  const nearbyObjects = Array.isArray(raw.nearbyObjects)
+    ? (raw.nearbyObjects as unknown[]).filter((o): o is string => typeof o === "string")
+    : Array.isArray(raw.visibleObjects)
+    ? (raw.visibleObjects as unknown[]).filter((o): o is string => typeof o === "string")
+    : undefined;
+
+  const posture = typeof raw.posture === "string" ? raw.posture.trim().slice(0, 50) : undefined;
+  const confidence = typeof raw.confidence === "number" ? raw.confidence : undefined;
+  const evidence = (raw.evidence && typeof raw.evidence === "object") ? (raw.evidence as Observation["evidence"]) : undefined;
+
+  return {
+    activity,
+    device,
+    groupSize,
+    movement,
+    nearbyObjects,
+    visibleObjects: nearbyObjects,
+    posture,
+    confidence,
+    evidence,
+  };
 }
 
 /**
@@ -147,11 +167,9 @@ export function validateNPCProfile(data: unknown): NPCProfile | null {
       ? raw.detectedActivity.trim().slice(0, 200)
       : "activity unclear";
 
-  // Malayalam status with fallback
-  const malayalamStatus =
-    typeof raw.malayalamStatus === "string" && raw.malayalamStatus.trim().length > 0
-      ? raw.malayalamStatus.trim().slice(0, 100)
-      : "ചുമ്മാ.";
+  const evidenceUsed = Array.isArray(raw.evidenceUsed)
+    ? (raw.evidenceUsed as unknown[]).filter((e): e is string => typeof e === "string")
+    : undefined;
 
   return {
     type,
@@ -162,6 +180,6 @@ export function validateNPCProfile(data: unknown): NPCProfile | null {
     quest,
     roast,
     detectedActivity,
-    malayalamStatus,
+    evidenceUsed,
   };
 }

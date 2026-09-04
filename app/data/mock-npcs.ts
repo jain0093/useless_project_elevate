@@ -15,7 +15,6 @@ export const MOCK_NPCS: NPCProfile[] = [
     threatLevel: "LOW",
     quest: "Put the phone down for five seconds.",
     roast: "Bro opened the phone and immediately left reality.",
-    malayalamStatus: "ഫോൺ ഇറക്കി വയ്ക്കടേ!",
   },
   {
     type: "THE TAB HOARDER",
@@ -26,7 +25,6 @@ export const MOCK_NPCS: NPCProfile[] = [
     threatLevel: "MEDIUM",
     quest: "Close one browser tab. Just one.",
     roast: "That laptop has been opened for decorative purposes.",
-    malayalamStatus: "പണി പാളി.",
   },
   {
     type: "THE PROFESSIONAL CHUMMA-STANDER",
@@ -37,7 +35,6 @@ export const MOCK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Walk five metres with purpose.",
     roast: "Bro spawned here and forgot the objective.",
-    malayalamStatus: "ചുമ്മാ നിൽക്കുന്നു.",
   },
   {
     type: "THE CAMPUS FURNITURE",
@@ -48,7 +45,6 @@ export const MOCK_NPCS: NPCProfile[] = [
     threatLevel: "NONE",
     quest: "Make eye contact with another human.",
     roast: "Bro has successfully become part of the furniture.",
-    malayalamStatus: "അവസ്ഥ മോശം.",
   },
   {
     type: "THE SIDE QUEST NPC",
@@ -59,7 +55,6 @@ export const MOCK_NPCS: NPCProfile[] = [
     threatLevel: "LOW",
     quest: "Look up from the phone for 3 seconds.",
     roast: "Bro is letting Google Maps and God handle the rest.",
-    malayalamStatus: "ദൈവമേ.",
   },
 ];
 

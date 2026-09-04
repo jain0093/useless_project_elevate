@@ -9,6 +9,8 @@ import type {
   ThreatLevel,
   SystemStatus as SystemStatusType,
   SystemComponentStatus,
+  DetectionEvidence,
+  AssociatedObject,
 } from "@/lib/types";
 
 // Re-export backend types for frontend convenience
@@ -19,6 +21,8 @@ export type {
   ThreatLevel,
   SystemStatusType,
   SystemComponentStatus,
+  DetectionEvidence,
+  AssociatedObject,
 };
 
 /** A single detected person from COCO-SSD */
@@ -37,6 +41,24 @@ export interface PersonDetection {
   height: number;
   /** Nearby detected objects (e.g. ["cell phone", "laptop"]) */
   nearbyObjects?: string[];
+  /** Detailed spatially associated objects with validation */
+  associatedObjects?: AssociatedObject[];
+  /** Inferred posture based on bbox aspect ratio and chair presence */
+  posture?: "standing" | "sitting" | "stationary" | "unknown";
+  /** Posture confidence score (0-1) */
+  postureConfidence?: number;
+  /** Movement status based on multi-frame temporal buffer */
+  movement?: "stationary" | "moving" | "walking";
+  /** Movement confidence score (0-1) */
+  movementConfidence?: number;
+  /** Grounded observable activity string strictly verified by CV */
+  groundedActivity?: string;
+  /** Group size local to this person's spatial proximity */
+  localGroupSize?: number;
+  /** Confidence gate for activity determination */
+  confidenceGate?: "HIGH" | "MEDIUM" | "LOW";
+  /** Complete structured evidence object */
+  evidence?: DetectionEvidence;
 }
 
 /** Scanning state machine */

@@ -130,71 +130,48 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
         const bw = det.width * w;
         const bh = det.height * h;
 
-        // Draw shadow glow for box
-        ctx.shadowColor = isSelected ? "#ffb700" : "#00f0ff";
-        ctx.shadowBlur = isSelected ? 16 : 8;
+        // Draw rounded rectangle for detections (Section 13)
+        ctx.strokeStyle = isSelected ? "#FF7EB6" : "#9EE6C3";
+        ctx.fillStyle = isSelected ? "rgba(255, 126, 182, 0.12)" : "rgba(158, 230, 195, 0.08)";
+        ctx.lineWidth = isSelected ? 2.5 : 1.5;
 
-        // Box style
-        ctx.strokeStyle = isSelected ? "#ffb700" : "rgba(0, 240, 255, 0.7)";
-        ctx.lineWidth = isSelected ? 3 : 1.5;
-        ctx.setLineDash(isSelected ? [] : [8, 4]);
-        ctx.strokeRect(bx, by, bw, bh);
-
-        // Reset shadow
-        ctx.shadowBlur = 0;
-
-        // Corner accents for selected target
-        const cornerLen = Math.min(bw, bh) * 0.2;
-        ctx.strokeStyle = isSelected ? "#ffb700" : "#00f0ff";
-        ctx.lineWidth = isSelected ? 3 : 2;
-        ctx.setLineDash([]);
-
-        // Top-left
+        // Use roundRect if supported by browser canvas
         ctx.beginPath();
-        ctx.moveTo(bx, by + cornerLen);
-        ctx.lineTo(bx, by);
-        ctx.lineTo(bx + cornerLen, by);
-        ctx.stroke();
-        // Top-right
-        ctx.beginPath();
-        ctx.moveTo(bx + bw - cornerLen, by);
-        ctx.lineTo(bx + bw, by);
-        ctx.lineTo(bx + bw, by + cornerLen);
-        ctx.stroke();
-        // Bottom-left
-        ctx.beginPath();
-        ctx.moveTo(bx, by + bh - cornerLen);
-        ctx.lineTo(bx, by + bh);
-        ctx.lineTo(bx + cornerLen, by + bh);
-        ctx.stroke();
-        // Bottom-right
-        ctx.beginPath();
-        ctx.moveTo(bx + bw - cornerLen, by + bh);
-        ctx.lineTo(bx + bw, by + bh);
-        ctx.lineTo(bx + bw, by + bh - cornerLen);
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(bx, by, bw, bh, 10);
+        } else {
+          ctx.rect(bx, by, bw, bh);
+        }
+        ctx.fill();
         ctx.stroke();
 
-        // Target label header
-        const label = isSelected ? "🎯 TARGET LOCK" : `HUMAN #${i + 1}`;
-        ctx.font = `bold ${isSelected ? 11 : 9}px "Share Tech Mono", monospace`;
+        // Rounded pastel label pill
+        const label = isSelected ? "🎯 SELECTED" : `HUMAN #${i + 1}`;
+        ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
         const textWidth = ctx.measureText(label).width;
-        ctx.fillStyle = isSelected ? "rgba(255, 183, 0, 0.95)" : "rgba(0, 240, 255, 0.85)";
-        ctx.fillRect(bx, by - (isSelected ? 20 : 16), textWidth + 10, isSelected ? 20 : 16);
-        ctx.fillStyle = "#000";
-        ctx.fillText(label, bx + 5, by - (isSelected ? 5 : 4));
+        const pillW = textWidth + 12;
+        const pillH = 18;
+        const pillX = bx + 4;
+        const pillY = Math.max(4, by - pillH - 4);
 
-        // Confidence badge
-        const confLabel = `CONF: ${Math.round(det.confidence * 100)}%`;
-        ctx.font = '9px "Share Tech Mono", monospace';
-        ctx.fillStyle = isSelected ? "rgba(255, 183, 0, 0.85)" : "rgba(0, 240, 255, 0.7)";
-        ctx.fillText(confLabel, bx + 4, by + bh + 14);
+        ctx.fillStyle = isSelected ? "#FF7EB6" : "#9EE6C3";
+        ctx.beginPath();
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(pillX, pillY, pillW, pillH, 9);
+        } else {
+          ctx.rect(pillX, pillY, pillW, pillH);
+        }
+        ctx.fill();
+
+        ctx.fillStyle = "#17151C";
+        ctx.fillText(label, pillX + 6, pillY + 12);
       });
 
       ctx.setLineDash([]);
     }, [detections, selectedIndex, status]);
 
     return (
-      <div className="hud-panel hud-corners relative overflow-hidden aspect-[4/3] w-full bg-black rounded-xs border border-npc-border">
+      <div className="relative overflow-hidden aspect-[4/3] w-full bg-[#FFF9F2] rounded-[20px] border border-[#E6DFE5] shadow-[0_8px_30px_rgba(23,21,28,0.08)]">
         {/* Video element */}
         <video
           ref={videoRef}
@@ -212,30 +189,16 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
           className="absolute inset-0 w-full h-full pointer-events-none z-10"
         />
 
-        {/* Grid overlay */}
-        <div className="absolute inset-0 camera-grid pointer-events-none z-10" />
-
-        {/* Center reticle */}
-        {status === "ONLINE" && (
-          <div className="reticle-center z-10 opacity-40 pointer-events-none" />
-        )}
-
-        {/* Laser scanline sweep */}
-        {status === "ONLINE" && (
-          <div className="absolute inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-npc-cyan to-transparent animate-scanline pointer-events-none z-20 shadow-[0_0_15px_#00f0ff]" />
-        )}
-
-        {/* Offline / Error state */}
         {status !== "ONLINE" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
-            <div className="w-12 h-12 border border-npc-cyan/30 rounded-full flex items-center justify-center animate-pulse-glow">
-              <span className="text-npc-cyan text-xl">📷</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10 bg-[#FFF9F2]/80 backdrop-blur-xs">
+            <div className="w-12 h-12 bg-white border-2 border-[#E6DFE5] rounded-2xl flex items-center justify-center shadow-xs">
+              <span className="text-xl">📷</span>
             </div>
-            <div className="text-npc-text-dim text-xs font-tech tracking-[0.2em] uppercase">
+            <div className="text-[#8A8494] text-xs font-mono font-bold tracking-wider uppercase">
               {status === "ERROR" ? "CAMERA FEED ERROR" : "FEED OFFLINE — STANDBY"}
             </div>
             {status === "ERROR" && (
-              <div className="text-npc-red text-[10px] font-mono tracking-wider opacity-80">
+              <div className="text-[#FF6B7A] text-xs font-bold tracking-wider">
                 PERMISSION DENIED OR CAMERA DISCONNECTED
               </div>
             )}
@@ -243,44 +206,36 @@ const CameraFeed = forwardRef<CameraFeedHandle, CameraFeedProps>(
         )}
 
         {/* Top left status badge */}
-        <div className="absolute top-3 left-3 flex items-center gap-2 z-20">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-npc-border backdrop-blur-md">
+        <div className="absolute top-3.5 left-3.5 flex items-center gap-2 z-20">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white/90 border border-[#E6DFE5] rounded-full shadow-xs backdrop-blur-sm">
             <span
-              className={`status-dot ${
+              className={`w-2 h-2 rounded-full ${
                 status === "ONLINE"
-                  ? "status-online"
+                  ? "bg-emerald-500 animate-pulse"
                   : status === "ERROR"
-                  ? "status-error"
-                  : "status-offline"
+                  ? "bg-rose-500 animate-pulse"
+                  : "bg-gray-400"
               }`}
             />
-            <span className="text-[10px] font-tech tracking-[0.15em] uppercase text-npc-text-mid">
-              {status === "ONLINE" ? "LIVE SURVEILLANCE" : `SIGNAL ${status}`}
+            <span className="text-[11px] font-bold font-body text-[#17151C] uppercase tracking-wide">
+              {status === "ONLINE" ? "LIVE CAMERA" : `CAMERA ${status}`}
             </span>
           </div>
+
           {status === "ONLINE" && (
-            <div className="px-2 py-1 bg-npc-amber/10 border border-npc-amber/40 text-npc-amber text-[10px] font-tech font-bold tracking-wider">
-              {detections.length} DETECTED
+            <div className="px-2.5 py-1 bg-[#DDF5FF] border border-[#8ED8FF] rounded-full text-sky-900 text-[11px] font-bold shadow-xs">
+              ✦ {detections.length} {detections.length === 1 ? "HUMAN" : "HUMANS"}
             </div>
           )}
         </div>
 
-        {/* Top right REC indicator */}
+        {/* Top right soft pink pill */}
         {status === "ONLINE" && (
-          <div className="absolute top-3 right-3 flex items-center gap-2 px-2.5 py-1 bg-black/80 border border-npc-red/40 z-20 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-npc-red animate-pulse-glow" />
-            <span className="text-[10px] font-tech tracking-[0.18em] text-npc-red font-bold uppercase">
-              REC // LIVE
+          <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5 px-3 py-1 bg-[#FFD1E3]/90 border border-[#FF7EB6] rounded-full shadow-xs backdrop-blur-sm z-20">
+            <span className="w-2 h-2 rounded-full bg-[#FF7EB6] animate-pulse" />
+            <span className="text-[11px] font-bold font-body text-pink-900 uppercase tracking-wide">
+              SCANNING
             </span>
-          </div>
-        )}
-
-        {/* Bottom bar tech telemetry */}
-        {status === "ONLINE" && (
-          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-20 text-[9px] font-tech tracking-widest text-npc-text-dim/80 bg-black/60 px-3 py-1 border border-npc-border/40">
-            <span>RES: 1280x720</span>
-            <span>FPS: 30.0</span>
-            <span>MODE: COCO-SSD</span>
           </div>
         )}
       </div>

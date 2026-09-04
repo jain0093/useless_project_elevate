@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import type { NPCProfile } from "@/lib/types";
 import NPCCard from "./NPCCard";
+import MemeCard from "./MemeCard";
+import { stopReactionAudio } from "@/lib/meme-audio-engine";
 
 interface NPCRevealProps {
+  encounterId: number;
   npc: NPCProfile | null;
   /** Base64 data URL of the cropped person image */
   croppedImage: string | null;
@@ -14,105 +17,183 @@ interface NPCRevealProps {
   onNextVictim: () => void;
   /** Called when the user clicks STOP SCANNING */
   onStopScanning: () => void;
+  /** Session-level used meme IDs to prevent repetition */
+  usedMemeIds?: string[];
+  /** Callback when a meme is selected */
+  onMemeSelected?: (memeId: string) => void;
+  /** Session-level used audio IDs from 40-clip library */
+  usedAudioIds?: string[];
+  /** Callback when an audio clip is selected */
+  onAudioSelected?: (audioId: string) => void;
+  /** Group size if multiple people detected */
+  groupSize?: number;
+  /** Previous reaction encounter label */
+  previousReactionLabel?: string;
+  /** Callback when a reaction label is selected */
+  onLabelSelected?: (label: string) => void;
+  /** Sound enabled status from page session */
+  soundEnabled: boolean;
+  /** Toggle sound handler */
+  onToggleSound: () => void;
 }
 
 export default function NPCReveal({
+  encounterId,
   npc,
   croppedImage,
   active,
   onNextVictim,
   onStopScanning,
+  usedMemeIds = [],
+  onMemeSelected,
+  usedAudioIds = [],
+  onAudioSelected,
+  groupSize = 1,
+  previousReactionLabel,
+  onLabelSelected,
+  soundEnabled,
+  onToggleSound,
 }: NPCRevealProps) {
-  const [flashing, setFlashing] = useState(false);
+  // Staged reveal ladder per Section 9:
+  // 0ms: window open -> 200ms: image -> 400ms: meme card -> 700ms: NPC TYPE -> 1000ms: activity -> 1300ms: quest -> 1600ms: AI opinion
+  const [revealStage, setRevealStage] = useState(0);
 
   useEffect(() => {
-    if (active && npc) {
-      setFlashing(true);
-      const timer = setTimeout(() => setFlashing(false), 350);
-      return () => clearTimeout(timer);
+    if (!active) {
+      setRevealStage(0);
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, npc]);
+
+    setRevealStage(0);
+    const t1 = setTimeout(() => setRevealStage(1), 200);  // 200ms: image visible
+    const t2 = setTimeout(() => setRevealStage(2), 400);  // 400ms: meme card visible
+    const t3 = setTimeout(() => setRevealStage(3), 700);  // 700ms: NPC type visible
+    const t4 = setTimeout(() => setRevealStage(4), 1000); // 1000ms: current activity visible
+    const t5 = setTimeout(() => setRevealStage(5), 1300); // 1300ms: quest visible
+    const t6 = setTimeout(() => setRevealStage(6), 1600); // 1600ms: AI opinion visible
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
+      clearTimeout(t6);
+    };
+  }, [active, encounterId]);
 
   if (!active || !npc) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto py-6 px-3 sm:px-4 backdrop-blur-xl bg-black/90">
-      {/* Screen flash on entrance */}
-      {flashing && (
-        <div
-          className="absolute inset-0 bg-npc-red/40 pointer-events-none z-10"
-          style={{ animation: "screen-flash 0.35s ease-out forwards" }}
-        />
-      )}
+  const handleNext = () => {
+    stopReactionAudio(); // Stop audio immediately on NEXT VICTIM (Section 8, 9, 14)
+    onNextVictim();
+  };
 
-      {/* Main Encounter Modal Container */}
-      <div className="relative z-20 flex flex-col items-center gap-4 max-w-xl w-full my-auto animate-reveal-scale">
-        {/* Banner: NPC DETECTED */}
-        <div className="flex flex-col items-center gap-1">
-          <div className="px-4 py-1 bg-npc-red/20 border-2 border-npc-red text-npc-red font-tech tracking-[0.3em] font-bold text-xs sm:text-sm animate-pulse-glow uppercase">
-            ⚠️ NPC DETECTED ⚠️
-          </div>
-          <span className="text-[10px] font-tech tracking-[0.2em] text-npc-amber uppercase">
-            ENCOUNTER LOCKED // SCANNING PAUSED
-          </span>
+  const handleStop = () => {
+    stopReactionAudio(); // Stop audio immediately on STOP SCANNING (Section 8 & 15)
+    onStopScanning();
+  };
+
+  const showCrop = revealStage >= 1;
+  const showMeme = revealStage >= 2;
+  const showType = revealStage >= 3;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto py-8 px-4 bg-[#17151C]/45 backdrop-blur-md">
+      {/* Main Encounter Card Container */}
+      <div className="relative z-20 flex flex-col items-center gap-4 max-w-xl w-full my-auto bg-white border-2 border-[#E6DFE5] rounded-[28px] p-6 sm:p-8 shadow-[0_20px_60px_rgba(23,21,28,0.18)] animate-pop">
+        {/* Top Status Pill: Section 16 */}
+        <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#DDF5FF] border border-[#8ED8FF] text-sky-900 text-xs font-bold font-body shadow-xs">
+          <span>🎯</span>
+          <span className="tracking-wider uppercase">TARGET IDENTIFIED</span>
         </div>
 
-        {/* Selected person actual image crop */}
-        {croppedImage && (
-          <div className="relative w-full max-w-[260px]">
-            <div className="flex items-center justify-between px-2 py-1 bg-black/90 border border-b-0 border-npc-amber/70 text-[10px] font-tech tracking-widest text-npc-amber">
-              <span>🎯 SELECTED TARGET</span>
-              <span>LIVE FRAME CROP</span>
+        {/* 1. NPC Archetype Title (Reveals at ~700ms per Section 9) */}
+        <div
+          className={`text-center py-1 transition-all duration-300 ${
+            showType ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-2 scale-95"
+          }`}
+        >
+          <h2 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-[#17151C] uppercase leading-tight">
+            {npc.type}
+          </h2>
+        </div>
+
+        {/* Visuals Grid: Selected Person Crop & Reaction Meme Card */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full">
+          {/* Section 17: Selected Person Actual Crop (Reveals at ~200ms) */}
+          {croppedImage && (
+            <div
+              className={`relative bg-[#FFF9F2] border-2 border-[#E6DFE5] rounded-[20px] p-3.5 flex flex-col items-center justify-center shadow-xs transition-all duration-300 ${
+                showCrop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              }`}
+            >
+              <div className="flex items-center justify-between w-full pb-2 border-b border-[#E6DFE5] mb-2.5">
+                <span className="text-[10px] font-mono font-bold text-[#FF7EB6] uppercase flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF7EB6] animate-ping" />
+                  LIVE TARGET
+                </span>
+                <span className="text-[9px] font-mono font-bold text-[#6F6A76]">CAMERA CROP</span>
+              </div>
+              <div className="relative w-full rounded-[14px] overflow-hidden bg-white border border-[#E6DFE5]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={croppedImage}
+                  alt="Selected NPC target from camera"
+                  className="w-full h-auto object-contain max-h-[170px] mx-auto"
+                />
+              </div>
             </div>
-            <div className="relative border-2 border-npc-amber bg-black overflow-hidden shadow-[0_0_30px_rgba(255,183,0,0.35)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={croppedImage}
-                alt="Selected NPC target from camera"
-                className="w-full h-auto object-contain max-h-[190px] mx-auto"
-              />
-              {/* Corner accents */}
-              <div className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-npc-amber pointer-events-none" />
-              <div className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-npc-amber pointer-events-none" />
-              <div className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-npc-amber pointer-events-none" />
-              <div className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-npc-amber pointer-events-none" />
-            </div>
+          )}
+
+          {/* Section 18-20: Reaction Meme Card with Audio Punchline & Deduplication (Reveals at ~400ms) */}
+          <div
+            className={`w-full transition-all duration-300 ${
+              showMeme ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+            }`}
+          >
+            <MemeCard
+              encounterId={encounterId}
+              activity={npc.detectedActivity || npc.activity}
+              device={
+                (npc.detectedActivity || npc.activity || "").toLowerCase().includes("phone")
+                  ? "cell phone"
+                  : (npc.detectedActivity || npc.activity || "").toLowerCase().includes("laptop")
+                  ? "laptop"
+                  : null
+              }
+              groupSize={groupSize}
+              usedMemeIds={usedMemeIds}
+              onMemeSelected={onMemeSelected}
+              usedAudioIds={usedAudioIds}
+              onAudioSelected={onAudioSelected}
+              soundEnabled={soundEnabled}
+              onToggleSound={onToggleSound}
+              previousReactionLabel={previousReactionLabel}
+              onLabelSelected={onLabelSelected}
+            />
           </div>
-        )}
+        </div>
 
-        {/* Main NPC Card Details */}
-        <NPCCard npc={npc} />
+        {/* NPCCard with Staged Reveal for Activity, Quest, and Roast */}
+        <NPCCard npc={npc} revealStage={revealStage} />
 
-        {/* Action Controls: NEXT VICTIM & STOP SCANNING */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-lg mt-1">
-          {/* STOP SCANNING BUTTON */}
+        {/* Control Buttons (Section 14 & 15) */}
+        <div className="flex items-center gap-3 w-full pt-2">
           <button
-            onClick={onStopScanning}
-            className="w-full sm:w-auto px-5 py-3 border border-npc-red/60 text-npc-red bg-npc-red/10 hover:bg-npc-red hover:text-black font-tech text-xs tracking-[0.2em] uppercase font-bold transition-all duration-200"
+            onClick={handleNext}
+            className="btn-y2k btn-lavender flex-1 py-3 px-6 text-sm font-display font-black tracking-wider uppercase shadow-md cursor-pointer"
+          >
+            NEXT VICTIM ➔
+          </button>
+          <button
+            onClick={handleStop}
+            className="btn-y2k btn-danger py-3 px-5 text-xs font-body font-bold tracking-wider uppercase shadow-md cursor-pointer"
           >
             STOP SCANNING
           </button>
-
-          {/* LARGE NEXT VICTIM BUTTON */}
-          <button
-            onClick={onNextVictim}
-            className="w-full sm:flex-1 group relative px-8 py-4 bg-npc-cyan text-black font-orbitron font-black text-sm sm:text-base tracking-[0.2em] uppercase transition-all duration-200 shadow-[0_0_30px_rgba(0,240,255,0.6)] hover:shadow-[0_0_50px_rgba(0,240,255,0.9)] hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              <span>NEXT VICTIM</span>
-              <span className="text-xl group-hover:translate-x-1.5 transition-transform duration-200">➔</span>
-            </span>
-          </button>
         </div>
-
-        <p className="text-[10px] font-mono tracking-wider text-npc-text-dim text-center">
-          WINDOW REMAINS OPEN UNTIL YOU CHOOSE THE NEXT VICTIM
-        </p>
       </div>
-
-      {/* CRT scanline overlay */}
-      <div className="absolute inset-0 scanline-overlay pointer-events-none" />
     </div>
   );
 }
