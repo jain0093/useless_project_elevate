@@ -396,7 +396,7 @@ export default function Home() {
       // 4. TRANSITION TO NPC REVEAL (FROZEN UNTIL USER CLICKS NEXT VICTIM)
       setScanState("NPC_REVEAL");
     } catch (err) {
-      console.error("[NPC WATCH] Error during analysis:", err);
+      console.error("[AVASTHA] Error during analysis:", err);
       if (sessionId === activeSessionRef.current) {
         setScanState("NO_VICTIM");
       }
@@ -464,17 +464,17 @@ export default function Home() {
               </div>
 
               <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-[#17151C] mb-3 font-display">
-                NPC WATCH
+                AVASTHA
               </h1>
 
               <div className="text-sm sm:text-base tracking-widest text-[#635E69] uppercase max-w-md mb-2 flex items-center justify-center gap-2 font-black">
-                <span className="text-[#FF7EB6]">THE CAMERA SEES.</span>
+                <span className="text-[#FF7EB6]">SERIOUS TECHNOLOGY.</span>
                 <span className="text-[#17151C]">•</span>
-                <span className="text-[#553C9A]">THE AI JUDGES.</span>
+                <span className="text-[#553C9A]">STUPID PURPOSE.</span>
               </div>
 
               <p className="text-xs sm:text-sm text-[#8A8494] max-w-md mb-8 font-medium">
-                An unnecessarily advanced surveillance parody that watches real humans and generates unhinged NPC lore.
+                Turning real life into brutally specific fictional NPC encounters using unnecessary AI.
               </p>
 
               {/* Big Pink Tactile Button */}
@@ -786,7 +786,7 @@ export default function Home() {
       {/* Footer with pastel styling */}
       <footer className="px-4 py-3 border-t-2 border-[#E6DFE5] bg-white/70 backdrop-blur-sm text-center flex flex-wrap items-center justify-center gap-2 mt-auto">
         <span className="text-[11px] font-bold tracking-wider text-[#8A8494]">
-          NPC WATCH — TINKERHUB USELESS PROJECTS 💀
+          AVASTHA — TINKERHUB USELESS PROJECTS 💀
         </span>
         <button
           onClick={() => setDebugMode((prev) => !prev)}

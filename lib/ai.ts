@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — ONE-SENTENCE MEME ROAST ENGINE
+// 🎴 AVASTHA — ONE-SENTENCE MEME ROAST ENGINE
 // Server-side only. API key never touches browser.
 // ============================================
 
@@ -133,7 +133,7 @@ const npcProfileSchema = {
 
 // --- Vision Analysis ---
 
-const SCENE_ANALYSIS_PROMPT = `You are NPC WATCH — a brutally observant friend watching the camera feed.
+const SCENE_ANALYSIS_PROMPT = `You are AVASTHA — a brutally observant friend watching the camera feed.
 
 RULES:
 - Describe ONLY what is visible: people count, visible objects (phones/laptops/cups), posture (sitting/standing/walking), groups
@@ -148,7 +148,7 @@ If no people are visible, set peopleCount to 0 and return an empty observations 
 
 // --- NPC Generation ---
 
-const NPC_GENERATION_PROMPT = `You are NPC WATCH.
+const NPC_GENERATION_PROMPT = `You are AVASTHA.
 
 ==================================================
 CORE ARCHITECTURE: LOCAL CV IS AUTHORITATIVE SENSOR

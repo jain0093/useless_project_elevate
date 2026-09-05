@@ -1,6 +1,6 @@
-# 🎭 NPC WATCH — MEME ASSETS DIRECTORY
+# 🎭 AVASTHA — MEME ASSETS DIRECTORY
 
-This directory houses the categorized Malayalam reaction meme assets according to the NPC WATCH Master Architecture.
+This directory houses the categorized Malayalam reaction meme assets according to the AVASTHA Master Architecture.
 
 ## Category Folders:
 - `/public/memes/sitting/` — Memes for sitting/unproductive/motionless individuals (e.g., Salim Kumar in chair, Mohanlal motionless, Harisree Ashokan).

@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — Shared Type Definitions
+// 🎴 AVASTHA — Shared Type Definitions
 // THE CAMERA SEES. THE AI JUDGES.
 // ============================================
 

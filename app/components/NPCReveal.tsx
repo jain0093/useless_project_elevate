@@ -60,6 +60,7 @@ export default function NPCReveal({
 
   useEffect(() => {
     if (!active) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setRevealStage(0);
       return;
     }

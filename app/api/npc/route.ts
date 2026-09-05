@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — POST /api/npc
+// 🎴 AVASTHA — POST /api/npc
 // NPC Generation Endpoint
 // Server-side only. API key never exposed.
 // ============================================
@@ -131,7 +131,7 @@ export async function POST(request: Request) {
           // Check for duplicate NPC type or near-duplicate joke
           if (isTypeDuplicate || isOpinionDuplicate) {
             console.warn(
-              `[NPC WATCH] Duplicate detected (type: ${isTypeDuplicate}, opinion: ${isOpinionDuplicate}). Attempt ${attempt + 1}/${MAX_RETRIES}`
+              `[AVASTHA] Duplicate detected (type: ${isTypeDuplicate}, opinion: ${isOpinionDuplicate}). Attempt ${attempt + 1}/${MAX_RETRIES}`
             );
             if (attempt < MAX_RETRIES - 1) {
               // Retry with Gemini
@@ -198,7 +198,7 @@ export async function POST(request: Request) {
     }
 
     // All retries failed — use deduplicated fallback matched to authoritative activity
-    console.error("[NPC WATCH] NPC generation failed after retries:", lastError?.message);
+    console.error("[AVASTHA] NPC generation failed after retries:", lastError?.message);
     const fallback = getRandomFallbackNPC(
       usedNpcTypes,
       authoritativeActivity,

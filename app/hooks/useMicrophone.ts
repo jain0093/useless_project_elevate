@@ -1,3 +1,3 @@
 // Microphone access has been completely removed per requirements.
-// NPC WATCH is strictly visual and text-based.
+// AVASTHA is strictly visual and text-based.
 export {};

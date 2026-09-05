@@ -11,7 +11,7 @@ import {
 
 function runTests() {
   console.log("==================================================");
-  console.log("🧪 TESTING NPC WATCH — 40 MEME AUDIO EXTRACTION & DEDUPLICATION");
+  console.log("🧪 TESTING AVASTHA — 40 MEME AUDIO EXTRACTION & DEDUPLICATION");
   console.log("==================================================");
 
   let passed = 0;

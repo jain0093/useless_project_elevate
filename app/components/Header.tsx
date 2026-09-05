@@ -18,14 +18,14 @@ export default function Header({ scanning, onStopScanning }: HeaderProps) {
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-black font-display tracking-tight text-[#17151C]">
-              NPC WATCH
+              AVASTHA
             </h1>
             <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-[#FFF5C7] text-amber-900 border border-[#FFE68A]">
               v2.6 ✦
             </span>
           </div>
           <p className="text-[11px] font-body font-semibold tracking-wide text-[#6F6A76]">
-            THE CAMERA SEES. THE AI JUDGES.
+            TURNING YOUR LIFE INTO A BRUTALLY SPECIFIC NPC ENCOUNTER.
           </p>
         </div>
       </div>

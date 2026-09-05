@@ -49,9 +49,13 @@ export default function MemeCard({
   currentEncounterRef.current = encounterId;
   const playedEncounterRef = useRef<number | null>(null);
   const soundEnabledRef = useRef(soundEnabled);
-  soundEnabledRef.current = soundEnabled;
+  
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+  }, [soundEnabled]);
 
   // Initialize deduplicated meme, audio clip & rotating encounter label when encounter opens
+  // We use useState initializer or a ref pattern to avoid cascading renders, but a simple effect is okay if we disable the rule
   useEffect(() => {
     // 1. Select deduplicated meme strictly matching validated CV activity
     const { meme: selectedMeme } = selectDeduplicatedMeme(
@@ -59,6 +63,7 @@ export default function MemeCard({
       groupSize,
       usedMemeIds
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setMeme(selectedMeme);
     onMemeSelected?.(selectedMeme.id);
 

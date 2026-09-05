@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — ONE-SENTENCE MEME FALLBACKS
+// 🎴 AVASTHA — ONE-SENTENCE MEME FALLBACKS
 // ============================================
 
 import type { NPCProfile, SceneAnalysis } from "./types";

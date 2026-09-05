@@ -1,5 +1,5 @@
 // ============================================
-// NPC WATCH — Frontend State Types
+// AVASTHA — Frontend State Types
 // ============================================
 
 import type {

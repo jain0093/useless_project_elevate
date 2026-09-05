@@ -1,5 +1,5 @@
 // ============================================
-// NPC WATCH — MOCK NPC DATABASE (fallback/demo only)
+// AVASTHA — MOCK NPC DATABASE (fallback/demo only)
 // Not imported in production — real NPCs come from Gemini
 // ============================================
 

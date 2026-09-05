@@ -1,5 +1,5 @@
 // ============================================
-// 🎴 NPC WATCH — POST /api/analyze
+// 🎴 AVASTHA — POST /api/analyze
 // Vision Analysis Endpoint
 // Server-side only. API key never exposed.
 // ============================================
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     }
 
     // All retries failed — use fallback
-    console.error("[NPC WATCH] Scene analysis failed after retries:", lastError?.message);
+    console.error("[AVASTHA] Scene analysis failed after retries:", lastError?.message);
     const fallback = getFallbackSceneAnalysis();
     return Response.json({
       ...fallback,
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     });
   } catch (err) {
     // Catastrophic error — still don't crash
-    console.error("[NPC WATCH] Catastrophic analyze error:", err);
+    console.error("[AVASTHA] Catastrophic analyze error:", err);
     const fallback = getFallbackSceneAnalysis();
     return Response.json({
       ...fallback,

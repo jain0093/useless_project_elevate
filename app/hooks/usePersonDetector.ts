@@ -142,7 +142,7 @@ export function usePersonDetector() {
       modelRef.current = model;
       setModelReady(true);
     } catch (err) {
-      console.error("[NPC WATCH] Failed to load COCO-SSD model:", err);
+      console.error("[AVASTHA] Failed to load COCO-SSD model:", err);
       setModelError(true);
     } finally {
       loadingRef.current = false;
@@ -176,17 +176,47 @@ export function usePersonDetector() {
         );
 
         const now = Date.now();
+        const previousFrame = temporalTracksRef.current.length > 0 
+          ? temporalTracksRef.current[temporalTracksRef.current.length - 1]
+          : null;
+
         const currentCenters: Array<{ x: number; y: number; pw: number; ph: number }> = [];
 
         // Process each detected person
         const detections: PersonDetection[] = persons.map((p, index) => {
-          const px = p.bbox[0] / vw;
-          const py = p.bbox[1] / vh;
-          const pw = p.bbox[2] / vw;
-          const ph = p.bbox[3] / vh;
+          let px = p.bbox[0] / vw;
+          let py = p.bbox[1] / vh;
+          let pw = p.bbox[2] / vw;
+          let ph = p.bbox[3] / vh;
 
-          const cx = px + pw / 2;
-          const cy = py + ph / 2;
+          let cx = px + pw / 2;
+          let cy = py + ph / 2;
+
+          // Bounding Box Stabilization (EMA Filter)
+          if (previousFrame) {
+            let closestDist = Infinity;
+            let closestOld: { x: number; y: number; pw: number; ph: number } | null = null;
+            for (const old of previousFrame.centers) {
+              const d = Math.hypot(cx - old.x, cy - old.y);
+              if (d < closestDist) {
+                closestDist = d;
+                closestOld = old;
+              }
+            }
+            // If matched to a person in the previous frame within a reasonable distance
+            if (closestOld && closestDist < 0.2) {
+              const alpha = 0.3; // Smoothing factor (lower = smoother, higher = more responsive)
+              cx = alpha * cx + (1 - alpha) * closestOld.x;
+              cy = alpha * cy + (1 - alpha) * closestOld.y;
+              pw = alpha * pw + (1 - alpha) * closestOld.pw;
+              ph = alpha * ph + (1 - alpha) * closestOld.ph;
+              
+              // Recompute top-left from smoothed center and dimensions
+              px = cx - pw / 2;
+              py = cy - ph / 2;
+            }
+          }
+
           currentCenters.push({ x: cx, y: cy, pw, ph });
 
           // Calculate local group size based on immediate physical proximity (< 0.35 norm dist)
@@ -261,12 +291,12 @@ export function usePersonDetector() {
               }
             }
 
-            if (closestOldCenter && closestDist < 0.25) {
+            if (closestOldCenter && closestDist < 0.35) {
               const timeDeltaSec = (now - oldestFrame.timestamp) / 1000;
               const netDisplacement = closestDist;
               const speed = netDisplacement / (timeDeltaSec || 1);
 
-              if (netDisplacement > 0.055 && speed > 0.025) {
+              if (netDisplacement > 0.045 && speed > 0.015) {
                 movement = posture === "standing" ? "walking" : "moving";
                 movementConfidence = 0.91;
               } else {
@@ -342,15 +372,15 @@ export function usePersonDetector() {
           };
         });
 
-        // Update temporal rolling buffer (keep last 10 entries)
+        // Update temporal rolling buffer (keep last 15 entries)
         temporalTracksRef.current = [
-          ...temporalTracksRef.current.slice(-9),
+          ...temporalTracksRef.current.slice(-14),
           { timestamp: now, centers: currentCenters },
         ];
 
         return detections;
       } catch (err) {
-        console.error("[NPC WATCH] Detection error:", err);
+        console.error("[AVASTHA] Detection error:", err);
         return [];
       }
     },

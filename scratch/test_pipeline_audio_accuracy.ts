@@ -1,7 +1,7 @@
 import { selectDeduplicatedAudioClip, selectDeduplicatedMeme } from "../lib/meme-audio-engine";
 import { MEME_AUDIO_MANIFEST } from "../lib/audioManifest";
 
-console.log("=== NPC WATCH MEME AUDIO ACCURACY & REAL DURATION SUITE ===");
+console.log("=== AVASTHA MEME AUDIO ACCURACY & REAL DURATION SUITE ===");
 
 // 1. Verify durations across all 40 clips
 console.log("\n[TEST 1] Verifying all 40 clip durations are natural (not truncated to 1.00s)...");

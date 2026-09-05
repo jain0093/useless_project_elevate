@@ -1,5 +1,5 @@
 // ==========================================================
-// NPC WATCH — DETERMINISTIC ACTIVITY & CONTRADICTION ENGINE
+// AVASTHA — DETERMINISTIC ACTIVITY & CONTRADICTION ENGINE
 // Rule 1, 2, 3, 4: Local CV evidence is authoritative.
 // Gemini is NEVER allowed to invent or override factual activity.
 // ==========================================================
@@ -173,19 +173,19 @@ export function enforceContradictionGates(
 
   // Contradiction 1: Claiming walking when movement !== walking
   if (evidence.movement !== "walking" && candidateLower.includes("walk")) {
-    console.warn("[NPC WATCH GATE] Blocked contradiction: claimed walking while movement is", evidence.movement);
+    console.warn("[AVASTHA GATE] Blocked contradiction: claimed walking while movement is", evidence.movement);
     return deterministic;
   }
 
   // Contradiction 2: Claiming phone when phoneAssociated === false
   if (!evidence.phoneAssociated && candidateLower.includes("phone")) {
-    console.warn("[NPC WATCH GATE] Blocked contradiction: claimed phone while phoneAssociated is false");
+    console.warn("[AVASTHA GATE] Blocked contradiction: claimed phone while phoneAssociated is false");
     return deterministic;
   }
 
   // Contradiction 3: Claiming laptop when laptopAssociated === false
   if (!evidence.laptopAssociated && candidateLower.includes("laptop")) {
-    console.warn("[NPC WATCH GATE] Blocked contradiction: claimed laptop while laptopAssociated is false");
+    console.warn("[AVASTHA GATE] Blocked contradiction: claimed laptop while laptopAssociated is false");
     return deterministic;
   }
 
@@ -194,7 +194,7 @@ export function enforceContradictionGates(
     evidence.movement === "stationary" &&
     (candidateLower.includes("walking") || candidateLower.includes("moving") || candidateLower.includes("running"))
   ) {
-    console.warn("[NPC WATCH GATE] Blocked contradiction: claimed motion while stationary");
+    console.warn("[AVASTHA GATE] Blocked contradiction: claimed motion while stationary");
     return deterministic;
   }
 

@@ -1,5 +1,5 @@
 // ============================================================
-// 🎭 NPC WATCH — MALAYALAM MEME & AUDIO REACTION ENGINE
+// 🎭 AVASTHA — MALAYALAM MEME & AUDIO REACTION ENGINE
 // Authentic Kerala meme culture, temporal deduplication,
 // rotating reaction encounter labels, browser autoplay priming,
 // and zero-repetition asset routing.

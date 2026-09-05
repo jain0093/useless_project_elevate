@@ -1,4 +1,4 @@
-# 🔊 NPC WATCH — REACTION AUDIO DIRECTORY
+# 🔊 AVASTHA — REACTION AUDIO DIRECTORY
 
 This directory houses short (1–5s) Malayalam meme-style reaction audio clips.
 

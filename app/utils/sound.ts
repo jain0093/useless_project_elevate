@@ -1,5 +1,5 @@
 // ============================================
-// NPC WATCH — Meme Audio Synthesizer & Controller
+// AVASTHA — Meme Audio Synthesizer & Controller
 // Uses Web Audio API for zero-dependency punchlines
 // ============================================
 
@@ -59,7 +59,7 @@ export function playMemePunchlineSound() {
     osc2.start(now + 0.15);
     osc2.stop(now + 0.6);
   } catch (err) {
-    console.warn("[NPC WATCH Audio] Web Audio playback error:", err);
+    console.warn("[AVASTHA Audio] Web Audio playback error:", err);
   }
 }
 

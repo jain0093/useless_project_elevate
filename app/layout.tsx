@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NPC WATCH",
-  description: "THE CAMERA SEES. THE AI JUDGES.",
+  title: "AVASTHA",
+  description: "Serious technology. Stupid purpose. Turning real life into brutally specific fictional NPC encounters.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

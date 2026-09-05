@@ -1,5 +1,5 @@
 // ============================================
-// NPC WATCH — Frame Capture & Person Crop
+// AVASTHA — Frame Capture & Person Crop
 // Pure utility functions, no state.
 // ============================================
 

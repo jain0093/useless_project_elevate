@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // Also update lib/audioManifest.ts with the new data
     const tsPath = path.join(process.cwd(), "lib/audioManifest.ts");
     const tsContent = `// ============================================================
-// 🎵 NPC WATCH — MALAYALAM MEME AUDIO MANIFEST
+// 🎵 AVASTHA — MALAYALAM MEME AUDIO MANIFEST
 // Master library catalog for 18 fixed 6-second meme reaction clips
 // Auto-synced from Developer Audio Library UI
 // ============================================================

@@ -1,5 +1,5 @@
 // ============================================================
-// 🎵 NPC WATCH — MALAYALAM MEME AUDIO MANIFEST
+// 🎵 AVASTHA — MALAYALAM MEME AUDIO MANIFEST
 // Master library catalog for 18 fixed 6-second meme reaction clips
 // Auto-synced from Developer Audio Library UI
 // ============================================================
@@ -12,7 +12,7 @@ export interface MemeAudioClip {
   category: string[];
   mood: string[];
   description?: string;
-  useWhen: string[];
+  useWhen?: string[];
 }
 
 export const MEME_AUDIO_MANIFEST: MemeAudioClip[] = [

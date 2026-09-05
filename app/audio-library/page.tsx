@@ -382,7 +382,7 @@ export default function AudioLibraryDevPage() {
               MALAYALAM DIALOGUE TIMING & REACTION WORKBENCH
             </div>
             <h1 style={{ fontSize: 32, fontWeight: 900, margin: 0 }}>
-              🎵 NPC WATCH — AUDIO LIBRARY & TRIMMER
+              🎵 AVASTHA — AUDIO LIBRARY & TRIMMER
             </h1>
             <p style={{ margin: "6px 0 0 0", color: "#666", fontSize: 14 }}>
               Interactive Dialogue Trimmer • Timing Adjuster • 9 Uniform Malayalam Reaction Dialogues
@@ -437,7 +437,7 @@ export default function AudioLibraryDevPage() {
                 boxShadow: "3px 3px 0px #1A1A2E",
               }}
             >
-              ← BACK TO NPC WATCH
+              ← BACK TO AVASTHA
             </Link>
           </div>
         </div>
@@ -908,7 +908,7 @@ export default function AudioLibraryDevPage() {
                     onChange={(e) => setPadTo6s(e.target.checked)}
                     style={{ cursor: "pointer", width: 16, height: 16 }}
                   />
-                  Auto-pad with silence to 6.0s (NPC Watch standard)
+                  Auto-pad with silence to 6.0s (AVASTHA standard)
                 </label>
               </div>
             </div>
