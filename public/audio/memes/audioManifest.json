@@ -1,81 +1,122 @@
-{
-  "version": "2.0.0",
-  "generatedAt": "2026-09-05T06:41:00Z",
-  "sourceAudio": "Malayalam Troll dialogues free download Top 10 Malayalam troll sounds Malayalam movie dialogues_MP3.mp3.mpeg",
-  "totalClips": 9,
-  "fixedClipDuration": 6,
-  "clips": [
-    {
-      "id": "meme-001",
-      "file": "/audio/memes/meme-001.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 1",
-      "category": ["sitting", "idle", "stationary", "deadpan", "general-reaction"],
-      "mood": ["comedic", "deadpan"]
-    },
-    {
-      "id": "meme-002",
-      "file": "/audio/memes/meme-002.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 2",
-      "category": ["sitting", "idle", "waiting", "standing", "walking", "general-reaction"],
-      "mood": ["sarcastic", "dry"]
-    },
-    {
-      "id": "meme-003",
-      "file": "/audio/memes/meme-003.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 3",
-      "category": ["sitting", "stationary", "deadpan", "general-reaction"],
-      "mood": ["deadpan", "blunt"]
-    },
-    {
-      "id": "meme-004",
-      "file": "/audio/memes/meme-004.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 4",
-      "category": ["phone", "distraction", "screen captivity", "walking", "general-reaction"],
-      "mood": ["mocking", "sarcastic"]
-    },
-    {
-      "id": "meme-005",
-      "file": "/audio/memes/meme-005.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 5",
-      "category": ["phone", "screen captivity", "idle", "general-reaction"],
-      "mood": ["dramatic", "exasperated"]
-    },
-    {
-      "id": "meme-006",
-      "file": "/audio/memes/meme-006.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 6",
-      "category": ["walking", "movement", "speed", "phone", "general-reaction"],
-      "mood": ["amused", "hyper"]
-    },
-    {
-      "id": "meme-007",
-      "file": "/audio/memes/meme-007.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 7",
-      "category": ["laptop", "useless activity", "failure", "standing", "sitting", "general-reaction"],
-      "mood": ["satirical", "sarcastic"]
-    },
-    {
-      "id": "meme-008",
-      "file": "/audio/memes/meme-008.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 8",
-      "category": ["group", "chaos", "dramatic reaction", "laptop", "general-reaction"],
-      "mood": ["chaotic", "loud"]
-    },
-    {
-      "id": "meme-009",
-      "file": "/audio/memes/meme-009.mp3",
-      "duration": 6,
-      "title": "Malayalam Reaction 9",
-      "category": ["confusion", "unclear", "awkward", "laptop", "idle", "general-reaction"],
-      "mood": ["dry", "deadpan"]
-    }
-  ]
-}
+[
+  {
+    "id": "meme-001",
+    "file": "/audio/memes/meme-001.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 1",
+    "category": [
+      "confusion"
+    ],
+    "mood": [
+      "comedic",
+      "deadpan"
+    ]
+  },
+  {
+    "id": "meme-002",
+    "file": "/audio/memes/meme-002.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 2",
+    "category": [
+      "group"
+    ],
+    "mood": [
+      "sarcastic",
+      "dry"
+    ]
+  },
+  {
+    "id": "meme-003",
+    "file": "/audio/memes/meme-003.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 3",
+    "category": [
+      "laptop"
+    ],
+    "mood": [
+      "deadpan",
+      "blunt"
+    ]
+  },
+  {
+    "id": "meme-004",
+    "file": "/audio/memes/meme-004.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 4",
+    "category": [
+      "walking"
+    ],
+    "mood": [
+      "mocking",
+      "sarcastic"
+    ]
+  },
+  {
+    "id": "meme-005",
+    "file": "/audio/memes/meme-005.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 5",
+    "category": [
+      "awkward",
+      "idle",
+      "distraction"
+    ],
+    "mood": [
+      "dramatic",
+      "exasperated"
+    ]
+  },
+  {
+    "id": "meme-006",
+    "file": "/audio/memes/meme-006.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 6",
+    "category": [
+      "sitting"
+    ],
+    "mood": [
+      "amused",
+      "hyper"
+    ]
+  },
+  {
+    "id": "meme-007",
+    "file": "/audio/memes/meme-007.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 7",
+    "category": [
+      "phone"
+    ],
+    "mood": [
+      "satirical",
+      "sarcastic"
+    ]
+  },
+  {
+    "id": "meme-008",
+    "file": "/audio/memes/meme-008.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 8",
+    "category": [
+      "standing"
+    ],
+    "mood": [
+      "chaotic",
+      "loud"
+    ]
+  },
+  {
+    "id": "meme-009",
+    "file": "/audio/memes/meme-009.mp3",
+    "duration": 6,
+    "title": "Malayalam Reaction 9",
+    "category": [
+      "walking",
+      "general-reaction"
+    ],
+    "mood": [
+      "dry",
+      "deadpan"
+    ]
+  }
+]
