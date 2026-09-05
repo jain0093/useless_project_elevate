@@ -62,7 +62,7 @@ export default function MemeCard({
     setMeme(selectedMeme);
     onMemeSelected?.(selectedMeme.id);
 
-    // 2. Select deduplicated audio clip from the 40-clip master library (Section 6, 10, 11)
+    // 2. Select deduplicated audio clip from the 9-clip master library (Section 6, 10, 11)
     const { clip: selectedClip } = selectDeduplicatedAudioClip(
       activity,
       device,

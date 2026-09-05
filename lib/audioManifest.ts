@@ -1,7 +1,6 @@
 // ============================================================
 // 🎵 NPC WATCH — MALAYALAM MEME AUDIO MANIFEST
-// Master library catalog for 40 extracted meme reaction clips
-// With verified real durations and activity category routing
+// Master library catalog for 9 fixed Malayalam meme reaction clips (meme-001 to meme-009)
 // ============================================================
 
 export interface MemeAudioClip {
@@ -12,850 +11,105 @@ export interface MemeAudioClip {
   category: string[];
   mood: string[];
   description?: string;
-  useWhen: string[];
+  useWhen?: string[];
 }
 
 export const MEME_AUDIO_MANIFEST: MemeAudioClip[] = [
   {
-    "id": "meme-001",
-    "file": "/audio/memes/meme-001.mp3",
-    "duration": 1.14,
-    "title": "Instant Shock Strike",
-    "category": [
-      "sitting",
-      "idle",
-      "deadpan",
-      "stationary"
-    ],
-    "mood": [
-      "blunt",
-      "deadpan"
-    ],
-    "description": "Short sharp impact reaction appropriate for sudden discovery or person sitting stationary",
-    "useWhen": [
-      "person sitting doing nothing",
-      "stationary in chair",
-      "immediate shock"
-    ]
+    id: "meme-001",
+    file: "/audio/memes/meme-001.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 1",
+    category: ["sitting", "idle", "stationary", "deadpan", "general-reaction"],
+    mood: ["comedic", "deadpan"],
+    description: "Malayalam reaction — suitable for idle/sitting scenarios",
+    useWhen: ["person sitting doing nothing", "stationary in chair", "idle detection"],
   },
   {
-    "id": "meme-002",
-    "file": "/audio/memes/meme-002.mp3",
-    "duration": 1.7,
-    "title": "Awkward Silence Pause",
-    "category": [
-      "sitting",
-      "standing",
-      "waiting",
-      "awkward"
-    ],
-    "mood": [
-      "awkward",
-      "deadpan"
-    ],
-    "description": "Awkward pause dialogue for someone just standing or sitting with zero mission",
-    "useWhen": [
-      "person stationary in one spot",
-      "waiting for plot to begin",
-      "awkward silence"
-    ]
+    id: "meme-002",
+    file: "/audio/memes/meme-002.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 2",
+    category: ["sitting", "idle", "waiting", "standing", "walking", "general-reaction"],
+    mood: ["sarcastic", "dry"],
+    description: "Malayalam reaction — suitable for someone sitting/waiting or standing",
+    useWhen: ["person waiting", "sitting doing nothing", "idle in lobby"],
   },
   {
-    "id": "meme-003",
-    "file": "/audio/memes/meme-003.mp3",
-    "duration": 2.85,
-    "title": "Deadline Reality Check",
-    "category": [
-      "laptop",
-      "useless activity",
-      "failure",
-      "sitting"
-    ],
-    "mood": [
-      "disappointed",
-      "sarcastic"
-    ],
-    "description": "Deadline roast dialogue suitable for someone pretending to work on a laptop",
-    "useWhen": [
-      "sitting with laptop open",
-      "pretending to work",
-      "academic panic"
-    ]
+    id: "meme-003",
+    file: "/audio/memes/meme-003.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 3",
+    category: ["sitting", "stationary", "deadpan", "general-reaction"],
+    mood: ["deadpan", "blunt"],
+    description: "Malayalam reaction — deadpan observation for stationary person",
+    useWhen: ["sitting motionless", "zero movement detected", "furniture mode"],
   },
   {
-    "id": "meme-004",
-    "file": "/audio/memes/meme-004.mp3",
-    "duration": 3.59,
-    "title": "Digital Trance Scroll",
-    "category": [
-      "phone",
-      "distraction",
-      "sitting",
-      "screen captivity"
-    ],
-    "mood": [
-      "captivated",
-      "hopeless"
-    ],
-    "description": "Reels scrolling commentary appropriate for someone completely absorbed in their phone",
-    "useWhen": [
-      "staring into phone screen",
-      "doomscrolling reels",
-      "sitting while using phone"
-    ]
+    id: "meme-004",
+    file: "/audio/memes/meme-004.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 4",
+    category: ["phone", "distraction", "screen captivity", "walking", "general-reaction"],
+    mood: ["mocking", "sarcastic"],
+    description: "Malayalam reaction — comedic reaction for someone glued to their phone",
+    useWhen: ["victim looking at phone", "scrolling reels", "zombie phone posture"],
   },
   {
-    "id": "meme-005",
-    "file": "/audio/memes/meme-005.mp3",
-    "duration": 3.35,
-    "title": "Screen Custody Warning",
-    "category": [
-      "phone",
-      "distraction",
-      "awkward",
-      "screen captivity"
-    ],
-    "mood": [
-      "warning",
-      "comedic"
-    ],
-    "description": "Reaction when the phone has taken full custody of the human subject",
-    "useWhen": [
-      "phone has full custody",
-      "unresponsive to physical reality"
-    ]
+    id: "meme-005",
+    file: "/audio/memes/meme-005.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 5",
+    category: ["phone", "screen captivity", "idle", "general-reaction"],
+    mood: ["dramatic", "exasperated"],
+    description: "Malayalam reaction — exasperated tone suitable for phone addiction",
+    useWhen: ["endless scrolling", "texting in public", "phone in hand"],
   },
   {
-    "id": "meme-006",
-    "file": "/audio/memes/meme-006.mp3",
-    "duration": 0.87,
-    "title": "Sudden Evacuation Stinger",
-    "category": [
-      "walking",
-      "movement",
-      "speed"
-    ],
-    "mood": [
-      "urgent",
-      "startled"
-    ],
-    "description": "Quick movement sound appropriate for someone walking rapidly past camera",
-    "useWhen": [
-      "speed-walking past camera",
-      "leaving scene suddenly"
-    ]
+    id: "meme-006",
+    file: "/audio/memes/meme-006.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 6",
+    category: ["walking", "movement", "speed", "phone", "general-reaction"],
+    mood: ["amused", "hyper"],
+    description: "Malayalam reaction — dynamic commentary for moving or walking NPC",
+    useWhen: ["person pacing", "walking fast nowhere", "directionless movement"],
   },
   {
-    "id": "meme-007",
-    "file": "/audio/memes/meme-007.mp3",
-    "duration": 6.68,
-    "title": "The Overthinking Lecture",
-    "category": [
-      "laptop",
-      "sitting",
-      "disappointment",
-      "dramatic reaction"
-    ],
-    "mood": [
-      "dramatic",
-      "exhausted"
-    ],
-    "description": "Extended philosophical lecture appropriate for someone staring blankly at a laptop screen",
-    "useWhen": [
-      "staring at laptop blank document",
-      "brain freeze with laptop"
-    ]
+    id: "meme-007",
+    file: "/audio/memes/meme-007.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 7",
+    category: ["laptop", "useless activity", "failure", "standing", "sitting", "general-reaction"],
+    mood: ["satirical", "sarcastic"],
+    description: "Malayalam reaction — mocking fake productivity / laptop staring",
+    useWhen: ["victim typing furiously", "pretending to work", "laptop open in public"],
   },
   {
-    "id": "meme-008",
-    "file": "/audio/memes/meme-008.mp3",
-    "duration": 3.69,
-    "title": "Furniture Status Confirmed",
-    "category": [
-      "sitting",
-      "idle",
-      "waiting",
-      "stationary",
-      "no activity"
-    ],
-    "mood": [
-      "deadpan",
-      "dry"
-    ],
-    "description": "Reaction appropriate for someone sitting around doing nothing, achieving furniture status",
-    "useWhen": [
-      "person sitting unmoving for 10+ seconds",
-      "blending into chair",
-      "sitting doing nothing"
-    ]
+    id: "meme-008",
+    file: "/audio/memes/meme-008.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 8",
+    category: ["group", "chaos", "dramatic reaction", "laptop", "general-reaction"],
+    mood: ["chaotic", "loud"],
+    description: "Malayalam reaction — chaotic commentary for group gathering or collaboration",
+    useWhen: ["2+ people clustered", "group detected", "social circle chaos"],
   },
   {
-    "id": "meme-009",
-    "file": "/audio/memes/meme-009.mp3",
-    "duration": 3.87,
-    "title": "Notification Addiction Hit",
-    "category": [
-      "phone",
-      "distraction",
-      "screen captivity"
-    ],
-    "mood": [
-      "suspicious",
-      "amused"
-    ],
-    "description": "Reaction appropriate for someone checking phone notifications obsessively",
-    "useWhen": [
-      "checking phone every 2 seconds",
-      "holding phone with two hands"
-    ]
+    id: "meme-009",
+    file: "/audio/memes/meme-009.mp3",
+    duration: 6,
+    title: "Malayalam Reaction 9",
+    category: ["confusion", "unclear", "awkward", "laptop", "idle", "general-reaction"],
+    mood: ["dry", "deadpan"],
+    description: "Malayalam reaction — baffled reaction to unidentified or confusing behavior",
+    useWhen: ["unclear activity", "weird posture", "CV confidence low"],
   },
-  {
-    "id": "meme-010",
-    "file": "/audio/memes/meme-010.mp3",
-    "duration": 5.87,
-    "title": "Committee Of Zero Outcomes",
-    "category": [
-      "group",
-      "laptop",
-      "chaos",
-      "useless activity"
-    ],
-    "mood": [
-      "chaotic",
-      "roast"
-    ],
-    "description": "Group roast dialogue when multiple people congregate around one screen with zero output",
-    "useWhen": [
-      "multiple people surrounding one screen",
-      "group project summit"
-    ]
-  },
-  {
-    "id": "meme-011",
-    "file": "/audio/memes/meme-011.mp3",
-    "duration": 3.66,
-    "title": "Existential Standby Mode",
-    "category": [
-      "sitting",
-      "idle",
-      "waiting",
-      "stationary",
-      "no activity"
-    ],
-    "mood": [
-      "philosophical",
-      "tired"
-    ],
-    "description": "Slow reflection dialogue for someone sitting in complete standby mode doing nothing",
-    "useWhen": [
-      "staring into empty space",
-      "zero observable motion",
-      "sitting doing nothing"
-    ]
-  },
-  {
-    "id": "meme-012",
-    "file": "/audio/memes/meme-012.mp3",
-    "duration": 2.47,
-    "title": "The Secret Reel Watcher",
-    "category": [
-      "phone",
-      "distraction",
-      "sitting"
-    ],
-    "mood": [
-      "secretive",
-      "chuckling"
-    ],
-    "description": "Reaction for someone secretly grinning at reels on their phone screen",
-    "useWhen": [
-      "smiling at phone privately",
-      "secret reel watcher",
-      "sitting with phone"
-    ]
-  },
-  {
-    "id": "meme-013",
-    "file": "/audio/memes/meme-013.mp3",
-    "duration": 6.14,
-    "title": "Heroic Path To Nowhere",
-    "category": [
-      "walking",
-      "movement",
-      "dramatic reaction"
-    ],
-    "mood": [
-      "triumphant",
-      "absurd"
-    ],
-    "description": "Epic cinematic dialogue appropriate for someone walking with tremendous confidence into the void",
-    "useWhen": [
-      "confident walking without purpose",
-      "side-quest traversal"
-    ]
-  },
-  {
-    "id": "meme-014",
-    "file": "/audio/memes/meme-014.mp3",
-    "duration": 3.57,
-    "title": "Human Loading Screen",
-    "category": [
-      "sitting",
-      "idle",
-      "waiting",
-      "stationary",
-      "awkward"
-    ],
-    "mood": [
-      "baffled",
-      "glitched"
-    ],
-    "description": "Complete dialogue roasting a person sitting motionless like a human loading screen",
-    "useWhen": [
-      "human loading screen",
-      "sitting with zero movement",
-      "sitting doing nothing"
-    ]
-  },
-  {
-    "id": "meme-015",
-    "file": "/audio/memes/meme-015.mp3",
-    "duration": 4.05,
-    "title": "Spawn Point Anchor",
-    "category": [
-      "standing",
-      "waiting",
-      "idle",
-      "stationary",
-      "awkward"
-    ],
-    "mood": [
-      "grounded",
-      "deadpan"
-    ],
-    "description": "Reaction for someone standing frozen in one tile like an un-triggered NPC",
-    "useWhen": [
-      "standing in one tile",
-      "spawn point camping",
-      "standing still"
-    ]
-  },
-  {
-    "id": "meme-016",
-    "file": "/audio/memes/meme-016.mp3",
-    "duration": 4.74,
-    "title": "Double-Tap Reflex",
-    "category": [
-      "phone",
-      "distraction",
-      "useless activity"
-    ],
-    "mood": [
-      "frenetic",
-      "addicted"
-    ],
-    "description": "Reaction for someone thumb-scrolling at 120 FPS",
-    "useWhen": [
-      "thumb scrolling rapidly",
-      "sitting while holding phone"
-    ]
-  },
-  {
-    "id": "meme-017",
-    "file": "/audio/memes/meme-017.mp3",
-    "duration": 5.58,
-    "title": "Corridor Patrol Steps",
-    "category": [
-      "walking",
-      "movement",
-      "dramatic reaction"
-    ],
-    "mood": [
-      "suspicious",
-      "stealthy"
-    ],
-    "description": "Pacing dialogue suitable for someone walking back and forth along the hallway",
-    "useWhen": [
-      "pacing back and forth",
-      "walking slowly across room"
-    ]
-  },
-  {
-    "id": "meme-018",
-    "file": "/audio/memes/meme-018.mp3",
-    "duration": 3.43,
-    "title": "Open Tab Graveyard",
-    "category": [
-      "laptop",
-      "sitting",
-      "failure",
-      "useless activity"
-    ],
-    "mood": [
-      "resigned",
-      "sarcastic"
-    ],
-    "description": "Reaction suitable for someone sitting in front of a laptop with 47 inactive tabs",
-    "useWhen": [
-      "sitting in front of laptop",
-      "47 tabs open simulation"
-    ]
-  },
-  {
-    "id": "meme-019",
-    "file": "/audio/memes/meme-019.mp3",
-    "duration": 4.55,
-    "title": "Syndicate Deliberation",
-    "category": [
-      "group",
-      "chaos",
-      "dramatic reaction"
-    ],
-    "mood": [
-      "conspiratorial",
-      "loud"
-    ],
-    "description": "Loud group discussion dialogue for 3 or more people gathered in a huddle",
-    "useWhen": [
-      "group of 3+ people huddled",
-      "corridor conference"
-    ]
-  },
-  {
-    "id": "meme-020",
-    "file": "/audio/memes/meme-020.mp3",
-    "duration": 1.2,
-    "title": "Patient Monument Stinger",
-    "category": [
-      "standing",
-      "waiting",
-      "stationary"
-    ],
-    "mood": [
-      "zen",
-      "frozen"
-    ],
-    "description": "Reaction for someone standing around with the stillness of a historic monument",
-    "useWhen": [
-      "standing still",
-      "waiting for someone"
-    ]
-  },
-  {
-    "id": "meme-021",
-    "file": "/audio/memes/meme-021.mp3",
-    "duration": 1,
-    "title": "Quick Standby Ping",
-    "category": [
-      "sitting",
-      "idle",
-      "stationary",
-      "deadpan"
-    ],
-    "mood": [
-      "deadpan",
-      "dry"
-    ],
-    "description": "Short punchy observation for someone sitting doing absolutely nothing",
-    "useWhen": [
-      "sitting doing nothing",
-      "motionless seated posture"
-    ]
-  },
-  {
-    "id": "meme-022",
-    "file": "/audio/memes/meme-022.mp3",
-    "duration": 3.21,
-    "title": "Disapproving Friend",
-    "category": [
-      "sitting",
-      "standing",
-      "awkward",
-      "waiting"
-    ],
-    "mood": [
-      "disapproving",
-      "sharp"
-    ],
-    "description": "Reaction judging someone's total lack of life direction while sitting or standing idle",
-    "useWhen": [
-      "sitting doing nothing",
-      "standing staring blankly"
-    ]
-  },
-  {
-    "id": "meme-023",
-    "file": "/audio/memes/meme-023.mp3",
-    "duration": 4.65,
-    "title": "Pacing Side Quest",
-    "category": [
-      "walking",
-      "movement",
-      "speed"
-    ],
-    "mood": [
-      "hasty",
-      "alert"
-    ],
-    "description": "Walking commentary for someone traversing the room like an active side quest",
-    "useWhen": [
-      "walking across camera",
-      "moving between rooms"
-    ]
-  },
-  {
-    "id": "meme-024",
-    "file": "/audio/memes/meme-024.mp3",
-    "duration": 1.74,
-    "title": "Phantom Notification Ping",
-    "category": [
-      "phone",
-      "waiting",
-      "distraction"
-    ],
-    "mood": [
-      "hopeful",
-      "delusional"
-    ],
-    "description": "Reaction for someone staring at a dark phone screen hoping for a notification",
-    "useWhen": [
-      "looking at locked screen",
-      "checking phone for non-existent text"
-    ]
-  },
-  {
-    "id": "meme-025",
-    "file": "/audio/memes/meme-025.mp3",
-    "duration": 5.65,
-    "title": "Hallway Traffic Obstacle",
-    "category": [
-      "standing",
-      "waiting",
-      "stationary",
-      "awkward"
-    ],
-    "mood": [
-      "immovable",
-      "awkward"
-    ],
-    "description": "Extended dialogue roasting someone standing right in the middle of pedestrian flow",
-    "useWhen": [
-      "standing in middle of hallway",
-      "blocking traffic effortlessly",
-      "standing still"
-    ]
-  },
-  {
-    "id": "meme-026",
-    "file": "/audio/memes/meme-026.mp3",
-    "duration": 3.46,
-    "title": "Cognitive Reboot Needed",
-    "category": [
-      "sitting",
-      "idle",
-      "confusion",
-      "unclear"
-    ],
-    "mood": [
-      "blank",
-      "glitched"
-    ],
-    "description": "Reaction for someone sitting with 0.1 braincells currently firing",
-    "useWhen": [
-      "sitting doing nothing",
-      "activity unclear",
-      "blank stare"
-    ]
-  },
-  {
-    "id": "meme-027",
-    "file": "/audio/memes/meme-027.mp3",
-    "duration": 5.63,
-    "title": "Professional Screen Stare",
-    "category": [
-      "laptop",
-      "sitting",
-      "useless activity"
-    ],
-    "mood": [
-      "serious",
-      "counterproductive"
-    ],
-    "description": "Dialogue roasting someone staring intently at a laptop with zero typing occurring",
-    "useWhen": [
-      "staring intently at laptop with zero keystrokes",
-      "sitting while using laptop"
-    ]
-  },
-  {
-    "id": "meme-028",
-    "file": "/audio/memes/meme-028.mp3",
-    "duration": 4.77,
-    "title": "Uncoordinated Gathering",
-    "category": [
-      "group",
-      "chaos",
-      "confusion"
-    ],
-    "mood": [
-      "chaotic",
-      "unstructured"
-    ],
-    "description": "Dialogue for a confused group with zero leadership and no agreed agenda",
-    "useWhen": [
-      "group gathered without clear leader",
-      "chaos syndicate"
-    ]
-  },
-  {
-    "id": "meme-029",
-    "file": "/audio/memes/meme-029.mp3",
-    "duration": 5.52,
-    "title": "Assignment Surrender",
-    "category": [
-      "laptop",
-      "sitting",
-      "failure",
-      "disappointment"
-    ],
-    "mood": [
-      "defeated",
-      "deadpan"
-    ],
-    "description": "Reaction for someone sitting with laptop accepting that the assignment is lost",
-    "useWhen": [
-      "deadline in 10 minutes",
-      "sitting with laptop"
-    ]
-  },
-  {
-    "id": "meme-030",
-    "file": "/audio/memes/meme-030.mp3",
-    "duration": 6.53,
-    "title": "Pacing Philosopher",
-    "category": [
-      "walking",
-      "movement",
-      "dramatic reaction"
-    ],
-    "mood": [
-      "pompous",
-      "aimless"
-    ],
-    "description": "Dialogue for someone pacing slowly while pretending to solve the mysteries of the universe",
-    "useWhen": [
-      "walking while thinking",
-      "endless corridor pacing"
-    ]
-  },
-  {
-    "id": "meme-031",
-    "file": "/audio/memes/meme-031.mp3",
-    "duration": 6.97,
-    "title": "Solo Queue Simulator",
-    "category": [
-      "standing",
-      "waiting",
-      "stationary",
-      "awkward"
-    ],
-    "mood": [
-      "patient",
-      "bizarre"
-    ],
-    "description": "Extended monologue roasting someone standing in a non-existent queue",
-    "useWhen": [
-      "standing in a line that doesn't exist",
-      "waiting for elevator that never comes"
-    ]
-  },
-  {
-    "id": "meme-032",
-    "file": "/audio/memes/meme-032.mp3",
-    "duration": 5.01,
-    "title": "Brainstorm Catastrophe",
-    "category": [
-      "group",
-      "chaos",
-      "failure"
-    ],
-    "mood": [
-      "baffling",
-      "noisy"
-    ],
-    "description": "Dialogue for a noisy group meeting where IQ actively decreases by the minute",
-    "useWhen": [
-      "group trying to solve one basic problem",
-      "loud discussion with no resolution"
-    ]
-  },
-  {
-    "id": "meme-033",
-    "file": "/audio/memes/meme-033.mp3",
-    "duration": 7.37,
-    "title": "Typing Combat Illusion",
-    "category": [
-      "laptop",
-      "sitting",
-      "useless activity"
-    ],
-    "mood": [
-      "intense",
-      "futile"
-    ],
-    "description": "Long dialogue for someone sitting typing violently on a laptop with zero output",
-    "useWhen": [
-      "typing furiously on laptop",
-      "coder posture"
-    ]
-  },
-  {
-    "id": "meme-034",
-    "file": "/audio/memes/meme-034.mp3",
-    "duration": 2.72,
-    "title": "The Ultimate Group Verdict",
-    "category": [
-      "group",
-      "dramatic reaction",
-      "chaos"
-    ],
-    "mood": [
-      "grandiose",
-      "chaotic"
-    ],
-    "description": "Dramatic group reaction dialogue when collective NPC chaos reaches its peak",
-    "useWhen": [
-      "large group celebration or catastrophe",
-      "collective NPC awakening"
-    ]
-  },
-  {
-    "id": "meme-035",
-    "file": "/audio/memes/meme-035.mp3",
-    "duration": 0.7,
-    "title": "Reel Scrolling Sigh",
-    "category": [
-      "phone",
-      "sitting",
-      "distraction"
-    ],
-    "mood": [
-      "drained",
-      "zoned-out"
-    ],
-    "description": "Short heavy sigh reaction for someone totally drained by 4 continuous hours of reels",
-    "useWhen": [
-      "sitting on phone with vacant stare",
-      "slouched with device"
-    ]
-  },
-  {
-    "id": "meme-036",
-    "file": "/audio/memes/meme-036.mp3",
-    "duration": 1.37,
-    "title": "Tactical Evasion Step",
-    "category": [
-      "walking",
-      "movement",
-      "speed"
-    ],
-    "mood": [
-      "abrupt",
-      "hurried"
-    ],
-    "description": "Reaction for someone walking briskly to avoid meeting anyone they know",
-    "useWhen": [
-      "sudden movement detected",
-      "walking out of frame"
-    ]
-  },
-  {
-    "id": "meme-037",
-    "file": "/audio/memes/meme-037.mp3",
-    "duration": 1.3,
-    "title": "System Glitch Reaction",
-    "category": [
-      "unclear",
-      "confusion",
-      "awkward"
-    ],
-    "mood": [
-      "mysterious",
-      "startled"
-    ],
-    "description": "Reaction for an unclear situation where the AI cannot determine the human objective",
-    "useWhen": [
-      "activity unclear",
-      "sudden posture shift"
-    ]
-  },
-  {
-    "id": "meme-038",
-    "file": "/audio/memes/meme-038.mp3",
-    "duration": 1.56,
-    "title": "Permanent Chair Statue",
-    "category": [
-      "sitting",
-      "idle",
-      "stationary",
-      "waiting",
-      "no activity"
-    ],
-    "mood": [
-      "clinical",
-      "dry"
-    ],
-    "description": "Observation for someone who has bonded at the molecular level with their chair",
-    "useWhen": [
-      "person sitting unmoving",
-      "sitting doing nothing",
-      "stationary seated"
-    ]
-  },
-  {
-    "id": "meme-039",
-    "file": "/audio/memes/meme-039.mp3",
-    "duration": 1.57,
-    "title": "Unbothered Zen Master",
-    "category": [
-      "sitting",
-      "idle",
-      "waiting",
-      "stationary",
-      "deadpan"
-    ],
-    "mood": [
-      "unbothered",
-      "serene"
-    ],
-    "description": "Deadpan reaction for someone sitting peacefully in complete detachment from all responsibilities",
-    "useWhen": [
-      "peaceful sitting without a care in the world",
-      "sitting doing nothing"
-    ]
-  },
-  {
-    "id": "meme-040",
-    "file": "/audio/memes/meme-040.mp3",
-    "duration": 2.36,
-    "title": "Screen Glow Transfixion",
-    "category": [
-      "phone",
-      "distraction",
-      "sitting",
-      "screen captivity"
-    ],
-    "mood": [
-      "entranced",
-      "quiet"
-    ],
-    "description": "Reaction dialogue for someone sitting with their face completely lit up by phone screen",
-    "useWhen": [
-      "staring into glowing screen",
-      "holding phone with intense focus"
-    ]
-  }
 ];
+
+export function getAudioClipById(id: string): MemeAudioClip | undefined {
+  return MEME_AUDIO_MANIFEST.find((clip) => clip.id === id);
+}
 
 export function getClipsByCategory(category: string): MemeAudioClip[] {
   const norm = category.toLowerCase().trim();
@@ -865,8 +119,9 @@ export function getClipsByCategory(category: string): MemeAudioClip[] {
 }
 
 /**
- * Strict activity to audio categories mapping per Section 5, 6, 7, 8.
+ * Strict activity to audio categories mapping.
  * Hard rule: NO PHONE = NO PHONE REACTION. SITTING DOING NOTHING = IDLE/SITTING ONLY.
+ * general-reaction is always accepted as a universal fallback category.
  */
 export function mapActivityToAudioCategories(
   activity: string,
@@ -877,36 +132,36 @@ export function mapActivityToAudioCategories(
 
   // 1. Group priority
   if (groupSize > 1 || act.includes("group")) {
-    return ["group", "chaos", "dramatic reaction"];
+    return ["group", "chaos", "dramatic reaction", "general-reaction"];
   }
 
-  // 2. Phone priority ONLY if associated (Section 7)
+  // 2. Phone priority ONLY if associated
   const isPhone = act.includes("phone") || device === "cell phone";
   if (isPhone) {
-    return ["phone", "distraction", "screen captivity"];
+    return ["phone", "distraction", "screen captivity", "general-reaction"];
   }
 
   // 3. Laptop priority ONLY if associated
   const isLaptop = act.includes("laptop") || device === "laptop";
   if (isLaptop) {
-    return ["laptop", "useless activity", "failure", "sitting"];
+    return ["laptop", "useless activity", "failure", "sitting", "general-reaction"];
   }
 
   // 4. Locomotion / walking
   if (act.includes("walking") || act.includes("moving")) {
-    return ["walking", "movement", "speed", "dramatic reaction"];
+    return ["walking", "movement", "speed", "dramatic reaction", "general-reaction"];
   }
 
   // 5. Standing still / waiting
   if (act.includes("standing")) {
-    return ["standing", "waiting", "stationary", "awkward", "idle"];
+    return ["standing", "waiting", "stationary", "awkward", "idle", "general-reaction"];
   }
 
-  // 6. Sitting doing nothing (Section 8: strictly idle/waiting/stationary/deadpan)
+  // 6. Sitting doing nothing (strictly idle/waiting/stationary/deadpan)
   if (act.includes("sitting") || act === "stationary") {
-    return ["sitting", "idle", "waiting", "stationary", "awkward", "deadpan", "no activity"];
+    return ["sitting", "idle", "waiting", "stationary", "awkward", "deadpan", "no activity", "general-reaction"];
   }
 
   // 7. Fallback / unclear
-  return ["confusion", "unclear", "awkward", "idle"];
+  return ["confusion", "unclear", "awkward", "idle", "general-reaction"];
 }

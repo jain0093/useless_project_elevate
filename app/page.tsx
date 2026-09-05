@@ -767,7 +767,7 @@ export default function Home() {
             })()}
           </div>
           <div className="mt-2 pt-1.5 border-t border-[#E6DFE5] flex items-center justify-between text-[10px]">
-            <span className="text-[#8A8494] font-bold">AUDIO: {usedAudioIds.length}/40 USED</span>
+            <span className="text-[#8A8494] font-bold">AUDIO: {usedAudioIds.length}/9 USED</span>
             <a
               href="/audio-library"
               target="_blank"

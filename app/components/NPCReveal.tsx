@@ -21,7 +21,7 @@ interface NPCRevealProps {
   usedMemeIds?: string[];
   /** Callback when a meme is selected */
   onMemeSelected?: (memeId: string) => void;
-  /** Session-level used audio IDs from 40-clip library */
+  /** Session-level used audio IDs from 9-clip library */
   usedAudioIds?: string[];
   /** Callback when an audio clip is selected */
   onAudioSelected?: (audioId: string) => void;

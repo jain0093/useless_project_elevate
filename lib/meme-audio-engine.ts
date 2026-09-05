@@ -50,7 +50,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "DIGITAL DETACHMENT",
     badgeColor: "bg-[#FFD1E3] text-[#A3225B] border-[#FF7EB6]",
     imageSrc: "/memes/phone/custody.png",
-    audioSrc: "/audio/phone/custody.wav",
+    audioSrc: "/audio/memes/meme-004.mp3",
   },
   {
     id: "phone_aishwaryam",
@@ -63,7 +63,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "SCREEN SCROLLING",
     badgeColor: "bg-[#E9E4FF] text-[#553C9A] border-[#B9A7FF]",
     imageSrc: "/memes/phone/aishwaryam.png",
-    audioSrc: "/audio/phone/aishwaryam.wav",
+    audioSrc: "/audio/memes/meme-005.mp3",
   },
   {
     id: "phone_scroll",
@@ -76,7 +76,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "REEL OBSESSED",
     badgeColor: "bg-[#DDF5FF] text-[#0D6E9E] border-[#8ED8FF]",
     imageSrc: "/memes/phone/scroll.png",
-    audioSrc: "/audio/phone/scroll.wav",
+    audioSrc: "/audio/memes/meme-006.mp3",
   },
 
   // --- LAPTOP ---
@@ -91,7 +91,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "DEADLINE PANIC",
     badgeColor: "bg-[#DDF5FF] text-[#00527C] border-[#8ED8FF]",
     imageSrc: "/memes/laptop/assignment.png",
-    audioSrc: "/audio/laptop/assignment.wav",
+    audioSrc: "/audio/memes/meme-007.mp3",
   },
   {
     id: "laptop_contra",
@@ -104,7 +104,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "STRATEGIC ACTING",
     badgeColor: "bg-[#FFF4C2] text-[#8C7400] border-[#FFE68A]",
     imageSrc: "/memes/laptop/contra.png",
-    audioSrc: "/audio/laptop/contra.wav",
+    audioSrc: "/audio/memes/meme-008.mp3",
   },
   {
     id: "laptop_browser_buff",
@@ -117,7 +117,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "ACADEMIC BUFFER",
     badgeColor: "bg-[#E2FAF0] text-[#1B6640] border-[#9EE6C3]",
     imageSrc: "/memes/laptop/gazer.png",
-    audioSrc: "/audio/laptop/gazer.wav",
+    audioSrc: "/audio/memes/meme-009.mp3",
   },
 
   // --- WALKING ---
@@ -132,7 +132,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "SIDE QUEST ACTIVE",
     badgeColor: "bg-[#E2FAF0] text-[#1B6640] border-[#9EE6C3]",
     imageSrc: "/memes/walking/walk.png",
-    audioSrc: "/audio/walking/walk.wav",
+    audioSrc: "/audio/memes/meme-006.mp3",
   },
   {
     id: "walk_fast",
@@ -145,7 +145,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "TACTICAL EVASION",
     badgeColor: "bg-[#FFF4C2] text-[#8C7400] border-[#FFE68A]",
     imageSrc: "/memes/walking/speed.png",
-    audioSrc: "/audio/walking/speed.wav",
+    audioSrc: "/audio/memes/meme-004.mp3",
   },
 
   // --- SITTING ---
@@ -160,7 +160,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "MOTIONLESS RESISTANCE",
     badgeColor: "bg-[#FFF4C2] text-[#8C7400] border-[#FFE68A]",
     imageSrc: "/memes/sitting/furniture.png",
-    audioSrc: "/audio/sitting/furniture.wav",
+    audioSrc: "/audio/memes/meme-001.mp3",
   },
   {
     id: "sit_minute",
@@ -173,7 +173,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "LOADING SCREEN",
     badgeColor: "bg-[#E9E4FF] text-[#553C9A] border-[#B9A7FF]",
     imageSrc: "/memes/sitting/minute.png",
-    audioSrc: "/audio/sitting/minute.wav",
+    audioSrc: "/audio/memes/meme-002.mp3",
   },
   {
     id: "sit_peace",
@@ -186,7 +186,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "CHILL MAX",
     badgeColor: "bg-[#E2FAF0] text-[#1B6640] border-[#9EE6C3]",
     imageSrc: "/memes/sitting/peace.png",
-    audioSrc: "/audio/sitting/peace.wav",
+    audioSrc: "/audio/memes/meme-003.mp3",
   },
 
   // --- STANDING ---
@@ -201,7 +201,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "AMBIENT STATUE",
     badgeColor: "bg-[#DDF5FF] text-[#0D6E9E] border-[#8ED8FF]",
     imageSrc: "/memes/standing/monument.png",
-    audioSrc: "/audio/standing/monument.wav",
+    audioSrc: "/audio/memes/meme-002.mp3",
   },
   {
     id: "stand_waiting",
@@ -214,7 +214,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "SPAWN ANCHOR",
     badgeColor: "bg-[#FFD1E3] text-[#A3225B] border-[#FF7EB6]",
     imageSrc: "/memes/standing/anchor.png",
-    audioSrc: "/audio/standing/anchor.wav",
+    audioSrc: "/audio/memes/meme-007.mp3",
   },
 
   // --- GROUP ---
@@ -229,7 +229,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "CHAOTIC COMMITTEE",
     badgeColor: "bg-[#E9E4FF] text-[#553C9A] border-[#B9A7FF]",
     imageSrc: "/memes/group/committee.png",
-    audioSrc: "/audio/group/committee.wav",
+    audioSrc: "/audio/memes/meme-008.mp3",
   },
   {
     id: "group_hostage",
@@ -242,7 +242,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "MUTUAL SUPPORT",
     badgeColor: "bg-[#FFF4C2] text-[#8C7400] border-[#FFE68A]",
     imageSrc: "/memes/group/survivor.png",
-    audioSrc: "/audio/group/survivor.wav",
+    audioSrc: "/audio/memes/meme-008.mp3",
   },
 
   // --- UNCLEAR / OCCLUDED ---
@@ -257,7 +257,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "MYSTERY OBJECTIVE",
     badgeColor: "bg-[#E9E4FF] text-[#553C9A] border-[#B9A7FF]",
     imageSrc: "/memes/unclear/unclear.png",
-    audioSrc: "/audio/unclear/unclear.wav",
+    audioSrc: "/audio/memes/meme-009.mp3",
   },
 
   // --- NO VICTIM ---
@@ -272,7 +272,7 @@ export const MEME_CATALOG: MemeItem[] = [
     tag: "EMPTY LOBBY",
     badgeColor: "bg-[#FFD1E3] text-[#A3225B] border-[#FF7EB6]",
     imageSrc: "/memes/no-victim/empty.png",
-    audioSrc: "/audio/no-victim/empty.wav",
+    audioSrc: "/audio/memes/meme-001.mp3",
   },
 ];
 
@@ -384,7 +384,8 @@ export { MEME_AUDIO_MANIFEST };
 export type { MemeAudioClip };
 
 // ============================================================
-// DEDUPLICATED AUDIO SELECTION FROM 40-CLIP LIBRARY (SECTIONS 4, 6, 11, 16)
+// DEDUPLICATED AUDIO SELECTION FROM 31-CLIP LIBRARY (SECTIONS 4, 6, 11, 16)
+// All clips are exactly 6 seconds of Malayalam meme reactions.
 // ============================================================
 
 export interface AudioSelectionResult {
@@ -393,17 +394,7 @@ export interface AudioSelectionResult {
 }
 
 /**
- * Selects a contextual, unused Malayalam meme audio clip from the 40-clip library.
- * Grounded strictly in validated activity, device, and group size.
- * Enforces Zero Repetition across the session with multi-tier fallback.
- */
-export interface AudioSelectionResult {
-  clip: MemeAudioClip;
-  isExhausted: boolean;
-}
-
-/**
- * Selects a contextual, unused Malayalam meme audio clip from the 40-clip library.
+ * Selects a contextual, unused Malayalam meme audio clip from the 31-clip library.
  * Grounded strictly in validated activity, device, and group size (Section 4, 5, 6, 7, 8, 17).
  *
  * HARD EXCLUSION GATES:
@@ -411,6 +402,7 @@ export interface AudioSelectionResult {
  * - NO LAPTOP = NO LAPTOP REACTION.
  * - SITTING DOING NOTHING = STRICTLY idle / sitting / waiting / stationary (Section 8).
  * - WALKING = STRICTLY walking / movement / speed.
+ * - general-reaction is ALWAYS accepted as universally compatible.
  * - ZERO REPETITION across the session with multi-tier fallback (Section 17).
  */
 export function selectDeduplicatedAudioClip(
@@ -454,20 +446,23 @@ export function selectDeduplicatedAudioClip(
     act.includes("talking");
 
   // 2. HARD EXCLUSION FILTER: Filter candidate pool before any selection
-  // Rejects any audio incompatible with what CV actually observes
+  // Rejects any audio incompatible with what CV actually observes.
+  // Clips tagged "general-reaction" are ALWAYS accepted (universal fallback).
   const compatibleClips = MEME_AUDIO_MANIFEST.filter((clip) => {
     const cats = clip.category.map((c) => c.toLowerCase());
-    const desc = (clip.description || "").toLowerCase();
-    const title = clip.title.toLowerCase();
+
+    // general-reaction clips are universally compatible with all activities
+    const isGeneralOnly = cats.includes("general-reaction") && cats.length <= 3 &&
+      !cats.includes("phone") && !cats.includes("laptop") && !cats.includes("walking") &&
+      !cats.includes("speed") && !cats.includes("movement") && !cats.includes("group") &&
+      !cats.includes("distraction") && !cats.includes("screen captivity");
 
     // Section 7: NO PHONE = NO PHONE REACTION (Hard rule)
     if (!isPhone) {
       if (
         cats.includes("phone") ||
         cats.includes("screen captivity") ||
-        cats.includes("distraction") ||
-        desc.includes("phone") ||
-        title.includes("phone")
+        cats.includes("distraction")
       ) {
         return false;
       }
@@ -475,7 +470,7 @@ export function selectDeduplicatedAudioClip(
 
     // NO LAPTOP = NO LAPTOP REACTION
     if (!isLaptop) {
-      if (cats.includes("laptop") || desc.includes("laptop") || title.includes("laptop")) {
+      if (cats.includes("laptop")) {
         return false;
       }
     }
@@ -485,16 +480,21 @@ export function selectDeduplicatedAudioClip(
       if (
         cats.includes("walking") ||
         cats.includes("speed") ||
-        cats.includes("movement") ||
-        desc.includes("walking")
+        cats.includes("movement")
       ) {
+        return false;
+      }
+    }
+
+    // NO GROUP = NO GROUP REACTION (unless isGeneralOnly)
+    if (!isGroup) {
+      if (cats.includes("group") && !isGeneralOnly) {
         return false;
       }
     }
 
     // SITTING DOING NOTHING (Section 8: strictly idle/waiting/stationary/deadpan/awkward)
     if (isSitting && !isPhone && !isLaptop) {
-      // Must NOT be walking, phone, or laptop
       const isSittingOrIdle =
         cats.includes("sitting") ||
         cats.includes("idle") ||
@@ -502,47 +502,42 @@ export function selectDeduplicatedAudioClip(
         cats.includes("stationary") ||
         cats.includes("deadpan") ||
         cats.includes("awkward") ||
-        cats.includes("no activity");
+        cats.includes("no activity") ||
+        cats.includes("general-reaction");
 
       if (!isSittingOrIdle) return false;
       return true;
     }
 
-    // PHONE CASE (Section 6: Prefer phone, distraction, sitting)
+    // PHONE CASE
     if (isPhone) {
-      // Strictly avoid walking, running, laptop, group
-      if (cats.includes("walking") || cats.includes("laptop") || (cats.includes("group") && !isGroup)) {
-        return false;
-      }
-      return cats.includes("phone") || cats.includes("distraction") || cats.includes("screen captivity") || cats.includes("sitting");
+      return cats.includes("phone") || cats.includes("distraction") || cats.includes("screen captivity") || cats.includes("sitting") || cats.includes("general-reaction");
     }
 
     // WALKING CASE
     if (isWalking) {
-      if (cats.includes("sitting") && !cats.includes("walking")) return false;
-      return cats.includes("walking") || cats.includes("movement") || cats.includes("speed") || cats.includes("dramatic reaction");
+      return cats.includes("walking") || cats.includes("movement") || cats.includes("speed") || cats.includes("dramatic reaction") || cats.includes("general-reaction");
     }
 
     // STANDING CASE
     if (isStanding) {
-      if (cats.includes("walking") || (cats.includes("sitting") && !cats.includes("standing"))) return false;
-      return cats.includes("standing") || cats.includes("waiting") || cats.includes("stationary") || cats.includes("idle") || cats.includes("awkward");
+      return cats.includes("standing") || cats.includes("waiting") || cats.includes("stationary") || cats.includes("idle") || cats.includes("awkward") || cats.includes("general-reaction");
     }
 
     // LAPTOP CASE
     if (isLaptop) {
-      return cats.includes("laptop") || cats.includes("useless activity") || cats.includes("sitting");
+      return cats.includes("laptop") || cats.includes("useless activity") || cats.includes("sitting") || cats.includes("general-reaction");
     }
 
     // GROUP CASE
     if (isGroup) {
-      return cats.includes("group") || cats.includes("chaos") || cats.includes("dramatic reaction");
+      return cats.includes("group") || cats.includes("chaos") || cats.includes("dramatic reaction") || cats.includes("general-reaction");
     }
 
     return true;
   });
 
-  // Safe fallback if compatibleClips is somehow empty (should never happen with rich manifest)
+  // Safe fallback if compatibleClips is somehow empty
   const candidatePool = compatibleClips.length > 0 ? compatibleClips : MEME_AUDIO_MANIFEST;
 
   // 3. ZERO REPETITION: Filter out clips already used in this session (Section 17)
@@ -704,8 +699,8 @@ export async function playReactionAudio(
   if (!targetSrc) {
     targetSrc = "/audio/memes/meme-001.mp3";
     clipId = "meme-001";
-    clipDuration = 1.14;
-    clipCategories = ["sitting", "idle"];
+    clipDuration = 6;
+    clipCategories = ["general-reaction", "sitting", "idle", "stationary"];
   }
 
   try {

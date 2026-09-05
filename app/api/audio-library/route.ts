@@ -9,8 +9,10 @@ export async function GET() {
     if (!fs.existsSync(manifestPath)) {
       return NextResponse.json({ error: "Manifest not found" }, { status: 404 });
     }
-    const data = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-    return NextResponse.json(data);
+    const raw = fs.readFileSync(manifestPath, "utf8");
+    const data = JSON.parse(raw);
+    const clips = Array.isArray(data) ? data : data.clips || [];
+    return NextResponse.json(clips);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: msg }, { status: 500 });
@@ -31,7 +33,7 @@ export async function POST(req: Request) {
     const tsPath = path.join(process.cwd(), "lib/audioManifest.ts");
     const tsContent = `// ============================================================
 // 🎵 NPC WATCH — MALAYALAM MEME AUDIO MANIFEST
-// Master library catalog for 40 extracted meme reaction clips
+// Master library catalog for 18 fixed 6-second meme reaction clips
 // Auto-synced from Developer Audio Library UI
 // ============================================================
 
